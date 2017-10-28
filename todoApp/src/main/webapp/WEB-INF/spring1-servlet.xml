@@ -52,5 +52,5 @@
 	</bean>
 
 	<bean id="userservice" class="com.bridgelabz.service.UserServiceImpl"></bean>
-	<bean class="com.bridgelabz.DAO.BankDAO"></bean>
+	<bean class="com.bridgelabz.DAO.UserDAOImpl"></bean>
 </beans>

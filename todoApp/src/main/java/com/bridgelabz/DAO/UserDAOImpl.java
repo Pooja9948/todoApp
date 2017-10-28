@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 //import com.bridgeit.SingleTon.SingleTon;
 import com.bridgelabz.model.UserDetails;
 
-public class BankDAO {
+public class UserDAOImpl implements UserDAO{
 
 	/**
 	 * @param email

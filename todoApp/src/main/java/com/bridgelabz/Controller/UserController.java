@@ -16,7 +16,7 @@ import com.bridgelabz.service.UserService;
  */
 
 @RestController
-public class Registration{
+public class UserController{
 	@Autowired
 	UserService userservice;
 	@RequestMapping(value="/registrationForm", method= RequestMethod.POST)

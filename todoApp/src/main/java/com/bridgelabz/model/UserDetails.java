@@ -12,7 +12,14 @@ import javax.persistence.Table;
 public class UserDetails {
 	
 	private int id;
-	private String name,email,password,confirmpassword,mobileno;
+	//private String name,email,password,confirmpassword,mobileno;
+	
+	private String name;
+	private String email;
+	private String password;
+	private String confirmpassword;
+
+	private String mobileno;
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +27,10 @@ public class UserDetails {
 	public int getId() {
 		return id;
 	}
+	
+	
+	
+	
 	public void setId(int id) {
 		this.id = id;
 	}
