@@ -1,0 +1,16 @@
+.x{
+	margin-top: 100px;
+    margin-bottom: 100px;
+    margin-right: 150px;
+    margin-left: 400px;
+}
+.login {
+    color: white;
+    background-color: #368BC1;
+    height: 25px;
+    width: 800px;
+    text-align: left;
+}
+.y{
+	align: right;
+}
