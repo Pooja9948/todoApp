@@ -12,4 +12,11 @@ public class UserServiceImpl implements UserService{
 	public void createUser(UserDetails user){
 		userdao.registration(user);
 	}
+	@Override
+	public UserDetails loginUser(UserDetails user) {
+		return userdao.login(user);
+	}
+	
+	
+
 }

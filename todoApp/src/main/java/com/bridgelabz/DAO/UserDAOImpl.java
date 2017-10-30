@@ -1,8 +1,10 @@
 package com.bridgelabz.DAO;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
 //import com.bridgeit.SingleTon.SingleTon;
@@ -66,6 +68,20 @@ public class UserDAOImpl implements UserDAO{
 				e.printStackTrace();
 			}
 		}
+	}
+	public UserDetails login(UserDetails userDetails){
+		Session session = sessionFactory.openSession();
+		Criteria criteria = session.createCriteria(UserDetails.class);
+		criteria.add(Restrictions.eq("email", userDetails.getEmail()));
+		criteria.add(Restrictions.eq("password", userDetails.getPassword()));
+		UserDetails user=(UserDetails) criteria.uniqueResult();
+		
+		if(user==null)
+		{
+			return null;
+			
+		}
+		return user;
 	}
 
 }

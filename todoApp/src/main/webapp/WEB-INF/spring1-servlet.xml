@@ -39,6 +39,7 @@
 		<property name="annotatedClasses">
 			<list>
 				<value>com.bridgelabz.model.UserDetails</value>
+				<value>com.bridgelabz.model.NoteDetails</value>
 			</list>
 		</property>
 
