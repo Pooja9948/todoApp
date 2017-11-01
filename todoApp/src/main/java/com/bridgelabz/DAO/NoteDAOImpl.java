@@ -1,5 +1,9 @@
 package com.bridgelabz.DAO;
 
+import java.util.Date;
+
+import javax.persistence.Query;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -8,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bridgelabz.model.NoteDetails;
 
 public class NoteDAOImpl implements NoteDAO{
+	
 	@Autowired
 	SessionFactory sessionfactory;
 
@@ -24,5 +29,57 @@ public class NoteDAOImpl implements NoteDAO{
 			}
 			e.printStackTrace();
 		}
+	}
+	public void updateNote(NoteDetails noteDetails){
+		Session session = sessionfactory.openSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			Date date = new Date();	
+			noteDetails.setModifiedDate(date);
+			session.update(noteDetails);
+			transaction.commit();
+		}catch(Exception e){
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		}
+		
+	}
+	public void deleteNote(int noteId){
+		Session session = sessionfactory.openSession();
+		Transaction transaction = null;
+		System.out.println("jhdbvj "+noteId);
+		try {
+			transaction = session.beginTransaction();
+			Query deleteNote = session.createQuery("delete from NoteDetails where id=:noteId");
+			deleteNote.setParameter("noteId", noteId);
+			
+			deleteNote.executeUpdate();
+			transaction.commit();
+		}catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		}
+		/*Session session = sessionfactory.openSession();
+		Transaction transaction = null;	
+		try {
+			transaction = session.beginTransaction();
+			session.save(noteDetails);
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		}*/
+	}
+	public NoteDetails getNoteById(int noteId) {
+		Session session = sessionfactory.openSession();
+		NoteDetails note = session.get(NoteDetails.class, noteId);
+		return note;
 	}
 }

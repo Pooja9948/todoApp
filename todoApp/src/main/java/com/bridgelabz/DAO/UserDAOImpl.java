@@ -13,38 +13,6 @@ import com.bridgelabz.model.UserDetails;
 public class UserDAOImpl implements UserDAO{
 
 	/**
-	 * @param email
-	 * @param password
-	 * @return
-	 * checking the email and password 
-	 */
-	/*public static UserDetails login(String email, String password) {
-		SessionFactory sessionFactory = SingleTon.getSF();
-		Session session = sessionFactory.openSession();
-		int status = 0;
-		Criteria criteria = session.createCriteria(UserDetails.class);
-		Criterion email1 = Restrictions.eq("email", email);
-		Criterion password1 = Restrictions.eq("password", password);
-		LogicalExpression andExp = Restrictions.and(email1, password1);
-		criteria.add(andExp);
-		UserDetails userDetails = null;
-		List result = criteria.list();
-		Iterator iterator = result.iterator();
-		String name = "";
-		int id = 0;
-		while (iterator.hasNext()) {
-			userDetails = (UserDetails) iterator.next();
-			System.out.println("user name is--> " + userDetails.getName());
-			name = userDetails.getName();
-			System.out.println("user id is--> " + userDetails.getId());
-			id = userDetails.getId();
-		}
-		session.close();
-		return userDetails;
-
-	}*/
-
-	/**
 	 * @param userDetails
 	 * @return
 	 * inserting all the data of user to the database
@@ -71,6 +39,7 @@ public class UserDAOImpl implements UserDAO{
 	}
 	public UserDetails login(UserDetails userDetails){
 		Session session = sessionFactory.openSession();
+		@SuppressWarnings("deprecation")
 		Criteria criteria = session.createCriteria(UserDetails.class);
 		criteria.add(Restrictions.eq("email", userDetails.getEmail()));
 		criteria.add(Restrictions.eq("password", userDetails.getPassword()));
@@ -83,5 +52,20 @@ public class UserDAOImpl implements UserDAO{
 		}
 		return user;
 	}
+	@Override
+	public boolean emailValidation(String email) {
+		Session session = sessionFactory.openSession();
+		@SuppressWarnings("deprecation")
+		Criteria criteria = session.createCriteria(UserDetails.class).add(Restrictions.eq("email", email));
+		@SuppressWarnings("unused")
+		boolean res=(boolean) criteria.uniqueResult();
+		session.close();
+		if(res)
+			return true;
+		else
+			return false;
+	}
+	
+	
 
 }

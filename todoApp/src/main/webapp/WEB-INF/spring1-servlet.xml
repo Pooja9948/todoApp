@@ -47,11 +47,15 @@
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
 				<prop key="hibernate.show_sql">true</prop>
-				<prop key="hibernate.hbm2ddl.auto">create</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
 		</property>
 	</bean>
 
-	<bean id="userservice" class="com.bridgelabz.service.UserServiceImpl"></bean>
-	<bean class="com.bridgelabz.DAO.UserDAOImpl"></bean>
+	<bean id="userservice" class="com.bridgelabz.service.UserServiceImpl"/>
+	<bean id="userdao" class="com.bridgelabz.DAO.UserDAOImpl" />
+	<bean id="noteService" class="com.bridgelabz.service.NoteServiceImpl"/>
+	<bean id="notedao" class="com.bridgelabz.DAO.NoteDAOImpl" />
+	
+	<bean class="com.bridgelabz.validation.Validator" />
 </beans>

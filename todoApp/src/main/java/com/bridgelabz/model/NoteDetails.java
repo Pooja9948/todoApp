@@ -14,46 +14,59 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "note")
 public class NoteDetails {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "note_detailid")
 	int id;
 	String title;
 	String description;
-	Date date;
-	
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "note_detailid")
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	@Column(name = "title")
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	@Column(name = "description")
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	@Column(name = "date")
-	public Date getDate() {
-		return date;
-	}
-	public void setDate(Date date) {
-		this.date = date;
-	}
-	
+	Date createddate;
+	Date modifiedDate;
+
 	@ManyToOne
 	@JoinColumn(name = "user_detailid")
 	private UserDetails userDetails;
-	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public Date getCreateddate() {
+		return createddate;
+	}
+
+	public void setCreateddate(Date createddate) {
+		this.createddate = createddate;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
 	public UserDetails getUser() {
 		return userDetails;
 	}
@@ -61,12 +74,11 @@ public class NoteDetails {
 	public void setUser(UserDetails userDetails) {
 		this.userDetails = userDetails;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "NoteDetails [id=" + id + ", title=" + title + ", description=" + description + ", date=" + date
-				+ ", userDetails=" + userDetails + "]";
+		return "NoteDetails [id=" + id + ", title=" + title + ", description=" + description + ", createddate="
+				+ createddate + ", modifiedDate=" + modifiedDate + ", userDetails=" + userDetails + "]";
 	}
 
-	
 }

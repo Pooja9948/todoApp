@@ -6,4 +6,5 @@ public interface UserService {
 	
 	public void createUser(UserDetails user);
 	public UserDetails loginUser(UserDetails user);
+	public boolean emailValidation(String email);
 }
