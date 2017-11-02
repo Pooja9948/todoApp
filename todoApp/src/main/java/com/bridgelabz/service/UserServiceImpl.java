@@ -10,6 +10,7 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	UserDAO userdao;
 	
+	
 	public void createUser(UserDetails user){
 		userdao.registration(user);
 	}
@@ -18,11 +19,9 @@ public class UserServiceImpl implements UserService{
 		return userdao.login(user);
 	}
 	@Override
-	public boolean emailValidation(String email) {
+	public UserDetails emailValidation(String email) {
 		
 		return userdao.emailValidation(email);
 	}
 	
-	
-
 }

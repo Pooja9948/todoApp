@@ -18,30 +18,54 @@ public class Validator {
 	public static final Pattern PASSWORD = Pattern.compile("^[a-zA-Z0-9]{8,}$");
 	
 	public String validateSaveUser(UserDetails userDetails) {
-
+		
+		String error = null;
+		
+		StringBuffer retValue = new StringBuffer();
+		
 		if (!validateRegEx(userDetails.getFirstname(), NAME)) {
-			return "Your first name is short...";
+			
+			retValue.append("Your first name is short...");
 		} 
-		else if (!validateRegEx(userDetails.getLastname(), NAME)) {
-			return "your last name is short...";
+		if (!validateRegEx(userDetails.getLastname(), NAME)) {
+			
+			retValue.append("your last name is short...");
 		} 
-		else if (!validateRegEx(userDetails.getEmail(), EMAILID)) {
-			return "Please enter a valid email address";
+		if (!validateRegEx(String.valueOf(userDetails.getMobileno()), MOBILE)) {
+			
+			retValue.append("Contact number must be 10 digits");
 		} 
-		else if (!validateRegEx(String.valueOf(userDetails.getMobileno()), MOBILE)) {
-			return "Contact number must be 10 digits";
-		} 
-		else if (!validateRegEx(userDetails.getPassword(), PASSWORD)) {
-			return "Your password too short!!";
-		} 
-		else {
-			boolean res = userService.emailValidation(userDetails.getEmail());
-			if (res) {
-				return "Email already exists";
-			} else {
-				return "Success";
-			}
+		if (!validateRegEx(userDetails.getPassword(), PASSWORD)) {
+			
+			retValue.append("Your password is short...");
 		}
+		if (!validateRegEx(userDetails.getConfirmpassword(), PASSWORD) && !userDetails.getConfirmpassword().equals(userDetails.getPassword())) {
+			
+			
+			retValue.append("Password is not matches !!!");
+			
+		}
+		if (!validateRegEx(userDetails.getEmail(), EMAILID)) {
+			
+			
+			retValue.append("Please enter a valid email address");
+		}else{
+			UserDetails user = userService.emailValidation(userDetails.getEmail());
+			if (user!=null) {
+				
+				retValue.append("Email already exists");
+			} 
+		}
+		
+		if(retValue.equals("") == false) {
+		
+			error = retValue.toString();
+		
+		}
+		
+		System.out.println("*****Error is "+error);
+		
+		return error;
 	}
 	
 	boolean validateRegEx(String variable, Pattern match) {

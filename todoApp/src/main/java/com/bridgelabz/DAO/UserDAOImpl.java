@@ -52,7 +52,7 @@ public class UserDAOImpl implements UserDAO{
 		}
 		return user;
 	}
-	@Override
+/*	@Override
 	public boolean emailValidation(String email) {
 		Session session = sessionFactory.openSession();
 		@SuppressWarnings("deprecation")
@@ -64,8 +64,18 @@ public class UserDAOImpl implements UserDAO{
 			return true;
 		else
 			return false;
-	}
+	}*/
 	
+	
+	public UserDetails emailValidation(String email) {
+		Session session = sessionFactory.openSession();
+		@SuppressWarnings("deprecation")
+		Criteria criteria = session.createCriteria(UserDetails.class).add(Restrictions.eq("email", email));
+		@SuppressWarnings("unused")
+		UserDetails user = (UserDetails) criteria.uniqueResult();
+		session.close();
+		return user;
+	}
 	
 
 }
