@@ -1,7 +1,5 @@
 package com.bridgelabz.service;
 
-import org.apache.catalina.User;
-
 import com.bridgelabz.model.UserDetails;
 
 public interface UserService {

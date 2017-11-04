@@ -14,18 +14,20 @@ public class Token implements Serializable{
 	@Column(name="refresh_token")
 	private String refreshToken;
 	
-	
 	public String getGenerateToken() {
 		return generateToken;
 	}
+
 	public void setGenerateToken(String generateToken) {
 		this.generateToken = generateToken;
 	}
+
 	public String getRefreshToken() {
 		return refreshToken;
 	}
+
 	public void setRefreshToken(String refreshToken) {
 		this.refreshToken = refreshToken;
 	}
-	
+
 }

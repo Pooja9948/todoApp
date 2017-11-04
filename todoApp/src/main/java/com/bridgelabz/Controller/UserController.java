@@ -57,16 +57,20 @@ public class UserController{
 		System.out.println("email "+user.getEmail()+" password "+user.getPassword());
 		user=userservice.loginUser(user);
 		session.setAttribute("user", user);
-		String accessToken = GenerateToken.generateToken(user.getId());
-		token.setGenerateToken(accessToken);
-		String url = request.getRequestURL().toString();
-		url = url.substring(0, url.lastIndexOf("/")) + "/" + "finalLogin" + "/" + accessToken;
+		
 		if(user != null){
+			String accessToken = GenerateToken.generateToken(user.getId());
+			token.setGenerateToken(accessToken);
+			String url = request.getRequestURL().toString();
+			url = url.substring(0, url.lastIndexOf("/")) + "/" + "finalLogin" + "/" + accessToken;
+			//save in redis
+			//check url token with redis token.... if it is matched then proceed..
 			System.out.println("login successful!!!");
 			return new ResponseEntity<String> (HttpStatus.OK);
-		}else
+		}else{
 			System.out.println("login unsuccessful!!!");
 			return new ResponseEntity<String>(HttpStatus.CONFLICT);
+		}
 	}
 	
 	
