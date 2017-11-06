@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -60,11 +61,12 @@ public class UserController{
 		
 		if(user != null){
 			String accessToken = GenerateToken.generateToken(user.getId());
+			System.out.println("token "+accessToken);
 			token.setGenerateToken(accessToken);
 			String url = request.getRequestURL().toString();
 			url = url.substring(0, url.lastIndexOf("/")) + "/" + "finalLogin" + "/" + accessToken;
-			//save in redis
-			//check url token with redis token.... if it is matched then proceed..
+			System.out.println("url : "+url);
+			userservice.saveTokenInRedis(token);
 			System.out.println("login successful!!!");
 			return new ResponseEntity<String> (HttpStatus.OK);
 		}else{
@@ -72,6 +74,19 @@ public class UserController{
 			return new ResponseEntity<String>(HttpStatus.CONFLICT);
 		}
 	}
-	
+	@RequestMapping("/finalLogin/{token}")
+	public ResponseEntity<String> checkValidUser(@PathVariable("token") String generateToken) {
+
+		Token token = userservice.getToken(generateToken);
+		if (token == null) {
+			
+			return new ResponseEntity<String>("token is incorrect", HttpStatus.BAD_REQUEST);
+		}
+		if (token.getGenerateToken().equals(generateToken)) {
+			
+			return new ResponseEntity<String>("successfull login", HttpStatus.OK);
+		}
+		return new ResponseEntity<String>("Unsuccessfull login", HttpStatus.BAD_REQUEST);
+}
 	
 }

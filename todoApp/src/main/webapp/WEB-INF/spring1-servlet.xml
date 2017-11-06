@@ -40,7 +40,6 @@
 			<list>
 				<value>com.bridgelabz.model.UserDetails</value>
 				<value>com.bridgelabz.model.NoteDetails</value>
-				<value>com.bridgelabz.model.Token</value>
 			</list>
 		</property>
 
@@ -66,13 +65,21 @@
 			</props>
 		</property>
 	</bean>
+
+	<bean id="jedisConnFactory"
+		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+		p:use-pool="true" />
+	<!-- Redis Template Configuration -->
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
+		p:connection-factory-ref="jedisConnFactory" />
+
 	<bean id="userservice" class="com.bridgelabz.service.UserServiceImpl" />
 	<bean id="userdao" class="com.bridgelabz.DAO.UserDAOImpl" />
 	<bean id="noteService" class="com.bridgelabz.service.NoteServiceImpl" />
 	<bean id="notedao" class="com.bridgelabz.DAO.NoteDAOImpl" />
 
 	<bean class="com.bridgelabz.validation.Validator" />
-	<bean id="mailMail" class="com.bridgelabz.Mail.SendMail">  
-    <property name="mailSender" ref="mailSender" />  
-</bean>
+	<bean id="mailMail" class="com.bridgelabz.Mail.SendMail">
+		<property name="mailSender" ref="mailSender" />
+	</bean>
 </beans>

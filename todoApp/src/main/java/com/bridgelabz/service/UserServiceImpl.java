@@ -3,6 +3,7 @@ package com.bridgelabz.service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bridgelabz.DAO.UserDAO;
+import com.bridgelabz.model.Token;
 import com.bridgelabz.model.UserDetails;
 
 public class UserServiceImpl implements UserService{
@@ -22,6 +23,15 @@ public class UserServiceImpl implements UserService{
 	public UserDetails emailValidation(String email) {
 		
 		return userdao.emailValidation(email);
+	}
+	public Token getToken(String token){
+		
+		return userdao.getToken(token);
+	}
+	@Override
+	public void saveTokenInRedis(Token accessToken) {
+		
+		userdao.saveTokenInRedis(accessToken);
 	}
 	
 }
