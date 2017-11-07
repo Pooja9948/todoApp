@@ -3,6 +3,7 @@ package com.bridgelabz.Controller;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,14 +57,16 @@ public class NoteController {
 	
 	@RequestMapping(value="/deleteNote/{id}", method= RequestMethod.DELETE)
 	public void deleteNote(@PathVariable("id") int noteId){
-		//NoteDetails note = new NoteDetails();
-		//note.setNoteId(noteId);
 		System.out.println("id : "+noteId);
 		noteService.deleteNote(noteId);
 		System.out.println("note is deleted");
 	}
-	/*@RequestMapping(value="/getAllNotes/{userId}", method= RequestMethod.GET)
-	public List<NoteDetails> getAllNotes(@PathVariable("userId") int userId){
-		List<NoteDetails> notesList = noteService.getAllNotes(userId);
-	}*/
+	@RequestMapping(value="/getAllNotes", method= RequestMethod.GET)
+	public List<NoteDetails> getAllNotes(HttpSession session,HttpServletRequest request){
+		UserDetails userDetails = (UserDetails) request.getAttribute("user");
+		
+		List<NoteDetails>  notes = noteService.getAllNotes(userDetails);
+		System.out.println("all notes : "+notes);
+		return notes;
+	}
 }

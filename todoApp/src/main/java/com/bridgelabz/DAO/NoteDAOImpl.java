@@ -1,24 +1,28 @@
 package com.bridgelabz.DAO;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Query;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bridgelabz.model.NoteDetails;
+import com.bridgelabz.model.UserDetails;
 
 public class NoteDAOImpl implements NoteDAO{
 	
 	@Autowired
 	SessionFactory sessionfactory;
-
+	Transaction transaction = null;
 	public void createNote(NoteDetails note) {
 		Session session = sessionfactory.openSession();
-		Transaction transaction = null;
+		
 		try {
 			transaction = session.beginTransaction();
 			session.save(note);
@@ -32,7 +36,7 @@ public class NoteDAOImpl implements NoteDAO{
 	}
 	public void updateNote(NoteDetails noteDetails){
 		Session session = sessionfactory.openSession();
-		Transaction transaction = null;
+		
 		try {
 			transaction = session.beginTransaction();
 			Date date = new Date();	
@@ -49,7 +53,7 @@ public class NoteDAOImpl implements NoteDAO{
 	}
 	public void deleteNote(int noteId){
 		Session session = sessionfactory.openSession();
-		Transaction transaction = null;
+		
 		System.out.println("jhdbvj "+noteId);
 		try {
 			transaction = session.beginTransaction();
@@ -64,22 +68,21 @@ public class NoteDAOImpl implements NoteDAO{
 			}
 			e.printStackTrace();
 		}
-		/*Session session = sessionfactory.openSession();
-		Transaction transaction = null;	
-		try {
-			transaction = session.beginTransaction();
-			session.save(noteDetails);
-			transaction.commit();
-		} catch (Exception e) {
-			if (transaction != null) {
-				transaction.rollback();
-			}
-			e.printStackTrace();
-		}*/
+		
 	}
 	public NoteDetails getNoteById(int noteId) {
 		Session session = sessionfactory.openSession();
 		NoteDetails note = session.get(NoteDetails.class, noteId);
 		return note;
+	}
+	@Override
+	public List<NoteDetails> getAllNotes(UserDetails userDetails) {
+		Session session = sessionfactory.openSession();
+		
+		transaction = (Transaction) session.beginTransaction();
+		Criteria criteria = session.createCriteria(NoteDetails.class);
+		criteria.add(Restrictions.eq("userDetails", userDetails));
+		List<NoteDetails> allNotes= criteria.list();
+		return allNotes;
 	}
 }

@@ -30,21 +30,24 @@ public class UserDAOImpl implements UserDAO{
 
 	private HashOperations<String, String, Token> hashops;
 
-	public void registration(UserDetails userDetails) {
+	public int registration(UserDetails userDetails) {
 		Session session = sessionFactory.openSession();
 		Transaction transaction = null;
 		try {
 			transaction = session.beginTransaction();
-			session.save(userDetails);
+			int id=(int) session.save(userDetails);
 			transaction.commit();
+			return id;
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			return 0;
 		} finally {
 			try {
 				if (session != null)
 					session.close();
 			} catch (Exception e) {
 				e.printStackTrace();
+				return 0;
 			}
 		}
 	}
@@ -54,6 +57,7 @@ public class UserDAOImpl implements UserDAO{
 		Criteria criteria = session.createCriteria(UserDetails.class);
 		criteria.add(Restrictions.eq("email", userDetails.getEmail()));
 		criteria.add(Restrictions.eq("password", userDetails.getPassword()));
+		criteria.add(Restrictions.eq("isActivated", true));
 		UserDetails user=(UserDetails) criteria.uniqueResult();
 
 		if(user==null)
@@ -88,19 +92,46 @@ public class UserDAOImpl implements UserDAO{
 	}
 	@Override
 	public void saveTokenInRedis(Token token) {
+		System.out.println("token in dao "+token);
 		hashops = template.opsForHash();
+		System.out.println("hashops : "+hashops);
 		hashops.put(key, token.getGenerateToken(), token);
 		System.out.println("is this null " +hashops.get(key, token.getGenerateToken()));
-
-
 	}
 
 	@Override
 	public Token getToken(String token) {
 		hashops = template.opsForHash();
 		Token token2 = hashops.get(key, token);
+		System.out.println("get token "+token2);
 		return token2;
 
+	}
+	
+	public UserDetails getUserById(int id){
+		Session session = sessionFactory.openSession();
+		UserDetails userDetails = session.get(UserDetails.class, id);
+		System.out.println("User is: " + userDetails);
+		session.close();
+		return userDetails;
+	}
+	public boolean updateUser(UserDetails userDetails){
+		Session session = sessionFactory.openSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			session.saveOrUpdate(userDetails);
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+				session.close();
+				return false;
+			}
+		}
+		session.close();
+		return true;
 	}
 
 }

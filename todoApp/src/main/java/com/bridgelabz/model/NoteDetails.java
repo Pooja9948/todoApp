@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "note")
 public class NoteDetails {
@@ -23,7 +25,11 @@ public class NoteDetails {
 	String description;
 	Date createddate;
 	Date modifiedDate;
+	
+	private boolean isArchived;
+	private boolean isPin;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "user_detailid")
 	private UserDetails userDetails;
@@ -74,7 +80,22 @@ public class NoteDetails {
 	public void setUser(UserDetails userDetails) {
 		this.userDetails = userDetails;
 	}
+	
+	public boolean getArchived() {
+		return isArchived;
+	}
 
+	public void setArchived(boolean isArchived) {
+		this.isArchived = isArchived;
+	}
+
+	public boolean isPin() {
+		return isPin;
+	}
+
+	public void setPin(boolean isPin) {
+		this.isPin = isPin;
+	}
 	@Override
 	public String toString() {
 		return "NoteDetails [id=" + id + ", title=" + title + ", description=" + description + ", createddate="

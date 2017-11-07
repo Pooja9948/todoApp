@@ -43,25 +43,7 @@ public class UserDetails {
 		this.isActivated = isActivated;
 	}
 
-	/*public boolean isArchived() {
-		return isArchived;
-	}
-
-	public void setArchived(boolean isArchived) {
-		this.isArchived = isArchived;
-	}
-
-	public boolean isPin() {
-		return isPin;
-	}*/
-
-	public void setPin(boolean isPin) {
-		this.isPin = isPin;
-	}
-
-	/*private boolean isArchived;
 	
-	private boolean isPin;*/
 
 	@OneToMany(mappedBy = "userDetails")
 	private Set<NoteDetails> notes = new HashSet<>();

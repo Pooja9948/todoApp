@@ -14,7 +14,7 @@ public class SendMail {
     
     
     
-    public void sendMail(String from, String to, String subject, String msg) {  
+    public boolean sendMail(String from, String to, String subject, String msg) {  
         //creating message  
         SimpleMailMessage message = new SimpleMailMessage();  
         message.setFrom(from);  
@@ -23,5 +23,6 @@ public class SendMail {
         message.setText(msg);  
         //sending message  
         mailSender.send(message);     
+        return true;
     }
 }

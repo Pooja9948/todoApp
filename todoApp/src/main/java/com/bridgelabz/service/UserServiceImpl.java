@@ -12,8 +12,8 @@ public class UserServiceImpl implements UserService{
 	UserDAO userdao;
 	
 	
-	public void createUser(UserDetails user){
-		userdao.registration(user);
+	public int createUser(UserDetails user){
+		return userdao.registration(user);
 	}
 	@Override
 	public UserDetails loginUser(UserDetails user) {
@@ -32,6 +32,15 @@ public class UserServiceImpl implements UserService{
 	public void saveTokenInRedis(Token accessToken) {
 		
 		userdao.saveTokenInRedis(accessToken);
+	}
+	
+	public UserDetails getUserById(int id){
+		
+		return userdao.getUserById(id);
+	}
+	public boolean updateUser(UserDetails user){
+		
+		return userdao.updateUser(user);
 	}
 	
 }

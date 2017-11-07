@@ -11,11 +11,12 @@ public class Token implements Serializable{
 	
 	private static final long serialVersionUID = 3650165898539244046L;
 
-	//@Column(name="generate_token")
+	@Column(name="generate_token")
 	private String generateToken;
-	
-	//@Column(name="refresh_token")
+	@Column(name="refresh_token")
 	private String refreshToken;
+	
+	
 	
 	public String getGenerateToken() {
 		return generateToken;
@@ -32,5 +33,6 @@ public class Token implements Serializable{
 	public void setRefreshToken(String refreshToken) {
 		this.refreshToken = refreshToken;
 	}
+	
 
 }
