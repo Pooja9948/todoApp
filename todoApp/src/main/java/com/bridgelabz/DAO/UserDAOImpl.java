@@ -1,5 +1,7 @@
 package com.bridgelabz.DAO;
 
+import javax.persistence.Query;
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -118,9 +120,17 @@ public class UserDAOImpl implements UserDAO{
 	public boolean updateUser(UserDetails userDetails){
 		Session session = sessionFactory.openSession();
 		Transaction transaction = null;
+		System.out.println("email in updateUser : "+userDetails.getEmail()+"password in updateUser :"+userDetails.getPassword());
+		String email=userDetails.getEmail();
+		String password=userDetails.getPassword();
 		try {
 			transaction = session.beginTransaction();
-			session.saveOrUpdate(userDetails);
+			//session.saveOrUpdate(userDetails);
+			Query updateUser = session.createQuery("update UserDetails set password = :password1" +" where email=:email1");
+			updateUser.setParameter("password1", password);
+			updateUser.setParameter("email1", email);
+			
+			updateUser.executeUpdate();
 			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();

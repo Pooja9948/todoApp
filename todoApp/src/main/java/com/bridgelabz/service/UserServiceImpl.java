@@ -42,5 +42,10 @@ public class UserServiceImpl implements UserService{
 		
 		return userdao.updateUser(user);
 	}
+	/*@Override
+	public boolean emailValidate(UserDetails userDetails) {
+		
+		return userdao.emailValidate(userDetails);
+	}*/
 	
 }

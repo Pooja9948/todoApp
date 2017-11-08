@@ -86,4 +86,5 @@ public class NoteDAOImpl implements NoteDAO{
 		List<NoteDetails> allNotes= criteria.list();
 		return allNotes;
 	}
+	
 }

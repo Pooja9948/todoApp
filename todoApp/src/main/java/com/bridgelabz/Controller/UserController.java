@@ -2,6 +2,7 @@ package com.bridgelabz.Controller;
 
 import java.io.IOException;
 
+import javax.crypto.EncryptedPrivateKeyInfo;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -54,6 +55,8 @@ public class UserController{
 		System.out.println("check valid"+isValidate);
 		if (isValidate.equals("")) {
 			System.out.println("is validte "+isValidate);
+			user.setPassword(PasswordEncryption.encryptedPassword(user.getPassword()));
+			System.out.println("encrypted password : "+user.getPassword());
 			int id=userservice.createUser(user);
 			if (id != 0) {
 				String activeToken = GenerateToken.generateToken(id);
@@ -104,6 +107,8 @@ public class UserController{
 	@RequestMapping(value="/login", method= RequestMethod.POST)
 	public ResponseEntity<String> loginUser(@RequestBody UserDetails user,HttpServletRequest request,HttpSession session) {
 		System.out.println("email "+user.getEmail()+" password "+user.getPassword());
+		user.setPassword(PasswordEncryption.encryptedPassword(user.getPassword()));
+		System.out.println("at the time of login : "+PasswordEncryption.encryptedPassword(user.getPassword()));
 		user=userservice.loginUser(user);
 		session.setAttribute("user", user);
 
@@ -145,23 +150,22 @@ public class UserController{
 		return new ResponseEntity<ErrorMessage>(message, HttpStatus.OK);
 	}
 	
-	/*@RequestMapping(value = "/forgotpassword", method = RequestMethod.POST)
-	public ErrorMessage forgotPassword(@RequestBody User user, HttpServletRequest request, HttpSession session) {
-
+	@RequestMapping(value = "/forgotpassword", method = RequestMethod.POST)
+	public ErrorMessage forgotPassword(@RequestBody UserDetails user, HttpServletRequest request, HttpSession session) {
+		
 		String url = request.getRequestURL().toString();
 		int lastIndex = url.lastIndexOf("/");
 		String urlofForgotPassword = url.substring(0, lastIndex) + "#!/resetpassword";
-		user = userService.emailValidate(user.getEmail());
+		user = userservice.emailValidation(user.getEmail());
 		if (user == null) {
 			message.setMessage("Please enter valid emailID");
 			message.setStatus(500);
 			return message;
 		}
 		try {
-			String generateOTP = GenerateJWT.generate(user.getId());
-			session.setAttribute("Token", generateOTP);
-			mailService.sendEmail("om4java@gmail.com", user.getEmail(), "",
-					urlofForgotPassword + "");
+			String generateToken = GenerateToken.generateToken(user.getId());
+			session.setAttribute("Token", generateToken);
+			sendmail.sendMail("om4java@gmail.com", user.getEmail(), "",urlofForgotPassword + " Token : "+generateToken);
 		} catch (Exception e) {
 			e.printStackTrace();
 			message.setStatus(400);
@@ -171,31 +175,27 @@ public class UserController{
 		message.setStatus(200);
 		return message;
 	}
-
+	
 	@RequestMapping(value = "/resetpassword", method = RequestMethod.PUT)
-	public ErrorMessage resetPassword(@RequestBody User user, HttpSession session) {
+	public ErrorMessage resetPassword(@RequestBody UserDetails user, HttpSession session) {
+		System.out.println("email : "+user.getEmail()+"password :"+user.getPassword());
 		
 		String email = user.getEmail();
 		String password = user.getPassword();
-		System.out.println("Inside reset");
 		
-		int userId = VerifiedJWT.verify((String) session.getAttribute("Token"));
-	
-		if (userId == 0) {
-			message.setMessage("Invalid OTP : ");
-			message.setStatus(500);
-			return message;
-		}
+		//check validation for password
+		String isValidate = validator.validateSaveUser(user);
+		System.out.println("check valid"+isValidate);
 		
-		user = userService.emailValidate(email);
+		//email validation
+		user = userservice.emailValidation(email);
 		if (user == null) {
 			message.setMessage("User not found :");
 			message.setStatus(500);
 			return message;
 		}
-		
-		user.setPassword(password);
-		if (userService.updateUser(user)) {
+		user.setPassword(PasswordEncryption.encryptedPassword(password));
+		if (userservice.updateUser(user) && isValidate.equals("")) {
 			message.setMessage("Reset password is success :");
 			message.setStatus(200);
 			return message;
@@ -204,5 +204,6 @@ public class UserController{
 			message.setStatus(-200);
 			return message;
 		}
-}*/
+	}
+	
 }
