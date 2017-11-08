@@ -75,11 +75,12 @@ public class NoteDAOImpl implements NoteDAO{
 		NoteDetails note = session.get(NoteDetails.class, noteId);
 		return note;
 	}
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Override
 	public List<NoteDetails> getAllNotes(UserDetails userDetails) {
 		Session session = sessionfactory.openSession();
 		
-		transaction = (Transaction) session.beginTransaction();
+		transaction = session.beginTransaction();
 		Criteria criteria = session.createCriteria(NoteDetails.class);
 		criteria.add(Restrictions.eq("userDetails", userDetails));
 		List<NoteDetails> allNotes= criteria.list();

@@ -12,6 +12,7 @@ public class VerifyToken {
 		try {
 			JwtParser parser = Jwts.parser();
 			Claims claims = parser.setSigningKey(key).parseClaimsJws(accessToken).getBody();
+			//System.out.println("claims : "claims.getIssuer());
 			return Integer.parseInt(claims.getIssuer());
 			
 		} catch (Exception e) {

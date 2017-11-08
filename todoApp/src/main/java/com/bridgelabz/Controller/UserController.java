@@ -57,6 +57,7 @@ public class UserController{
 			int id=userservice.createUser(user);
 			if (id != 0) {
 				String activeToken = GenerateToken.generateToken(id);
+				System.out.println("jgdfqew   :"+activeToken);
 				String url = request.getRequestURL().toString();
 				url = url.substring(0, url.lastIndexOf("/")) + "/" + "verifyMail/" + activeToken;
 				try {
@@ -77,8 +78,10 @@ public class UserController{
 	@RequestMapping(value = "/verifyMail/{activeToken:.+}", method = RequestMethod.GET)
 	public ResponseEntity<ErrorMessage> verifyMail(@PathVariable("activeToken") String activeToken ,HttpServletResponse response) throws IOException
 	{
+		System.out.println("actve token : "+activeToken);
 		UserDetails userDetails=null;
 		int id = VerifyToken.verifyAccessToken(activeToken);
+		System.out.println("id :"+id);
 		try {
 			userDetails =userservice.getUserById(id);
 			System.out.println("User details : "+userDetails);

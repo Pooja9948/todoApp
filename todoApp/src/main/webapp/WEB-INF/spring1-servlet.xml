@@ -77,7 +77,7 @@
 	<bean id="userdao" class="com.bridgelabz.DAO.UserDAOImpl" />
 	<bean id="noteService" class="com.bridgelabz.service.NoteServiceImpl" />
 	<bean id="notedao" class="com.bridgelabz.DAO.NoteDAOImpl" />
-
+	<bean id="message" class="com.bridgelabz.model.ErrorMessage" />
 	<bean class="com.bridgelabz.validation.Validator" />
 	<bean id="mailMail" class="com.bridgelabz.Mail.SendMail">
 		<property name="mailSender" ref="mailSender" />

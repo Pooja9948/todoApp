@@ -8,7 +8,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 public class GenerateToken {
 	
-	private static final String key="todoToken";
+	private static final String key="toDoToken";
 	
 	public static String generateToken(int userId){
 		Date tokenCreationTime = new Date();
