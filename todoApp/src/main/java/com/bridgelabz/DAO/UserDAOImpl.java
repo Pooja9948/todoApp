@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import com.bridgelabz.model.NoteDetails;
 import com.bridgelabz.model.Token;
 //import com.bridgeit.SingleTon.SingleTon;
 import com.bridgelabz.model.UserDetails;
@@ -143,5 +144,18 @@ public class UserDAOImpl implements UserDAO{
 		session.close();
 		return true;
 	}
+	@Override
+	public UserDetails getUserByEmail(String email) {
+		Session session = sessionFactory.openSession();
+		Transaction transaction = null;
+		Criteria criteria = session.createCriteria(NoteDetails.class);
+		criteria.add(Restrictions.eq("email", email));
+		UserDetails user=(UserDetails) criteria.list();
+		//UserDetails userDetails = session.get(UserDetails.class, email);
+		System.out.println("User is: " + user);
+		session.close();
+		return user;
+	}
+	
 
 }

@@ -42,10 +42,11 @@ public class UserServiceImpl implements UserService{
 		
 		return userdao.updateUser(user);
 	}
-	/*@Override
-	public boolean emailValidate(UserDetails userDetails) {
+	
+	@Override
+	public UserDetails getUserByEmail(String email) {
 		
-		return userdao.emailValidate(userDetails);
-	}*/
+		return userdao.getUserByEmail(email);
+	}
 	
 }

@@ -11,6 +11,8 @@ public interface UserDAO {
 	public Token getToken(String token);
 	public UserDetails getUserById(int id);
 	public boolean updateUser(UserDetails user);
+	public UserDetails getUserByEmail(String email);
+	
 	//public boolean emailValidate(String email);
 	//boolean emailValidate(UserDetails userDetails);
 }

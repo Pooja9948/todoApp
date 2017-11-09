@@ -12,5 +12,6 @@ public interface UserService {
 	public Token getToken(String generateToken);
 	public UserDetails getUserById(int id);
 	public boolean updateUser(UserDetails userDetails);
-	//public boolean emailValidate(UserDetails userDetails);
+	public UserDetails getUserByEmail(String email);
+	//public void registration(UserDetails userForFb);
 }
