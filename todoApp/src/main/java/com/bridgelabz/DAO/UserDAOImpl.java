@@ -147,14 +147,12 @@ public class UserDAOImpl implements UserDAO{
 	@Override
 	public UserDetails getUserByEmail(String email) {
 		Session session = sessionFactory.openSession();
-		Transaction transaction = null;
-		Criteria criteria = session.createCriteria(NoteDetails.class);
-		criteria.add(Restrictions.eq("email", email));
-		UserDetails user=(UserDetails) criteria.list();
+		//Transaction transaction = null;
+		UserDetails userDetails = session.get(UserDetails.class, email);
 		//UserDetails userDetails = session.get(UserDetails.class, email);
-		System.out.println("User is: " + user);
+		System.out.println("User is: " + userDetails);
 		session.close();
-		return user;
+		return userDetails;
 	}
 	
 

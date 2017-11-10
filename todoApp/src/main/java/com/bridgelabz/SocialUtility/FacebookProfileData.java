@@ -50,16 +50,18 @@ public class FacebookProfileData {
 		
 		try {
 			String email = mapper.readTree(profileInfoFromFB).get("email").asText();
-			//LOG.info(email);
-			UserDetails userByEmail = userService.getUserByEmail(email);
+			System.out.println("email is : "+email);
+			UserDetails userByEmail = userService.emailValidation(email);
+			
+			System.out.println("email : "+userByEmail);
 			//LOG.info("userByEmail:-"+userByEmail);
 			if(userByEmail==null) {
-				UserDetails userForFb = new UserDetails();
-				userForFb.setEmail(mapper.readTree(profileInfoFromFB).get("email").asText());
-				userForFb.setFirstname(mapper.readTree(profileInfoFromFB).get("first_name").asText());
-				userForFb.setLastname(mapper.readTree(profileInfoFromFB).get("last_name").asText());
-				userForFb.setActivated(true);
-				userService.createUser(userForFb);
+				 userByEmail = new UserDetails();
+				 userByEmail.setEmail(mapper.readTree(profileInfoFromFB).get("email").asText());
+				 userByEmail.setFirstname(mapper.readTree(profileInfoFromFB).get("first_name").asText());
+				 userByEmail.setLastname(mapper.readTree(profileInfoFromFB).get("last_name").asText());
+				 userByEmail.setActivated(true);
+				userService.createUser(userByEmail);
 
 				response.sendRedirect("http://localhost:8080/todoApp/#!/homePage");
 			}else {
