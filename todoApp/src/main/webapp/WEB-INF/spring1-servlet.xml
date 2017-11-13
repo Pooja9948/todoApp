@@ -9,16 +9,24 @@
 
 	<context:component-scan base-package="com.bridgelabz" />
 	<mvc:annotation-driven />
+	
+	<mvc:resources location="/controller/" mapping="/controller/**" />
+	<mvc:resources location="/css/" mapping="/css/**" />
+	<mvc:resources location="/Script/" mapping="/Script/**" />
+	<mvc:resources location="/template/" mapping="/template/**" />
+	<mvc:resources location="/service/" mapping="/service/**" />
+	
 
-	<bean
+	<!-- <bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix">
 			<value>/</value>
 		</property>
 		<property name="suffix">
+			<value>.html</value>
 			<value>.jsp</value>
 		</property>
-	</bean>
+	</bean> -->
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory"></property>

@@ -148,10 +148,10 @@ public class UserController{
 		message.setMessage("Logout seccessful");
 		return new ResponseEntity<ErrorMessage>(message, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/forgotpassword", method = RequestMethod.POST)
 	public ErrorMessage forgotPassword(@RequestBody UserDetails user, HttpServletRequest request, HttpSession session) {
-		
+
 		String url = request.getRequestURL().toString();
 		int lastIndex = url.lastIndexOf("/");
 		String urlofForgotPassword = url.substring(0, lastIndex) + "#!/resetpassword";
@@ -174,18 +174,18 @@ public class UserController{
 		message.setStatus(200);
 		return message;
 	}
-	
+
 	@RequestMapping(value = "/resetpassword", method = RequestMethod.PUT)
 	public ErrorMessage resetPassword(@RequestBody UserDetails user, HttpSession session) {
 		System.out.println("email : "+user.getEmail()+"password :"+user.getPassword());
-		
+
 		String email = user.getEmail();
 		String password = user.getPassword();
-		
+
 		//check validation for password
 		String isValidate = validator.validateSaveUser(user);
 		System.out.println("check valid"+isValidate);
-		
+
 		//email validation
 		user = userservice.emailValidation(email);
 		if (user == null) {
@@ -204,5 +204,5 @@ public class UserController{
 			return message;
 		}
 	}
-	
+
 }
