@@ -1,7 +1,7 @@
 <div class="container">
 		<div class="row">
 			<div class="col-lg-4 abc ">
-				<form style="padding: 20px;" data-ng-app="myApp" name="myForm" novalidate method="post" action="Registration"
+				<form style="padding: 20px;" data-ng-app="myApp" name="myForm" novalidate
 					name="submit">
 					<div style="font-size: 250%;">Create an Account</div>
 					<div class="form-group">
@@ -23,7 +23,7 @@
 						<label for="email">Enter your email address</label> <input type="email"
 						 name="email" class="form-control" id="email" data-ng-model="user.email" required> <span style="color:red" data-ng-show="myForm.email.$dirty && myForm.email.$invalid">
 						<span data-ng-show="myForm.email.$dirty && myForm.email.$error.required">Email required.</span>
-						<span data-ng-show="myForm.email.$dirty && myForm.email.$error.email">Invalid Emailaddress.</span>
+						<span data-ng-show="myForm.email.$dirty && myForm.email.$error.email">Invalid Email address.</span>
 					</span>
 					</div>
 					<div class="form-group">
@@ -33,10 +33,10 @@
 					</span>
 					</div>
 						<div class="form-group">
-						<label for="pwd">Confirm password</label> <input type="password"
-							name="password" class="form-control" id="pwd" data-ng-minlength="6" data-ng-model="user.pwd" required> <span style="color:red" data-ng-show="myForm.confirmpassword.$dirty && myForm.confirmpassword.$invalid">
-						<span data-ng-show="myForm.password.$dirty && myForm.password.$error.required">Confirm password is required.</span>
-					</span>
+						<label for="confirmpassword">Confirm password</label> <input type="password"
+							name="confirmpassword" class="form-control" id="confirmpassword" data-ng-minlength="6" data-ng-model="user.confirmpassword" required> <span style="color:red" data-ng-show="myForm.confirmpassword.$dirty && myForm.confirmpassword.$invalid">
+						<span data-ng-show="myForm.confirmpassword.$dirty && myForm.confirmpassword.$error.required">Confirm password is required.</span>
+					</span>			
 					</div>
 					<div class="form-group">
 						<label for="mobileno">Mobile No</label> <input type="text"
@@ -52,7 +52,7 @@
 							policy</a>
 					</div>
 					<div>
-						<input type="submit" name="submit" id="submit" value="submit" data-ng-disabled="myForm.user.$dirty 
+						<input type="submit" name="submit" id="submit" value="submit" data-ng-click="registrationForm()" data-ng-disabled="myForm.user.$dirty 
 						&& myForm.user.$invalid ||  myForm.email.$dirty && myForm.email.$invalid">Create
 						an account
 					</div>

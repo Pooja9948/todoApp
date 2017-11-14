@@ -17,6 +17,15 @@ p{
     height: 700px;
 
 }
+.facebook {
+	background-color: #354E84;
+	color: #fff;
+}
+
+.google {
+	background-color: #00A5E3;
+	color: #fff;
+}
 .l{
 	margin-top: 100px;
     margin-bottom: 100px;

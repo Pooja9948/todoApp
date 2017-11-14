@@ -1,4 +1,4 @@
-package com.bridgelabz.Controller;
+package com.bridgelabz.Util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

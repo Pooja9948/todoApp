@@ -1,4 +1,4 @@
-package com.bridgelabz.Mail;
+package com.bridgelabz.Util;
 
 import org.springframework.mail.MailSender;
 
