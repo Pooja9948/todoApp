@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.SocialUtility.FacebookLogin;
-import com.bridgelabz.model.ErrorMessage;
+import com.bridgelabz.Util.CustomResponse;
+import com.bridgelabz.Util.Response;
 import com.bridgelabz.model.UserDetails;
 import com.bridgelabz.service.UserService;
 import com.bridgelabz.token.GenerateToken;
@@ -26,8 +27,8 @@ public class FacebookProfileData {
 	@Autowired
 	UserService userService;
 
-	@Autowired
-	ErrorMessage message;
+	/*@Autowired
+	ErrorMessage message;*/
 
 	@RequestMapping(value="/fbLogin" ,method = RequestMethod.GET)
 	public void fbLogin(HttpServletRequest request,HttpServletResponse response) {
@@ -41,7 +42,7 @@ public class FacebookProfileData {
 	}
 
 	@RequestMapping(value="/successFbLogin", method = RequestMethod.GET)
-	public ResponseEntity<ErrorMessage> getFbAccessToken(HttpServletRequest request,HttpServletResponse response,HttpSession session){
+	public ResponseEntity<Response> getFbAccessToken(HttpServletRequest request,HttpServletResponse response,HttpSession session){
 		//LOG.info("After success");
 		String codeForFb = request.getParameter("code");
 		//LOG.info("codeForFb:-"+codeForFb);
@@ -84,10 +85,11 @@ public class FacebookProfileData {
 
 	}
 	@RequestMapping(value="/tokenAftergFbLogin")
-	public ResponseEntity<ErrorMessage> getAccessTokenByglogin(HttpSession session){
+	public ResponseEntity<Response> getAccessTokenByglogin(HttpSession session){
 		String acessToken = (String) session.getAttribute("myAccessToken");
-		message.setMessage(acessToken);
-		return ResponseEntity.ok(message);
+		CustomResponse customResponse = new CustomResponse();
+		customResponse.setMessage(acessToken);
+		return ResponseEntity.ok(customResponse);
 
 	}
 

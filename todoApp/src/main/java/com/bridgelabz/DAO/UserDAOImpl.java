@@ -114,11 +114,12 @@ public class UserDAOImpl implements UserDAO{
 	public UserDetails getUserById(int id){
 		Session session = sessionFactory.openSession();
 		UserDetails userDetails = session.get(UserDetails.class, id);
-		System.out.println("User is: " + userDetails);
+		System.out.println("User by id is: " + userDetails);
 		session.close();
 		return userDetails;
 	}
-	public boolean updateUser(UserDetails userDetails){
+	
+	public boolean updateUserPassword(UserDetails userDetails){
 		Session session = sessionFactory.openSession();
 		Transaction transaction = null;
 		System.out.println("email in updateUser : "+userDetails.getEmail()+"password in updateUser :"+userDetails.getPassword());
@@ -153,6 +154,25 @@ public class UserDAOImpl implements UserDAO{
 		System.out.println("User is: " + userDetails);
 		session.close();
 		return userDetails;
+	}
+	@Override
+	public boolean updateUser(UserDetails user) {
+		Session session = sessionFactory.openSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			session.saveOrUpdate(user);
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+				session.close();
+				return false;
+			}
+		}
+		session.close();
+return true;
 	}
 	
 

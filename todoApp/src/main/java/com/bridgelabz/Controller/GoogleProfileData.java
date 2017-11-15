@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.SocialUtility.GoogleLogin;
-import com.bridgelabz.model.ErrorMessage;
+import com.bridgelabz.Util.CustomResponse;
+import com.bridgelabz.Util.Response;
 import com.bridgelabz.model.UserDetails;
 import com.bridgelabz.service.UserService;
 import com.bridgelabz.token.GenerateToken;
@@ -23,8 +24,8 @@ public class GoogleProfileData {
 	@Autowired
 	 UserService userService;
 	
-	@Autowired
-	ErrorMessage message;
+	/*@Autowired
+	ErrorMessage message;*/
 	
 	@RequestMapping(value="/googleLogin")
 	public void googleLogin(HttpServletRequest request, HttpServletResponse response) {
@@ -39,7 +40,7 @@ public class GoogleProfileData {
 	}
 	@SuppressWarnings("unused")
 	@RequestMapping(value="/successGoogleLogin")
-	public ResponseEntity<ErrorMessage> successGoogleLogin(HttpServletRequest request, HttpServletResponse response,HttpSession session) {
+	public ResponseEntity<Response> successGoogleLogin(HttpServletRequest request, HttpServletResponse response,HttpSession session) {
 		
 		String code = (String)request.getParameter("code");
 		String accessToken = GoogleLogin.getAccessToken(code);
@@ -77,7 +78,8 @@ public class GoogleProfileData {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		message.setMessage(accessToken);
-		return ResponseEntity.ok(message);
+		CustomResponse customResponse = new CustomResponse();
+		customResponse.setMessage(accessToken);
+		return ResponseEntity.ok(customResponse);
 	}
 }

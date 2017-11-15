@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bridgelabz.Util.CustomResponse;
 import com.bridgelabz.Util.PasswordEncryption;
+import com.bridgelabz.Util.Response;
 import com.bridgelabz.Util.SendMail;
-import com.bridgelabz.model.ErrorMessage;
-import com.bridgelabz.model.Token;
 import com.bridgelabz.model.UserDetails;
 import com.bridgelabz.service.UserService;
 import com.bridgelabz.token.GenerateToken;
@@ -34,6 +35,7 @@ import com.bridgelabz.validation.Validator;
 @RestController
 public class UserController {
 
+	//public  static Logger logger = Logger.getLogger(UserController.class);
 	@Autowired
 	UserService userservice;
 
@@ -44,13 +46,12 @@ public class UserController {
 	SendMail sendmail;
 
 	@Autowired
-	Token token;
-
-	@Autowired
-	ErrorMessage message;
+	PasswordEncryption encryption;
 
 	@RequestMapping(value = "/registrationForm", method = RequestMethod.POST)
-	public ResponseEntity<String> registrationUser(@RequestBody UserDetails user, HttpServletRequest request) {
+	public ResponseEntity<Response> registrationUser(@RequestBody UserDetails user, HttpServletRequest request) {
+		CustomResponse customResponse = new CustomResponse();
+		
 		String isValidate = validator.validateSaveUser(user);
 		System.out.println("check valid" + isValidate);
 		if (isValidate.equals("")) {
@@ -65,7 +66,8 @@ public class UserController {
 				url = url.substring(0, url.lastIndexOf("/")) + "/" + "verifyMail/" + activeToken;
 				try {
 					sendmail.sendMail("om4java@gmail.com", user.getEmail(), "Welcome to bridgelabz", url);
-					return new ResponseEntity<String>(HttpStatus.OK);
+					customResponse.setMessage(isValidate);
+					return new ResponseEntity<Response>(customResponse,HttpStatus.OK);
 				} catch (MailException e) {
 
 					e.printStackTrace();
@@ -75,14 +77,18 @@ public class UserController {
 			// "welcome", "Registration successful");
 			// return new ResponseEntity<String>(HttpStatus.OK);
 		}
-		return new ResponseEntity<String>(HttpStatus.CONFLICT);
+		Response response = new Response();
+		response.setMessage(isValidate);
+		return new ResponseEntity<Response>(response,HttpStatus.CONFLICT);
 
 	}
 
 	@RequestMapping(value = "/verifyMail/{activeToken:.+}", method = RequestMethod.GET)
-	public ResponseEntity<ErrorMessage> verifyMail(@PathVariable("activeToken") String activeToken,
+	public ResponseEntity<Response> verifyMail(@PathVariable("activeToken") String activeToken,
 			HttpServletResponse response) throws IOException {
-		System.out.println("actve token : " + activeToken);
+		CustomResponse customResponse = new CustomResponse();
+		
+		System.out.println("active token : " + activeToken);
 		UserDetails userDetails = null;
 		int id = VerifyToken.verifyAccessToken(activeToken);
 		System.out.println("id :" + id);
@@ -95,19 +101,20 @@ public class UserController {
 		userDetails.setActivated(true);
 		try {
 			userservice.updateUser(userDetails);
-		} catch (Exception e) {
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		message.setStatus(200);
-		message.setMessage("user Email id verified successfully now plzz login....");
-		response.sendRedirect("http://localhost:8080/ToDoApp/#!/login");
-		return new ResponseEntity<ErrorMessage>(message, HttpStatus.OK);
+		customResponse.setStatus(200);
+		customResponse.setMessage("user Email id verified successfully now plzz login....");
+		response.sendRedirect("http://localhost:8080/todoApp/#!/login");
+		return new ResponseEntity<Response>(customResponse, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ResponseEntity<String> loginUser(@RequestBody UserDetails user, HttpServletRequest request,
+	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Response> loginUser(@RequestBody UserDetails user,
 			HttpSession session) {
-		System.out.println("email " + user.getEmail() + " password " + user.getPassword());
+		CustomResponse customResponse = new CustomResponse();
+		//System.out.println("email " + user.getEmail() + " password " + user.getPassword());
 		user.setPassword(PasswordEncryption.encryptedPassword(user.getPassword()));
 		System.out.println("at the time of login : " + PasswordEncryption.encryptedPassword(user.getPassword()));
 		user = userservice.loginUser(user);
@@ -116,22 +123,26 @@ public class UserController {
 		if (user != null) {
 			String accessToken = GenerateToken.generateToken(user.getId());
 			System.out.println("token " + accessToken);
-			token.setGenerateToken(accessToken);
-			String url = request.getRequestURL().toString();
-			url = url.substring(0, url.lastIndexOf("/")) + "/" + "finalLogin" + "/" + accessToken;
-			System.out.println("url : " + url);
-			userservice.saveTokenInRedis(token);
+			session.setAttribute("user", user);
+			session.setAttribute("token", accessToken);
+			
+			//token.setGenerateToken(accessToken);
+			//String url = request.getRequestURL().toString();
+			//url = url.substring(0, url.lastIndexOf("/")) + "/" + "finalLogin" + "/" + accessToken;
+			//System.out.println("url : " + url);
+			//userservice.saveTokenInRedis(token);
+			customResponse.setMessage(accessToken);
 			System.out.println("login successful!!!");
-			return new ResponseEntity<String>(HttpStatus.OK);
+			return new ResponseEntity<Response>(HttpStatus.OK);
 		} else {
 			System.out.println("login unsuccessful!!!");
-			return new ResponseEntity<String>(HttpStatus.CONFLICT);
+			return new ResponseEntity<Response>(HttpStatus.CONFLICT);
 		}
 	}
 
-	@RequestMapping("/finalLogin/{token}")
+	/*@RequestMapping("/finalLogin/{token}")
 	public ResponseEntity<String> checkValidUser(@PathVariable("token") String generateToken) {
-
+		CustomResponse customResponse = new CustomResponse();
 		Token token = userservice.getToken(generateToken);
 		if (token == null) {
 
@@ -142,27 +153,29 @@ public class UserController {
 			return new ResponseEntity<String>("successfull login", HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("Unsuccessfull login", HttpStatus.BAD_REQUEST);
-	}
+	}*/
 
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
-	public ResponseEntity<ErrorMessage> logout(HttpSession session) {
+	public ResponseEntity<Response> logout(HttpSession session) {
+		CustomResponse customResponse = new CustomResponse();
 		session.removeAttribute("user");
 		session.invalidate();
-		message.setMessage("Logout seccessful");
-		return new ResponseEntity<ErrorMessage>(message, HttpStatus.OK);
+		customResponse.setMessage("Logout seccessful!!!");
+		return new ResponseEntity<Response>(customResponse, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/forgotpassword", method = RequestMethod.POST)
-	public ErrorMessage forgotPassword(@RequestBody UserDetails user, HttpServletRequest request, HttpSession session) {
-
+	public Response forgotPassword(@RequestBody UserDetails user, HttpServletRequest request, HttpSession session) {
+		
+		CustomResponse customResponse = new CustomResponse();
 		String url = request.getRequestURL().toString();
 		int lastIndex = url.lastIndexOf("/");
 		String urlofForgotPassword = url.substring(0, lastIndex) + "#!/resetpassword";
 		user = userservice.emailValidation(user.getEmail());
 		if (user == null) {
-			message.setMessage("Please enter valid emailID");
-			message.setStatus(500);
-			return message;
+			customResponse.setMessage("Please enter valid emailID");
+			customResponse.setStatus(500);
+			return customResponse;
 		}
 		try {
 			String generateToken = GenerateToken.generateToken(user.getId());
@@ -171,18 +184,18 @@ public class UserController {
 					urlofForgotPassword + " Token : " + generateToken);
 		} catch (Exception e) {
 			e.printStackTrace();
-			message.setStatus(400);
-			return message;
+			customResponse.setStatus(400);
+			return customResponse;
 		}
-		message.setMessage("Forget Success");
-		message.setStatus(200);
-		return message;
+		customResponse.setMessage("Forget Success");
+		customResponse.setStatus(200);
+		return customResponse;
 	}
 
 	@RequestMapping(value = "/resetpassword", method = RequestMethod.PUT)
-	public ErrorMessage resetPassword(@RequestBody UserDetails user, HttpSession session) {
+	public Response resetPassword(@RequestBody UserDetails user, HttpSession session) {
 		System.out.println("email : " + user.getEmail() + "password :" + user.getPassword());
-
+		CustomResponse customResponse = new CustomResponse();
 		String email = user.getEmail();
 		String password = user.getPassword();
 
@@ -193,19 +206,19 @@ public class UserController {
 		// email validation
 		user = userservice.emailValidation(email);
 		if (user == null) {
-			message.setMessage("User not found :");
-			message.setStatus(500);
-			return message;
+			customResponse.setMessage("User not found :");
+			customResponse.setStatus(500);
+			return customResponse;
 		}
 		user.setPassword(PasswordEncryption.encryptedPassword(password));
 		if (userservice.updateUser(user) && isValidate.equals("")) {
-			message.setMessage("Reset password is success :");
-			message.setStatus(200);
-			return message;
+			customResponse.setMessage("Reset password is success :");
+			customResponse.setStatus(200);
+			return customResponse;
 		} else {
-			message.setMessage("Password could not be changed");
-			message.setStatus(-200);
-			return message;
+			customResponse.setMessage("Password could not be changed");
+			customResponse.setStatus(-200);
+			return customResponse;
 		}
 	}
 
