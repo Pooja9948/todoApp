@@ -5,6 +5,8 @@ todoApp.controller('registerController', function($scope, registerService,$locat
 	$scope.user = {};
 	$scope.registerUser = function() {
 		
+		console.log("User details : "+$scope.user.email)
+		
 		var regVariable = registerService.registeruser($scope.user);
 		
 		regVariable.then(function(response) {

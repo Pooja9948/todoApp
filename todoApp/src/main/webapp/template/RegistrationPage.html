@@ -1,65 +1,105 @@
-<div class="container" >
-		<div class="row">
-			<div class="col-lg-4 abc ">
-				<form style="padding: 20px;" bg-color:"sky" data-ng-app="myApp" name="myForm" novalidate
-					name="submit">
-					<div style="font-size: 250%;">Create an Account</div>
-					<div class="form-group">
-						<label for="firstname">Enter your First Name</label> <input type="text"
-							name="firstname" class="form-control" id="firstname" data-ng-minlength="2" data-ng-model="user.firstname" required> <span style="color:red" data-ng-show="myForm.firstname.$dirty && myForm.firstname.$invalid">
-						<span data-ng-show="myForm.firstname.$dirty && myForm.firstname.$error.required">first name is required.</span>
-						<span data-ng-show="myForm.firstname.$dirty && myForm.firstname.$error.minlength">first name is too short</span>
+<div class="container">
+	<div class="row">
+		<div class="col-lg-4 abc ">
+			<form style="padding: 20px;"
+				data-ng-app="myApp" name="myForm"
+				novalidate name="submit">
+				<div style="font-size: 250%;">Create an Account</div>
+				<div class="form-group">
+					<label for="firstname">Enter your First Name</label> <input
+						type="text" name="firstname" class="form-control" id="firstname"
+						data-ng-minlength="2" ng-model="user.firstname" required>
+					<span style="color: red"
+						data-ng-show="myForm.firstname.$dirty && myForm.firstname.$invalid">
+						<span
+						data-ng-show="myForm.firstname.$dirty && myForm.firstname.$error.required">first
+							name is required.</span> <span
+						data-ng-show="myForm.firstname.$dirty && myForm.firstname.$error.minlength">first
+							name is too short</span>
 					</span>
-					</div>
-					<div class="form-group">
-						<label for="lastname">Enter your Last Name</label> <input type="text"
-							name="lastname" class="form-control" id="lastname" data-ng-minlength="2" data-ng-model="user.lastname" required> <span style="color:red" data-ng-show="myForm.lastname.$dirty && myForm.lastname.$invalid">
-						<span data-ng-show="myForm.lastname.$dirty && myForm.lastname.$error.required">last name is required.</span>
-						<span data-ng-show="myForm.lastname.$dirty && myForm.lastname.$error.minlength">last name name is too short</span>
+				</div>
+				<div class="form-group">
+					<label for="lastname">Enter your Last Name</label> <input
+						type="text" name="lastname" class="form-control" id="lastname"
+						data-ng-minlength="2" ng-model="user.lastname" required>
+					<span style="color: red"
+						data-ng-show="myForm.lastname.$dirty && myForm.lastname.$invalid">
+						<span
+						data-ng-show="myForm.lastname.$dirty && myForm.lastname.$error.required">last
+							name is required.</span> <span
+						data-ng-show="myForm.lastname.$dirty && myForm.lastname.$error.minlength">last
+							name name is too short</span>
 					</span>
-					</div>
-					
-					<div class="form-group">
-						<label for="email">Enter your email address</label> <input type="email"
-						 name="email" class="form-control" id="email" data-ng-model="user.email" required> <span style="color:red" data-ng-show="myForm.email.$dirty && myForm.email.$invalid">
-						<span data-ng-show="myForm.email.$dirty && myForm.email.$error.required">Email required.</span>
-						<span data-ng-show="myForm.email.$dirty && myForm.email.$error.email">Invalid Email address.</span>
+				</div>
+
+				<div class="form-group">
+					<label for="email">Enter your email address</label> <input
+						type="email" name="email" class="form-control" id="email"
+						ng-model="user.email" required> <span
+						style="color: red"
+						data-ng-show="myForm.email.$dirty && myForm.email.$invalid">
+						<span
+						data-ng-show="myForm.email.$dirty && myForm.email.$error.required">Email
+							required.</span> <span
+						data-ng-show="myForm.email.$dirty && myForm.email.$error.email">Invalid
+							Email address.</span>
 					</span>
-					</div>
-					<div class="form-group">
-						<label for="pwd">Enter password</label> <input type="password"
-							name="password" class="form-control" id="pwd" data-ng-minlength="6" data-ng-model="user.pwd" required> <span style="color:red" data-ng-show="myForm.password.$dirty && myForm.password.$invalid">
-						<span data-ng-show="myForm.password.$dirty && myForm.password.$error.required">Password is required.</span>
+				</div>
+				<div class="form-group">
+					<label for="pwd">Enter password</label> <input type="password"
+						name="password" class="form-control" id="pwd"
+						data-ng-minlength="6" ng-model="user.pwd" required> <span
+						style="color: red"
+						data-ng-show="myForm.password.$dirty && myForm.password.$invalid">
+						<span
+						data-ng-show="myForm.password.$dirty && myForm.password.$error.required">Password
+							is required.</span>
 					</span>
-					</div>
-						<div class="form-group">
-						<label for="confirmpassword">Confirm password</label> <input type="password"
-							name="confirmpassword" class="form-control" id="confirmpassword" data-ng-minlength="6" data-ng-model="user.confirmpassword" required> <span style="color:red" data-ng-show="myForm.confirmpassword.$dirty && myForm.confirmpassword.$invalid">
-						<span data-ng-show="myForm.confirmpassword.$dirty && myForm.confirmpassword.$error.required">Confirm password is required.</span>
-					</span>			
-					</div>
-					<div class="form-group">
-						<label for="mobileno">Mobile No</label> <input type="text"
-							name="mobileno" class="form-control" id="mobileno" data-ng-minlength="10" data-ng-maxlength="10" data-ng-model="user.mobileno" required> <span style="color:red" data-ng-show="myForm.mobileno.$dirty && myForm.mobileno.$invalid">
-						<span data-ng-show="myForm.mobileno.$dirty && myForm.mobileno.$error.required">Mobile No is required.</span>
-						<span data-ng-show="myForm.mobileno.$dirty && myForm.mobileno.$error.minlength">Mobile No is too short </span>
-						<span data-ng-show="myForm.mobileno.$dirty && myForm.mobileno.$error.maxlength">Mobile No is too long </span>
+				</div>
+				<div class="form-group">
+					<label for="confirmpassword">Confirm password</label> <input
+						type="password" name="confirmpassword" class="form-control"
+						id="confirmpassword" data-ng-minlength="6"
+						ng-model="user.confirmpassword" required> <span
+						style="color: red"
+						data-ng-show="myForm.confirmpassword.$dirty && myForm.confirmpassword.$invalid">
+						<span
+						data-ng-show="myForm.confirmpassword.$dirty && myForm.confirmpassword.$error.required">Confirm
+							password is required.</span>
 					</span>
-					</div>
-					<div class="form-group z">
-						By clicking on the "Create an account" button below, you certify
-						that you have read and agree to our<a> terms of use</a> and <a>privacy
-							policy</a>
-					</div>
-					<div>
-						<input type="submit" name="submit" id="submit" value="submit" data-ng-click="registrationForm()" data-ng-disabled="myForm.user.$dirty 
+				</div>
+				<div class="form-group">
+					<label for="mobileno">Mobile No</label> <input type="text"
+						name="mobileno" class="form-control" id="mobileno"
+						data-ng-minlength="10" data-ng-maxlength="10"
+						ng-model="user.mobileno" required> <span
+						style="color: red"
+						data-ng-show="myForm.mobileno.$dirty && myForm.mobileno.$invalid">
+						<span
+						data-ng-show="myForm.mobileno.$dirty && myForm.mobileno.$error.required">Mobile
+							No is required.</span> <span
+						data-ng-show="myForm.mobileno.$dirty && myForm.mobileno.$error.minlength">Mobile
+							No is too short </span> <span
+						data-ng-show="myForm.mobileno.$dirty && myForm.mobileno.$error.maxlength">Mobile
+							No is too long </span>
+					</span>
+				</div>
+				<div class="form-group z">
+					By clicking on the "Create an account" button below, you certify
+					that you have read and agree to our<a> terms of use</a> and <a>privacy
+						policy</a>
+				</div>
+				<div class="col-xs-offset-2 col-xs-10">
+					<input type="submit" name="submit" id="submit" value="submit"
+						ng-click="registerUser()"
+						data-ng-disabled="myForm.user.$dirty 
 						&& myForm.user.$invalid ||  myForm.email.$dirty && myForm.email.$invalid">Create
-						an account
-					</div>
-					<div class="form-group">
-						Already have an account?<a href="#!/login">Sign in.</a>
-					</div>
-				</form>
-			</div>
+					an account
+				</div>
+				<div class="form-group">
+					Already have an account?<a href="#!/login">Sign in.</a>
+				</div>
+			</form>
 		</div>
 	</div>
+</div>
