@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,7 +36,7 @@ import com.bridgelabz.validation.Validator;
 @RestController
 public class UserController {
 
-	//public  static Logger logger = Logger.getLogger(UserController.class);
+	public  static Logger logger = Logger.getLogger(UserController.class);
 	@Autowired
 	UserService userservice;
 
@@ -51,9 +52,9 @@ public class UserController {
 	@RequestMapping(value = "/registrationForm", method = RequestMethod.POST)
 	public ResponseEntity<Response> registrationUser(@RequestBody UserDetails user, HttpServletRequest request) {
 		CustomResponse customResponse = new CustomResponse();
-		
+		logger.trace(user);
 		String isValidate = validator.validateSaveUser(user);
-		System.out.println("check valid" + isValidate);
+		//System.out.println("check valid" + isValidate);
 		if (isValidate.equals("")) {
 			System.out.println("is validte " + isValidate);
 			user.setPassword(PasswordEncryption.encryptedPassword(user.getPassword()));
@@ -178,10 +179,10 @@ public class UserController {
 			return customResponse;
 		}
 		try {
-			String generateToken = GenerateToken.generateToken(user.getId());
-			session.setAttribute("Token", generateToken);
+			String generateOTP = GenerateOTP.generateToken(user.getId());
+			session.setAttribute("OTP", generateOTP);
 			sendmail.sendMail("om4java@gmail.com", user.getEmail(), "",
-					urlofForgotPassword + " Token : " + generateToken);
+					urlofForgotPassword + " Token : " + generateOTP);
 		} catch (Exception e) {
 			e.printStackTrace();
 			customResponse.setStatus(400);

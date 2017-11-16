@@ -4,11 +4,11 @@ todoApp.config(function($stateProvider, $urlRouterProvider) {
 	
 	$stateProvider.state('registrationForm', {
 		url : '/registrationForm',
-		templateUrl : 'template/RegistrationPage.html',
+		templateUrl : 'template/registerpage.html',
 		controller : 'registerController'
 	}).state('login', {
 		url : '/login',
-		templateUrl : 'template/login.html',
+		templateUrl : 'template/loginpage.html',
 		controller : 'loginController'
 	}).state('forgotpassword', {
 		url : '/forgotpassword',

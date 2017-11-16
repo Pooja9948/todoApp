@@ -1,0 +1,47 @@
+<div class="container">
+	<div class="row">
+		<h2><center>Login</center></h2>
+	</div>
+</div>
+<br>
+<br>
+<div class="container">
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4">
+			<div class="form-body">
+				<div >
+					<div class="innter-form">
+							<form class="sa-innate-form" name="loginform">
+								<label>Email Address</label> <input type="email" name="username" ng-model="user.email" placeholder="Email address"
+								id="email">
+								<span
+								data-ng-show="loginForm.email.$dirty && loginForm.email.$error.required">Please
+								Enter a valid email</span>
+								<label>Password</label> <input type="password" name="password" ng-model="user.password" placeholder="Password" id="password">
+								<span
+								data-ng-show="loginForm.password.$dirty && loginForm.password.$error.required">Please
+								Enter a valid password</span>
+								<button type="submit" ng-click="registerUser()">Log In</button>
+								<p>By clicking Join now, you agree to hifriends's User
+									Agreement, Privacy Policy, and Cookie Policy.</p>
+								<div>
+									<a class="text-primary" ui-sref="forgotpassword">Forgot
+										your password ?</a>
+								</div>
+								<a class="text-primary" ui-sref="registrationForm">If you
+									don't have account , click here to Sign up</a>
+							</form>
+						</div>
+						<div class="social-login">
+							<p>- - - - - - - - - - - - - Register With - - - - - - - - -
+								- - - -</p>
+							<ul>
+								<li><a href=""><i class="fa fa-facebook"></i> Facebook</a></li>
+								<li><a href=""><i class="fa fa-google-plus"></i>Google+</a></li>
+							</ul>
+						</div>	
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
