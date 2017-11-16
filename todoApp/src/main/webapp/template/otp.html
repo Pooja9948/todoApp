@@ -1,0 +1,23 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4">
+			<div class="form-body"><h3><center>OTP</center></h3>
+				<div>
+					<div class="innter-form">
+						<form class="sa-innate-form" name="otpform">
+							<label>Email OTP</label> <input type="text" name="otp"
+								ng-model="user.otp" placeholder="Email OTP" id="otp">
+								<!-- <span
+										style="color: red"
+										ng-show="myForm.otp.$dirty && myForm.otp.$invalid">
+							<span
+								ng-show="forgetform.otp.$dirty && forgetform.otp.$error.required">Please
+								Enter a valid email</span></span> -->
+								<button type="submit" ng-click="sendLink()">Enter</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

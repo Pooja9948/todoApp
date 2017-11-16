@@ -20,6 +20,9 @@
 <script type="text/javascript" src="controller/resetpasswordController.js"></script>
 <script type="text/javascript" src="service/resetpasswordService.js"></script>
 
+<script type="text/javascript" src="controller/otpController.js"></script>
+<script type="text/javascript" src="service/otpService.js"></script>
+
 <link rel="stylesheet" href="css/loginregistrationCss.css">
 
 </head>

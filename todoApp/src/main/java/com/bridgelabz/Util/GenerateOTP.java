@@ -1,10 +1,7 @@
 package com.bridgelabz.Util;
 
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-
 public class GenerateOTP {
-	public String otp;
+	/*public String otp;
 	public Date date;
 
 	public String OTP() {
@@ -26,5 +23,10 @@ public class GenerateOTP {
 			return true;
 		}
 		return false;
+	}*/
+	public static String generateOTP() {
+		int randomPin   =(int)(Math.random()*9000)+1000;
+		String otp  =String.valueOf(randomPin);
+		return otp;
 	}
 }

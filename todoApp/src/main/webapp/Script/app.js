@@ -18,6 +18,10 @@ todoApp.config(function($stateProvider, $urlRouterProvider) {
 		url : '/resetpassword',
 		templateUrl : 'template/resetpassword.html',
 		controller : 'resetpasswordController'
+	}).state('otp', {
+		url : '/otp',
+		templateUrl : 'template/otp.html',
+		controller : 'otpController'
 	});
 	$urlRouterProvider.otherwise('login');
 });

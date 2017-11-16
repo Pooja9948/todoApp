@@ -1,6 +1,7 @@
 package com.bridgelabz.Controller;
 
 import java.io.IOException;
+import java.net.HttpCookie;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.Util.CustomResponse;
+import com.bridgelabz.Util.GenerateOTP;
 import com.bridgelabz.Util.PasswordEncryption;
 import com.bridgelabz.Util.Response;
 import com.bridgelabz.Util.SendMail;
@@ -62,7 +64,7 @@ public class UserController {
 			int id = userservice.createUser(user);
 			if (id != 0) {
 				String activeToken = GenerateToken.generateToken(id);
-				System.out.println("jgdfqew   :" + activeToken);
+				//System.out.println("jgdfqew   :" + activeToken);
 				String url = request.getRequestURL().toString();
 				url = url.substring(0, url.lastIndexOf("/")) + "/" + "verifyMail/" + activeToken;
 				try {
@@ -167,11 +169,11 @@ public class UserController {
 
 	@RequestMapping(value = "/forgotpassword", method = RequestMethod.POST)
 	public Response forgotPassword(@RequestBody UserDetails user, HttpServletRequest request, HttpSession session) {
-		
+		System.out.println(user.getEmail());
 		CustomResponse customResponse = new CustomResponse();
 		String url = request.getRequestURL().toString();
 		int lastIndex = url.lastIndexOf("/");
-		String urlofForgotPassword = url.substring(0, lastIndex) + "#!/resetpassword";
+		String urlofForgotPassword = url.substring(0, lastIndex) + "#!/otp ";
 		user = userservice.emailValidation(user.getEmail());
 		if (user == null) {
 			customResponse.setMessage("Please enter valid emailID");
@@ -179,10 +181,11 @@ public class UserController {
 			return customResponse;
 		}
 		try {
-			String generateOTP = GenerateOTP.generateToken(user.getId());
+			//String generateOTP = GenerateOTP.generateToken(user.getId());
+			String generateOTP = GenerateOTP.generateOTP();
 			session.setAttribute("OTP", generateOTP);
 			sendmail.sendMail("om4java@gmail.com", user.getEmail(), "",
-					urlofForgotPassword + " Token : " + generateOTP);
+					urlofForgotPassword +"  Your OTP is : " + generateOTP);
 		} catch (Exception e) {
 			e.printStackTrace();
 			customResponse.setStatus(400);
@@ -192,7 +195,11 @@ public class UserController {
 		customResponse.setStatus(200);
 		return customResponse;
 	}
-
+	
+	/*@RequestMapping(value = "/forgotpassword", method = RequestMethod.POST)
+	public Response forgotPassword(@RequestBody UserDetails user, HttpServletRequest request, HttpSession session) {
+		
+	}*/
 	@RequestMapping(value = "/resetpassword", method = RequestMethod.PUT)
 	public Response resetPassword(@RequestBody UserDetails user, HttpSession session) {
 		System.out.println("email : " + user.getEmail() + "password :" + user.getPassword());

@@ -1,13 +1,21 @@
+
 var todoApp = angular.module('todoApp');
 
-todoApp.factory('forgotpasswordService', function($http, $location) {
-	var reset = {};
+todoApp.controller('forgotpasswordController', function($scope, forgotpasswordService,
+		$location) {
 
-	reset.sendLinkToEmail = function(user) {
-		return $http({
-			method : "POST",
-			url : 'forgotpassword',
-			data : user
-		})
+	$scope.sendLink = function() {
+
+		var httpSendLink = forgotpasswordService.sendLinkToEmail($scope.user);
+		console.log($scope.user.email);
+		httpSendLink.then(function(response) {
+			if (response.data.status == 5) {
+				$scope.response = 'User not found :';
+			} else if (response.data.status == -2) {
+				$scope.response = 'Mail could not be sent';
+			} else if (response.data.status == 2) {
+				$location.path('');
+			}
+		});
 	}
 });
