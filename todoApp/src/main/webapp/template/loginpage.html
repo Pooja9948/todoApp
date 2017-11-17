@@ -11,8 +11,8 @@
 			<div class="form-body">
 				<div >
 					<div class="innter-form">
-							<form class="sa-innate-form" name="loginform">
-								<label>Email Address</label> <input type="email" name="username" ng-model="user.email" placeholder="Email address"
+							<form class="sa-innate-form" name="loginForm">
+								<label>Email Address</label> <input type="email" name="email" ng-model="user.email" placeholder="Email address"
 								id="email">
 								<span
 								data-ng-show="loginForm.email.$dirty && loginForm.email.$error.required">Please
@@ -21,8 +21,8 @@
 								<span
 								data-ng-show="loginForm.password.$dirty && loginForm.password.$error.required">Please
 								Enter a valid password</span>
-								<button type="submit" ng-click="registerUser()" ui-sref="home">Log In</button>
-								<p>By clicking Join now, you agree to hifriends's User
+								<button type="submit" ng-click="loginUser()" ui-sref="home">Log In</button>
+								<p>By clicking Log In, you agree to Fundoo Keep's User
 									Agreement, Privacy Policy, and Cookie Policy.</p>
 								<div>
 									<a class="text-primary" ui-sref="forgotpassword">Forgot

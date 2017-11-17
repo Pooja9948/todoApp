@@ -1,0 +1,22 @@
+{
+  "name": "angular",
+  "homepage": "https://github.com/Pooja9948/todoApp",
+  "authors": [
+    "Pooja Nayak <poojanayak.1994@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.6.6",
+    "angular-ui-router": "^1.0.11",
+    "angular-material": "^1.1.5"
+  }
+}

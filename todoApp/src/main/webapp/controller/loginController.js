@@ -6,7 +6,7 @@ todoApp.controller('loginController', function($scope, loginService,$location) {
 	$scope.loginUser = function() {
 		
 		var loginVariable = loginService.loginuser($scope.user);
-
+		console.log($scope.user.email);
 		loginVariable.then(function(response) {
 			$location.path('/home')
 		}/*,function(response){
