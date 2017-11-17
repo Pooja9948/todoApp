@@ -1,5 +1,6 @@
 package com.bridgelabz.DAO;
 
+import com.bridgelabz.model.OTPDetails;
 import com.bridgelabz.model.Token;
 import com.bridgelabz.model.UserDetails;
 
@@ -19,6 +20,8 @@ public interface UserDAO {
 	public boolean updateUser(UserDetails user);
 
 	public UserDetails getUserByEmail(String email);
+
+	public void saveOTP(OTPDetails otpDetails);
 
 	// public boolean emailValidate(String email);
 	// boolean emailValidate(UserDetails userDetails);

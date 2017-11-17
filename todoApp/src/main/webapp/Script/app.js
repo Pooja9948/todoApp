@@ -22,6 +22,10 @@ todoApp.config(function($stateProvider, $urlRouterProvider) {
 		url : '/otp',
 		templateUrl : 'template/otp.html',
 		controller : 'otpController'
+	}).state('home', {
+		url : '/home',
+		templateUrl : 'template/home.html',
+		controller : 'homeController'
 	});
 	$urlRouterProvider.otherwise('login');
 });

@@ -21,7 +21,7 @@ public class UserDetails {
 	private int id;
 
 	private String firstname;
-	
+
 	private String lastname;
 
 	@Column(unique = true)
@@ -32,9 +32,9 @@ public class UserDetails {
 	private String confirmpassword;
 
 	private String mobileno;
-	
+
 	private boolean isActivated;
-	
+
 	public boolean isActivated() {
 		return isActivated;
 	}
@@ -42,8 +42,6 @@ public class UserDetails {
 	public void setActivated(boolean isActivated) {
 		this.isActivated = isActivated;
 	}
-
-	
 
 	@OneToMany(mappedBy = "userDetails")
 	private Set<NoteDetails> notes = new HashSet<>();
@@ -71,7 +69,7 @@ public class UserDetails {
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
 	}
-	
+
 	public Set<NoteDetails> getNotes() {
 		return notes;
 	}

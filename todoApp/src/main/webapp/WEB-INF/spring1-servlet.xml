@@ -48,6 +48,7 @@
 			<list>
 				<value>com.bridgelabz.model.UserDetails</value>
 				<value>com.bridgelabz.model.NoteDetails</value>
+				<value>com.bridgelabz.model.OTPDetails</value>
 			</list>
 		</property>
 

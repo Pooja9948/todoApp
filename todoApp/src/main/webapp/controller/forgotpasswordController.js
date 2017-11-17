@@ -7,7 +7,7 @@ todoApp.controller('forgotpasswordController', function($scope, forgotpasswordSe
 	$scope.sendLink = function() {
 
 		var httpSendLink = forgotpasswordService.sendLinkToEmail($scope.user);
-		console.log($scope.user.email);
+		//console.log($scope.user.email);
 		httpSendLink.then(function(response) {
 			if (response.data.status == 5) {
 				$scope.response = 'User not found :';
