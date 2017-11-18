@@ -27,6 +27,7 @@
 <script type="text/javascript" src="service/homeService.js"></script>
 
 <link rel="stylesheet" href="css/loginregistrationCss.css">
+<link rel="stylesheet" href="css/cssf.css">
 
 </head>
 <body data-ng-app="todoApp">
