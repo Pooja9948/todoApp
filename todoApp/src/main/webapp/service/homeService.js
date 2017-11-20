@@ -6,7 +6,7 @@ todoApp.factory('homeService', function($http, $location) {
 	homePage.homeuser = function(user) {
 		console.log(user.email);
 		return $http({
-			method : "POST",
+			method : "GET",
 			url : 'home',
 			data : user
 		});

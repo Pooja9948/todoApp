@@ -1,22 +1,37 @@
-<nav class="navbar navbar-inverse">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-				data-target="#myNavbar">
-				<span class="icon-bar"></span>
 
-			</button>
-			<a class="navbar-brand" href="#">Fundoo Keep</a>
-		</div>
-		<div class="collapse navbar-collapse" id="myNavbar">
-			<ul class="nav navbar-nav">
-				<li class="active"><a href="#">Home</a></li>
-
-			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#"><span class="glyphicon glyphicon-user"></span>Profile</a></li>
-
-			</ul>
-		</div>
+<nav class="navbar navbar-default">
+	<div class="container-fluid" id="header">
+		<ul class="nav navbar-nav">
+		
+			<li><i class="glyphicons glyphicons-show-lines"></i></li>
+			<li id="main">
+				<span ng-click="toggleSideBar()" class="span-a" cursor: pointer">&#9776;</span>
+			</li>
+			<li><h3>Fundoo Keep</h3></li>
+			
+			<li>
+				<span class="glyphicon glyphicon-search" style="top: 25px;"></span>
+			</li>
+			
+			<li>
+				<div class="form-group">
+					<input type="text" class="form-control search-bar" placeholder="Search">
+				</div>
+			</li>
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+			<li>
+				<div class="dropdown glyphicon-pic ">
+					<span class="btn dropdown-toggle"  id="demo" type="button" data-toggle="dropdown">
+						<span class="glyphicon glyphicon-user"></span>
+					</span>
+					<ul class="dropdown-menu xyz" role="menu"  aria-labelledby="demo">
+						<li><a href="#"><span class="glyphicon glyphicon-user"></span>Profile</a></li>
+						<li ng-click="logout()">logout</li>
+					</ul>
+				</div>
+			</li>
+		</ul>
+		
 	</div>
 </nav>

@@ -25,9 +25,11 @@
 
 <script type="text/javascript" src="controller/homeController.js"></script>
 <script type="text/javascript" src="service/homeService.js"></script>
+<script type="text/javascript" src="directives/alldirectives.js"></script>
 
 <link rel="stylesheet" href="css/loginregistrationCss.css">
-<link rel="stylesheet" href="css/cssf.css">
+<link rel="stylesheet" href="css/header.css">
+<link rel="stylesheet" href="css/sidebar.css">
 
 </head>
 <body data-ng-app="todoApp">

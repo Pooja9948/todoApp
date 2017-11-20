@@ -1,0 +1,50 @@
+#header {
+	background-color: #ffbb33;
+}
+
+#header ul {
+	background-color: #ffbb33;
+}
+
+#header li {
+	background-color: #ffbb33;
+	margin-right: 20px;
+}
+
+#header input {
+	length: 100px;
+}
+
+#main {
+    transition: margin-left .5s;
+    padding: 16px;
+}
+
+.search-bar{
+	background-color: #F4A90A	;
+	padding-right: 350px;
+	margin-top: 18px;
+}
+
+.glyphicon-pic {
+	top: 20px;
+} 
+
+.toggle-button {
+	background-color: black;
+}
+
+.navbar-toggle {
+	background-color: transparent;
+	display: inline-block;
+}
+
+
+.span-a {
+	font-size: 25px;
+}
+
+.xyz{
+	background-color: white;
+	 padding-left: 10px;
+}

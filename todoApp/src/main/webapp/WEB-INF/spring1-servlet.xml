@@ -15,6 +15,7 @@
 	<mvc:resources location="/Script/" mapping="/Script/**" />
 	<mvc:resources location="/template/" mapping="/template/**" />
 	<mvc:resources location="/service/" mapping="/service/**" />
+	<mvc:resources location="/directives/" mapping="/directives/**" />
 	<mvc:resources location="/bower_components/" mapping="/bower_components/**" />
 
 	<!-- <bean

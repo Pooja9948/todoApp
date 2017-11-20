@@ -2,15 +2,22 @@ var todoApp = angular.module('todoApp');
 
 todoApp.controller('homeController', function($scope, homeService,$location) {
 
-	$scope.user = {};
-	$scope.homeUser = function() {
+	$scope.homePage = function() {
+		var httpServiceUser = homeService.homeuser($scope.user);
 		
-		var homeVariable = homeService.homeuser($scope.user);
-		console.log($scope.user.email);
-		homeVariable.then(function(response) {
-			$location.path('/home')
-		}/*,function(response){
-			$scope.errorMessage=response.data.message;
-		}*/);
 	}
+	
+	$scope.toggleSideBar = function() {
+		
+		var width = $('#sideToggle').width();
+		console.log(width);
+		if (width == '250') {
+			document.getElementById("sideToggle").style.width = "0px";
+			document.getElementById("content-wrapper-inside").style.marginLeft = "150px";
+		} else {
+			document.getElementById("sideToggle").style.width = "250px";
+			document.getElementById("content-wrapper-inside").style.marginLeft = "300px";
+		}
+	}
+	
 });

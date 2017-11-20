@@ -30,10 +30,9 @@ import com.bridgelabz.Util.token.VerifyToken;
 import com.bridgelabz.Util.validation.Validator;
 
 /**
- * @author Pooja for todoApp User Controller
+ * @author Pooja
  *
  */
-
 @RestController
 public class UserController {
 
