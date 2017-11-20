@@ -46,9 +46,9 @@
 
 		<property name="annotatedClasses">
 			<list>
-				<value>com.bridgelabz.model.UserDetails</value>
-				<value>com.bridgelabz.model.NoteDetails</value>
-				<value>com.bridgelabz.model.OTPDetails</value>
+				<value>com.bridgelabz.User.model.UserDetails</value>
+				<value>com.bridgelabz.Note.model.NoteDetails</value>
+				<!-- <value>com.bridgelabz.model.OTPDetails</value> -->
 			</list>
 		</property>
 
@@ -82,12 +82,12 @@
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
 		p:connection-factory-ref="jedisConnFactory" />
 
-	<bean id="userservice" class="com.bridgelabz.service.UserServiceImpl" />
-	<bean id="userdao" class="com.bridgelabz.DAO.UserDAOImpl" />
-	<bean id="noteService" class="com.bridgelabz.service.NoteServiceImpl" />
-	<bean id="notedao" class="com.bridgelabz.DAO.NoteDAOImpl" />
+	<bean id="userservice" class="com.bridgelabz.User.Service.UserServiceImpl" />
+	<bean id="userdao" class="com.bridgelabz.User.DAO.UserDAOImpl" />
+	<bean id="noteService" class="com.bridgelabz.Note.Service.NoteServiceImpl" />
+	<bean id="notedao" class="com.bridgelabz.Note.DAO.NoteDAOImpl" />
 	<bean id="encryption" class="com.bridgelabz.Util.PasswordEncryption" />
-	<bean class="com.bridgelabz.validation.Validator" />
+	<bean class="com.bridgelabz.Util.validation.Validator" />
 	<bean id="mailMail" class="com.bridgelabz.Util.SendMail">
 		<property name="mailSender" ref="mailSender" />
 	</bean>
