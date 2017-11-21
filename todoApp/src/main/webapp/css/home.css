@@ -1,16 +1,54 @@
-.x{
-	margin-top: 100px;
-    margin-bottom: 100px;
-    margin-right: 150px;
-    margin-left: 400px;
+#content-wrapper-inside {
+	margin: 0 auto;
+	margin-left: 270px;
+	transition: 0.5s;
 }
-.login {
-    color: white;
-    background-color: #368BC1;
-    height: 25px;
-    width: 800px;
-    text-align: left;
+.input-menu {
+	margin: 0 auto;
+	align-items: center;
+	font-size: 12px;
+	padding: 4px 0;
+	position: relative;
+	transition: background-color .218s ease-in-out, box-shadow .218s
+		ease-in-out;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	background: inherit;
+	visibility: hidden;
 }
-.y{
-	align: right;
+#note-input-div {
+	margin: 5 auto;
+	margin-top: 20px;
+}
+#note-title-input {
+	outline: 0px;
+	font-size: 24px;
+	min-height: 43px;
+	padding: 10px 5px;
+	transition: box-shadow .218s transition-property: box-shadow,
+		background-color;
+	transition-duration: 0.218s, 0.218s;
+	transition-timing-function: ease-in-out, ease-in;
+	transition-delay: initial, initial;
+	color: rgba(0, 0, 0, .54);
+	font-family: 'Roboto Condensed', arial, sans-serif;
+	font-size: 17px;
+	font-weight: bold;
+	line-height: 23px;
+	box-sizing: border-box;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+	border: solid transparent;
+	border-width: 0 0 0 4px;
+	margin: 0 auto;
+	float: none;
+	background-color: white;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	background: inherit;
+}
+[contenteditable]:empty:not(:focus):before {
+	content: attr(data-text);
+	color: grey;
+	display: inline-block;
 }

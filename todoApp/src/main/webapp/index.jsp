@@ -30,6 +30,7 @@
 <link rel="stylesheet" href="css/loginregistrationCss.css">
 <link rel="stylesheet" href="css/header.css">
 <link rel="stylesheet" href="css/sidebar.css">
+<link rel="stylesheet" href="css/home.css">
 
 </head>
 <body data-ng-app="todoApp">
