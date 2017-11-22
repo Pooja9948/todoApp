@@ -8,15 +8,15 @@
 			<div class="container" id="content-wrapper-inside">
 				<div id="note-input" class="form-group">
 					<input type="text" placeholder="Take a note" id="note-input"
-						ng-focus="showInput = true" class="				"
+						ng-focus="showInput = true" class=""
 						ng-hide="showInput">
 				</div>
 				<div id="actual-input-div" ng-show="showInput"
 					ng-init="newNoteColor='white'"
 					ng-style="{'background-color' : newNoteColor}">
-					<div type="text" id="note-title-input" contenteditable="true" ng-model="note.title"
+					<div type="text" contenteditable="true" ng-model="note.title"
 						data-text="Title"></div>
-					<div type="text" id="note-body-input" contenteditable="true" ng-model="note.description"
+					<div type="text" contenteditable="true" ng-model="note.description"
 						data-text="Write a note"></div>
 						<button id="savebtn" class="btn btn-done pull-right" type="button" ng-click="saveNotes()">Done</button>
 					<div class="input-menu clearfix">

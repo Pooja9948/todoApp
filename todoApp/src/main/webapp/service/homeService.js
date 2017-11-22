@@ -12,9 +12,9 @@ todoApp.factory('homeService', function($http, $location) {
 		});
 	}
 
-	var cards = {};
-	cards.notes = [];
-	cards.saveNotes = function(note) {
+	
+	//cards.notes = [];
+	homePage.saveNotes = function(note) {
 		console.log("homeservice");
 		console.log("jaskdhf "+note);
 		return $http({
@@ -27,15 +27,15 @@ todoApp.factory('homeService', function($http, $location) {
 		})
 	}
 	//GET ALL NOTES
-	/*cards.getAllNotes = function() {
+	homePage.getAllNotes = function() {
 		console.log("get all notes");
 		return $http({
 			method : "GET",
-			url : 'user/getallnotes',
-			headers :{
+			url : 'user/getAllNotes',
+			/*headers :{
 				'Authorization' : 'todoBearer ' + localStorage.getItem('todoAccessToken')
-			}
+			}*/
 		})
-	}*/
+	}
 	return homePage;
 });

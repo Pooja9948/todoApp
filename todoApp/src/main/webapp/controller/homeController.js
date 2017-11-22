@@ -23,10 +23,8 @@ todoApp
 						}
 					}
 					$scope.saveNotes = function() {
-						console.log('yes00');
-						var newNote = {};
-						newNote.title = $('#note-title-input').html();
-						newNote.description = $('#note-body-input').html();
+						console.log('yes00'+$scope.note.title);
+						$scope.note = {};
 						/*
 						 * newNote.isArchived = isArchived; newNote.color =
 						 * $('#actual-input-div').css( "background-color");
@@ -43,7 +41,7 @@ todoApp
 						 * newNote.isOthersPinned = false; }
 						 */
 
-						var httpCreateNote = homeService.saveNotes(newNote);
+						var httpCreateNote = homeService.saveNotes($scope.note);
 
 						/*
 						 * httpCreateNote.then(function() {
@@ -68,7 +66,7 @@ todoApp
 					
 					
 					//GET ALL NOTES
-					/*function getNotes() {
+					function getNotes() {
 						var httpNotes = homeService.getAllNotes();
 
 						httpNotes.then(function(response) {
@@ -80,6 +78,6 @@ todoApp
 								homeService.notes = response.data.notes;
 							}
 						});
-					}*/
+					}
 
 				});
