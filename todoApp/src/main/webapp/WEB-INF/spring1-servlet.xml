@@ -92,4 +92,12 @@
 	<bean id="mailMail" class="com.bridgelabz.Util.SendMail">
 		<property name="mailSender" ref="mailSender" />
 	</bean>
+	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/user/**" />
+			<bean class="com.bridgelabz.Util.filter.TokenIntercepter" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
 </beans>

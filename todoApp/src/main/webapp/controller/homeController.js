@@ -23,7 +23,7 @@ todoApp
 						}
 					}
 					$scope.saveNotes = function() {
-						console.log('yes00'+$scope.note.title);
+						//console.log('yes00'+$scope.note.title);
 						$scope.note = {};
 						/*
 						 * newNote.isArchived = isArchived; newNote.color =
@@ -66,7 +66,7 @@ todoApp
 					
 					
 					//GET ALL NOTES
-					function getNotes() {
+//					function getNotes() {
 						var httpNotes = homeService.getAllNotes();
 
 						httpNotes.then(function(response) {
@@ -78,6 +78,6 @@ todoApp
 								homeService.notes = response.data.notes;
 							}
 						});
-					}
+//					}
 
 				});

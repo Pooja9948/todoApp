@@ -8,17 +8,17 @@
 			<div class="container" id="content-wrapper-inside">
 				<div id="note-input" class="form-group">
 					<input type="text" placeholder="Take a note" id="note-input"
-						ng-focus="showInput = true" class=""
-						ng-hide="showInput">
+						ng-focus="showInput = true" class="				" ng-hide="showInput">
 				</div>
 				<div id="actual-input-div" ng-show="showInput"
 					ng-init="newNoteColor='white'"
 					ng-style="{'background-color' : newNoteColor}">
-					<div type="text" contenteditable="true" ng-model="note.title"
-						data-text="Title"></div>
-					<div type="text" contenteditable="true" ng-model="note.description"
-						data-text="Write a note"></div>
-						<button id="savebtn" class="btn btn-done pull-right" type="button" ng-click="saveNotes()">Done</button>
+					<div type="text" id="note-title-input" contenteditable="true"
+						ng-model="note.title" data-text="Title"></div>
+					<div type="text" id="note-body-input" contenteditable="true"
+						ng-model="note.description" data-text="Write a note"></div>
+					<button id="savebtn" class="btn btn-done pull-right" type="button"
+						ng-click="saveNotes()">Done</button>
 					<div class="input-menu clearfix">
 						<!-- <div class="dropup color-dropup">
 							<ul class="dropdown-menu container color-dropdown-ul">
@@ -28,12 +28,25 @@
 									ng-click="changeAddNoteColor(color); $event.stopPropagation();"></li>
 							</ul>
 						</div> -->
-						<!-- <div role="button" ng-click="createNote(false)"
-							class="btn btn-done pull-right">DONE</div> -->
+					</div>
+				</div>
+				<br>
+				<div class="card">
+					<!-- <img src="img_avatar.png" alt="Avatar" style="width: 100%" > -->
+					<div ng-repeat="note in notes" class="container">
+							<h4>
+							<div>{{note.title}}</div>
+							<div>{{note.description}}</div>
+								<b><div type="text" contenteditable="true" data-text="Title" ng-bind-html="modalNote.title" id="modal-note-title"></div></b>
+							</h4>
+							<p><div contenteditable="true" data-text="Note..." ng-bind-html="modalNote.description" id="modal-note-body"></div></p>
+							
+
+                            
 					</div>
 				</div>
 			</div>
 		</div>
-		
+
 	</div>
 </div>

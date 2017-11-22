@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.Note.Service.NoteService;
 import com.bridgelabz.Note.model.NoteDetails;
+import com.bridgelabz.User.Service.UserService;
 import com.bridgelabz.User.model.UserDetails;
 import com.bridgelabz.Util.response.CustomResponse;
 import com.bridgelabz.Util.response.Response;
@@ -34,6 +35,9 @@ public class NoteController {
 	@Autowired
 	NoteService noteService;
 
+	@Autowired
+	UserService userService;
+	
 	@RequestMapping(value = "/createNote", method = RequestMethod.POST)
 	public ResponseEntity<Response> createNote(@RequestBody NoteDetails noteDetails, HttpSession session) {
 		UserDetails user = (UserDetails) session.getAttribute("user");
@@ -90,10 +94,14 @@ public class NoteController {
 	}
 
 	@RequestMapping(value = "/getAllNotes", method = RequestMethod.GET)
-	public List<NoteDetails> getAllNotes(HttpSession session, HttpServletRequest request) {
-		UserDetails userDetails = (UserDetails) request.getAttribute("user");
-
-		List<NoteDetails> notes = noteService.getAllNotes(userDetails);
+	public List<NoteDetails> getAllNotes(HttpServletRequest request) {
+		
+		int id = (int) request.getAttribute("userId");
+		
+		UserDetails user = userService.getUserById(id);
+		System.out.println("id---------------------------->"+id);
+	
+		List<NoteDetails> notes = noteService.getAllNotes(user);
 		System.out.println("all notes : " + notes);
 		return notes;
 	}

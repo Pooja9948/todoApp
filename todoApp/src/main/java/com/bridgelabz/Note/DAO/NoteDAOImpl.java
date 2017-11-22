@@ -5,18 +5,22 @@ import java.util.List;
 
 import javax.persistence.Query;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bridgelabz.Note.model.NoteDetails;
+import com.bridgelabz.User.Controller.UserController;
 import com.bridgelabz.User.model.UserDetails;
 
 public class NoteDAOImpl implements NoteDAO {
-
+	
+	public  static Logger logger = Logger.getLogger(NoteDAOImpl.class);
 	@Autowired
 	SessionFactory sessionfactory;
 	Transaction transaction = null;
@@ -85,11 +89,22 @@ public class NoteDAOImpl implements NoteDAO {
 	public List<NoteDetails> getAllNotes(UserDetails userDetails) {
 		Session session = sessionfactory.openSession();
 
-		transaction = session.beginTransaction();
+		/*transaction = session.beginTransaction();
 		Criteria criteria = session.createCriteria(NoteDetails.class);
 		criteria.add(Restrictions.eq("userDetails", userDetails));
 		List<NoteDetails> allNotes = criteria.list();
-		return allNotes;
+		*/
+		//logger.trace("trace logger");
+		System.out.println("ytdyqwe wedfuwe weufdwebfmw u");
+		int uid = userDetails.getId();
+		UserDetails user = session.get(UserDetails.class, uid);		
+		Criteria criteria = session.createCriteria(NoteDetails.class);
+		criteria.add(Restrictions.eq("userDetails", user));
+		criteria.addOrder(Order.desc("modifiedDate"));
+		List notes = criteria.list();
+		logger.trace(criteria.list());
+		
+		return notes;
 	}
 
 }

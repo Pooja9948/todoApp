@@ -97,10 +97,10 @@ public class NoteDetails {
 	public void setPin(boolean isPin) {
 		this.isPin = isPin;
 	}
-	@Override
+	/*@Override
 	public String toString() {
 		return "NoteDetails [id=" + id + ", title=" + title + ", description=" + description + ", createddate="
 				+ createddate + ", modifiedDate=" + modifiedDate + ", userDetails=" + userDetails + "]";
-	}
+	}*/
 
 }

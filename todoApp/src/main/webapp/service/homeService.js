@@ -20,9 +20,9 @@ todoApp.factory('homeService', function($http, $location) {
 		return $http({
 			method : "POST",
 			url : 'user/createNote',
-			/*headers :{
-				'Authorization' : 'todoBearer ' + localStorage.getItem('todoAccessToken')
-			},*/
+			headers :{
+				'token' : localStorage.getItem('token')
+			},
 			data : note
 		})
 	}
@@ -32,9 +32,9 @@ todoApp.factory('homeService', function($http, $location) {
 		return $http({
 			method : "GET",
 			url : 'user/getAllNotes',
-			/*headers :{
-				'Authorization' : 'todoBearer ' + localStorage.getItem('todoAccessToken')
-			}*/
+			headers :{
+				'token' : localStorage.getItem('token')
+			}
 		})
 	}
 	return homePage;

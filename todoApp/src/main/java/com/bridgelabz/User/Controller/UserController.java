@@ -112,49 +112,38 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Response> loginUser(@RequestBody UserDetails user,
-			HttpSession session) {
+	public ResponseEntity<Response> loginUser(@RequestBody UserDetails user,HttpSession session) {
 		CustomResponse customResponse = new CustomResponse();
 		//System.out.println("email " + user.getEmail() + " password " + user.getPassword());
 		user.setPassword(PasswordEncryption.encryptedPassword(user.getPassword()));
 		System.out.println("at the time of login : " + PasswordEncryption.encryptedPassword(user.getPassword()));
 		user = userservice.loginUser(user);
-		session.setAttribute("user", user);
-
+		
 		if (user != null) {
+			//session.setAttribute("user", user);
+		//	System.out.println("user.getId() ->>"+user.getId());
 			String accessToken = GenerateToken.generateToken(user.getId());
-			System.out.println("token " + accessToken);
-			session.setAttribute("user", user);
-			session.setAttribute("token", accessToken);
+			//System.out.println("token " + accessToken);
+			//session.setAttribute("user", user);
+			//session.setAttribute("token", accessToken);
 			
 			//token.setGenerateToken(accessToken);
 			//String url = request.getRequestURL().toString();
 			//url = url.substring(0, url.lastIndexOf("/")) + "/" + "finalLogin" + "/" + accessToken;
 			//System.out.println("url : " + url);
 			//userservice.saveTokenInRedis(token);
+			
+			
+			
 			customResponse.setMessage(accessToken);
 			System.out.println("login successful!!!");
-			return new ResponseEntity<Response>(HttpStatus.OK);
+			return new ResponseEntity<Response>(customResponse,HttpStatus.OK);
 		} else {
 			System.out.println("login unsuccessful!!!");
 			return new ResponseEntity<Response>(HttpStatus.CONFLICT);
 		}
 	}
 
-	/*@RequestMapping("/finalLogin/{token}")
-	public ResponseEntity<String> checkValidUser(@PathVariable("token") String generateToken) {
-		CustomResponse customResponse = new CustomResponse();
-		Token token = userservice.getToken(generateToken);
-		if (token == null) {
-
-			return new ResponseEntity<String>("token is incorrect", HttpStatus.BAD_REQUEST);
-		}
-		if (token.getGenerateToken().equals(generateToken)) {
-
-			return new ResponseEntity<String>("successfull login", HttpStatus.OK);
-		}
-		return new ResponseEntity<String>("Unsuccessfull login", HttpStatus.BAD_REQUEST);
-	}*/
 
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
 	public ResponseEntity<Response> logout(HttpSession session) {
