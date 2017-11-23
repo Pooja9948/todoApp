@@ -84,17 +84,11 @@ public class NoteDAOImpl implements NoteDAO {
 		return note;
 	}
 
-	@SuppressWarnings({ "unchecked", "deprecation" })
+	@SuppressWarnings({ "unchecked", "deprecation", "rawtypes" })
 	@Override
 	public List<NoteDetails> getAllNotes(UserDetails userDetails) {
 		Session session = sessionfactory.openSession();
 
-		/*transaction = session.beginTransaction();
-		Criteria criteria = session.createCriteria(NoteDetails.class);
-		criteria.add(Restrictions.eq("userDetails", userDetails));
-		List<NoteDetails> allNotes = criteria.list();
-		*/
-		//logger.trace("trace logger");
 		System.out.println("ytdyqwe wedfuwe weufdwebfmw u");
 		int uid = userDetails.getId();
 		UserDetails user = session.get(UserDetails.class, uid);		
@@ -102,7 +96,7 @@ public class NoteDAOImpl implements NoteDAO {
 		criteria.add(Restrictions.eq("userDetails", user));
 		criteria.addOrder(Order.desc("modifiedDate"));
 		List notes = criteria.list();
-		logger.trace(criteria.list());
+		//logger.trace(criteria.list());
 		
 		return notes;
 	}

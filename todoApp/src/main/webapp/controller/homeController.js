@@ -4,7 +4,11 @@ todoApp
 		.controller(
 				'homeController',
 				function($scope, homeService, $location) {
-
+					var addNote={};
+					$scope.note = {};
+					$scope.note.description = '';
+					$scope.note.title = '';
+					var modalInstance;
 					$scope.homePage = function() {
 						var httpServiceUser = homeService.homeuser($scope.user);
 
@@ -23,47 +27,35 @@ todoApp
 						}
 					}
 					$scope.saveNotes = function() {
-						//console.log('yes00'+$scope.note.title);
-						$scope.note = {};
-						/*
-						 * newNote.isArchived = isArchived; newNote.color =
-						 * $('#actual-input-div').css( "background-color");
-						 * 
-						 * newNote.reminder = $scope.newNoteReminder;
-						 * newNote.image = $scope.newNoteImg;
-						 * 
-						 * newNote.labels = $scope.newNote.labels;
-						 * 
-						 * newNote.sharedUsers = $scope.n.sharedUsers;
-						 * 
-						 * if ($scope.pinSrc == 'images/bluepin.svg' &&
-						 * !isArchived) { newNote.isPinned = true; } else {
-						 * newNote.isOthersPinned = false; }
-						 */
-
-						var httpCreateNote = homeService.saveNotes($scope.note);
-
-						/*
-						 * httpCreateNote.then(function() {
-						 * $('#note-title-input').html('');
-						 * $('#note-body-input').html('');
-						 * $('#actual-input-div').css("background-color",
-						 * 'white'); $scope.pinSrc = 'images/pin.svg';
-						 * $scope.showInput = false; $scope.newNoteImg = '';
-						 * $scope.newNote = {labels : []}; setInputLabel();
-						 * console.log('new note image' + $scope.newNoteImg); if
-						 * (stateName != 'reminder') { $scope.newNoteReminder =
-						 * undefined; }
-						 * 
-						 * getNotes(); }, function(response) {
-						 */
-						/*
-						 * if (response.data.status == '511') {
-						 * $location.path('/loginpage') }
-						 */
-						//});
+						
+						$scope.title=$('#note-title-input').html();
+						$scope.description=$('#note-body-input').html();
+						addNote.title=$scope.note.title;
+						addNote.description=$scope.note.description;	
+						var httpCreateNote = homeService.saveNotes(addNote);
 					}
 					
+					//delete notes
+					$scope.deleteNotes = function(note){
+						console.log("note id"+note.id);
+						var deleteNote = homeService.deleteNotes(note);
+						deleteNote.then(function(response){
+							getNotes();
+						}),then(function(response){
+							if(response.status=='400')
+								$location.path('/loginPage')
+								console.log(response);
+						});
+				}
+					
+					/*OPEN  NOTE*/
+					$scope.open = function (note) {
+						$scope.note = note;
+						modalInstance = $uibModal.open({
+						templateUrl: 'template/newNote.html',
+						scope : $scope
+						});
+				};
 					
 					//GET ALL NOTES
 //					function getNotes() {
@@ -73,9 +65,9 @@ todoApp
 							if (response.data.status == '511') {
 								$location.path('/login')
 							} else {
-								console.log(response.data.notes);
-								$scope.notes = response.data.notes;
-								homeService.notes = response.data.notes;
+								console.log("all notes are : "+response.data);
+								$scope.notes = response.data;
+								homeService.notes = response.data;
 							}
 						});
 //					}

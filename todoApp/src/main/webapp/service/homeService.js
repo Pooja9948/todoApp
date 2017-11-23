@@ -12,30 +12,47 @@ todoApp.factory('homeService', function($http, $location) {
 		});
 	}
 
-	
-	//cards.notes = [];
+	// cards.notes = [];
 	homePage.saveNotes = function(note) {
 		console.log("homeservice");
-		console.log("jaskdhf "+note);
+		console.log("jaskdhf " + note);
 		return $http({
 			method : "POST",
 			url : 'user/createNote',
-			headers :{
+
+			data : note,
+			headers : {
 				'token' : localStorage.getItem('token')
-			},
-			data : note
+			}
 		})
 	}
-	//GET ALL NOTES
+	// GET ALL NOTES
 	homePage.getAllNotes = function() {
 		console.log("get all notes");
 		return $http({
 			method : "GET",
 			url : 'user/getAllNotes',
-			headers :{
+			headers : {
 				'token' : localStorage.getItem('token')
 			}
 		})
 	}
+	//DELETE NOTE
+	homePage.deleteNotes = function(note){
+		console.log("inside delete function;-"+note.id);
+		return $http({
+			method:"DELETE",
+			url:'user/deleteNote/'+note.id,
+			headers:{
+				'token' : localStorage.getItem('token')
+			}
+		}).then(function(response){
+			console.log("response message" +response.data);
+		},function(response){
+			if(response.status=='400')
+				$location.path('/loginPage')
+			console.log("error" +response.data.myResponseMessage);
+		});
+}
 	return homePage;
 });

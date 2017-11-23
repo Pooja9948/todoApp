@@ -12,7 +12,7 @@ public class GenerateToken {
 	
 	public static String generateToken(int userId){
 		Date tokenCreationTime = new Date();
-		Date expirationTime = new Date(tokenCreationTime.getTime()+1000*60*5);
+		Date expirationTime = new Date(tokenCreationTime.getTime()+1000*60*60);
 		SignatureAlgorithm signatureAlogirthm = SignatureAlgorithm.HS512;
 		JwtBuilder builder = Jwts.builder();
 		builder.setSubject("accessToken");

@@ -39,8 +39,12 @@ public class NoteController {
 	UserService userService;
 	
 	@RequestMapping(value = "/createNote", method = RequestMethod.POST)
-	public ResponseEntity<Response> createNote(@RequestBody NoteDetails noteDetails, HttpSession session) {
-		UserDetails user = (UserDetails) session.getAttribute("user");
+	public ResponseEntity<Response> createNote(@RequestBody NoteDetails noteDetails, HttpSession session,HttpServletRequest request) {
+		//UserDetails user = (UserDetails) session.getAttribute("user");
+		int userId = (int) request.getAttribute("userId");
+		
+		UserDetails user = userService.getUserById(userId);
+		
 		noteDetails.setUser(user);
 		if (user != null) {
 			Date date = new Date();
@@ -102,7 +106,7 @@ public class NoteController {
 		System.out.println("id---------------------------->"+id);
 	
 		List<NoteDetails> notes = noteService.getAllNotes(user);
-		System.out.println("all notes : " + notes);
+		//System.out.println("all notes : " + notes);
 		return notes;
 	}
 }

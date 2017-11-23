@@ -120,7 +120,7 @@ public class UserController {
 		user = userservice.loginUser(user);
 		
 		if (user != null) {
-			//session.setAttribute("user", user);
+			session.setAttribute("user", user);
 		//	System.out.println("user.getId() ->>"+user.getId());
 			String accessToken = GenerateToken.generateToken(user.getId());
 			//System.out.println("token " + accessToken);

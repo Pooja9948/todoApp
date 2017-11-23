@@ -24,11 +24,14 @@ public class NoteDetails {
 	int id;
 	String title;
 	String description;
+	String color;
+
 	Date createddate;
 	Date modifiedDate;
 	
 	private boolean isArchived;
 	private boolean isPin;
+	private boolean isTrash;
 
 	@JsonIgnore
 	@ManyToOne
@@ -73,7 +76,15 @@ public class NoteDetails {
 	public void setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
+	
+	public String getColor() {
+		return color;
+	}
 
+	public void setColor(String color) {
+		this.color = color;
+	}
+	
 	public UserDetails getUser() {
 		return userDetails;
 	}
@@ -95,6 +106,14 @@ public class NoteDetails {
 	}
 
 	public void setPin(boolean isPin) {
+		this.isPin = isPin;
+	}
+	
+	public boolean isTrash() {
+		return isPin;
+	}
+
+	public void setTrash(boolean isPin) {
 		this.isPin = isPin;
 	}
 	/*@Override

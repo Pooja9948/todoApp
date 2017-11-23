@@ -52,7 +52,6 @@
 	color: grey;
 	display: inline-block;
 }
-
 .card {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
@@ -68,4 +67,14 @@
 
 .container {
     padding: 2px 16px;
+}
+.test[placeholder]:empty:before {
+    content: attr(placeholder);
+    border: 0px;
+    outline: 0px;
+   /*  color: #555; */
+}
+.desc{
+	border: 0px;
+    outline: 0px;
 }

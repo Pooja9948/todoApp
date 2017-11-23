@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.bridgelabz.Note.model.NoteDetails;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "user_detail")
@@ -45,6 +46,7 @@ public class UserDetails {
 		this.isActivated = isActivated;
 	}
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "userDetails")
 	private Set<NoteDetails> notes = new HashSet<>();
 
