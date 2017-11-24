@@ -26,6 +26,69 @@ todoApp
 							document.getElementById("content-wrapper-inside").style.marginLeft = "300px";
 						}
 					}
+					
+					//ADD COLOR
+					
+					$scope.AddNoteColor="#ffffff";
+					
+					$scope.addNoteColorChange=function(color){
+						$scope.AddNoteColor=color;
+					}
+					
+					
+					$scope.colors=[
+						
+						{
+							"color":'#ffffff',
+							"path":'image/white.png'
+						},
+						{
+							"color":'#e74c3c',
+							"path":'image/Red.png'
+						},
+						{
+							"color":'#ff8c1a',
+							"path":'image/orange.png'
+						},
+						{
+							"color":'#fcff77',
+							"path":'image/lightyellow.png'
+						},
+						{
+							"color":'#80ff80',
+							"path":'image/green.png'
+						},
+						{
+							"color":'#99ffff',
+							"path":'image/skyblue.png'
+						},
+						{
+							"color":'#0099ff',
+							"path":'image/blue.png'
+						},
+						{
+							"color":'#1a53ff',
+							"path":'image/darkblue.png'
+						},
+						{
+							"color":'#9966ff',
+							"path":'image/purple.png'
+						},
+						{
+							"color":'#ff99cc',
+							"path":'image/pink.png'
+						},
+						{
+							"color":'#d9b38c',
+							"path":'image/brown.png'
+						},
+						{
+							"color":'#bfbfbf',
+							"path":'image/grey.png'
+						}
+					];
+					
+					
 					$scope.saveNotes = function() {
 
 						$scope.title = $('#note-title-input').html();
@@ -59,7 +122,8 @@ todoApp
 						});
 					}
 					//UPDATE PIN
-					$scope.updatePinup = function(note) {
+					$scope.updateNote = function(note) {
+						console.log(note);
 						var a = homeService.updateNote(note);
 						a.then(function(response) {
 							getNotes();
@@ -100,5 +164,30 @@ todoApp
 							}
 						});
 					}
+					
+					
+					/*archive notes*/
+					$scope.archiveNote=function(note){
+						note.archive="true";
+						note.pin="false";
+						var a = homeService.updateNote(note);
+						
+						a.then(function(response) {
+							getNotes();
+						}, function(response) {
+						});
+					}
+					
+					
+					/*unarchive notes*/
+					$scope.unarchiveNote=function(note){
+						note.archive="false";
+						note.pin="false";
+						var a = homeService.updateNote(note);
+						a.then(function(response) {
+							getNotes();
+						}, function(response) {
+						});
+}
 
 				});

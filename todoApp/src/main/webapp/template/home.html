@@ -74,7 +74,7 @@
 											style="background-color: #f9fbff">
 											<a ng-repeat="color in colors" role="menuitem"> <img
 												ng-src="{{color.path}}" height="25px"
-												ng-click="note.noteColor =color.color; addNoteColorChange(color.color)">
+												ng-click="note.color =color.color; updateNote(note)">
 											</a>
 										</ul>
 									</div>
@@ -107,11 +107,11 @@
 				<br><br><br><br><br>
 				
 				<div class='row'><h4>Others</h4>
-					<div class="card col-md-4" ng-repeat="note in notes | filter : {pin : false}"
-						class="container">
+					<div class="card col-md-4 a" ng-repeat="note in notes | filter : {pin : false}"
+						class="container" >
 						
-						<div id="moreOptions" style="float: right">					
-							<span style="cursor: pointer" ng-click="note.pin=true; updatePinup(note)"> 
+						<div id="moreOptions" style="float: right;background-color:{{note.color}}">	{{note.color}}				
+							<span style="cursor: pointer" ng-click="note.pin=true; updateNote(note)"> 
 								<img alt="pin" style="height: 17px" src="image/pin.svg"></img>
 							</span>
 						</div>
@@ -127,7 +127,16 @@
 									<img alt="colaburator" src="image/colaburator.png"
 										height="25px">
 									<div class="btn-group dropup colorDiv" uib-dropdown>
-										<img id="dropdown" class="dropdown-toggle"
+									
+									<img id="dropdown" class="dropdown-toggle" data-toggle="dropdown" alt="color" src="image/colorpallete.svg" uib-dropdown-toggle height="20px">
+									
+									<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body" style="background-color: #f9fbff">
+										
+										<a ng-repeat="color in colors" role="menuitem"> 
+											<img ng-src="{{color.path}}" height="25px" ng-click="note.color =color.color;updateNote(note)">
+										</a>
+									</ul>
+										<!-- <img id="dropdown" class="dropdown-toggle"
 											data-toggle="dropdown" alt="color"
 											src="image/colorpallete.svg" uib-dropdown-toggle
 											height="20px">
@@ -138,7 +147,7 @@
 												ng-src="{{color.path}}" height="25px"
 												ng-click="note.noteColor =color.color; addNoteColorChange(color.color)">
 											</a>
-										</ul>
+										</ul> -->
 									</div>
 
 									<img alt="image" src="image/image.svg" height="20px"> <span

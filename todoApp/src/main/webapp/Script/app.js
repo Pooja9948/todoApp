@@ -26,6 +26,9 @@ todoApp.config(function($stateProvider, $urlRouterProvider) {
 		url : '/home',
 		templateUrl : 'template/home.html',
 		controller : 'homeController'
+	}).state('archive', {
+		url : '/archive',
+		templateUrl : 'template/archive.html',
 	});
 	$urlRouterProvider.otherwise('login');
 });
