@@ -64,6 +64,7 @@ public class NoteController {
 	@RequestMapping(value = "/updateNote", method = RequestMethod.PUT)
 	public ResponseEntity<Response> updateNote(@RequestBody NoteDetails noteDetails) {
 
+		System.out.println("Note status: " + noteDetails.isPin());
 		int id = noteDetails.getId();
 
 		NoteDetails note = noteService.getNoteById(id);
@@ -75,7 +76,7 @@ public class NoteController {
 		noteDetails.setUser(user);
 
 		System.out.println(
-				"note sid " + id + " current :" + noteDetails.getCreateddate() + " user : " + noteDetails.getUser());
+				"note sid " + id + " current :" + noteDetails.getCreateddate() + " user : " + noteDetails.getUser()+"note pin "+noteDetails.isPin());
 		noteService.updateNote(noteDetails);
 		System.out.println("note is updated");
 		

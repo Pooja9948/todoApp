@@ -37,22 +37,35 @@ todoApp.factory('homeService', function($http, $location) {
 			}
 		})
 	}
-	//DELETE NOTE
-	homePage.deleteNotes = function(note){
-		console.log("inside delete function;-"+note.id);
+	// DELETE NOTE
+	homePage.deleteNotes = function(note) {
+		console.log("inside delete function;-" + note.id);
 		return $http({
-			method:"DELETE",
-			url:'user/deleteNote/'+note.id,
-			headers:{
+			method : "DELETE",
+			url : 'user/deleteNote/' + note.id,
+			headers : {
 				'token' : localStorage.getItem('token')
 			}
-		}).then(function(response){
-			console.log("response message" +response.data);
-		},function(response){
-			if(response.status=='400')
+		}).then(function(response) {
+			console.log("response message" + response.data);
+		}, function(response) {
+			if (response.status == '400')
 				$location.path('/loginPage')
-			console.log("error" +response.data.myResponseMessage);
+			console.log("error" + response.data.myResponseMessage);
 		});
-}
+	}
+	
+	//pin edit
+	homePage.updateNote=function(note){
+		console.log(note);
+		return $http({
+			method : "PUT",
+			url : 'user/updateNote',
+			headers: {
+				'token':localStorage.getItem('token')
+			},
+			data: note
+		})
+	}
 	return homePage;
 });

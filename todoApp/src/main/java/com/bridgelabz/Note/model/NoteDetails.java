@@ -33,6 +33,7 @@ public class NoteDetails {
 	private boolean isPin;
 	private boolean isTrash;
 
+
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "user_detailid")
@@ -101,6 +102,14 @@ public class NoteDetails {
 		this.isArchived = isArchived;
 	}
 
+	public boolean isTrash() {
+		return isTrash;
+	}
+
+	public void setTrash(boolean isTrash) {
+		this.isTrash = isTrash;
+	}
+
 	public boolean isPin() {
 		return isPin;
 	}
@@ -108,14 +117,10 @@ public class NoteDetails {
 	public void setPin(boolean isPin) {
 		this.isPin = isPin;
 	}
-	
-	public boolean isTrash() {
-		return isPin;
-	}
 
-	public void setTrash(boolean isPin) {
+	/*public void setTrash(boolean isPin) {
 		this.isPin = isPin;
-	}
+	}*/
 	/*@Override
 	public String toString() {
 		return "NoteDetails [id=" + id + ", title=" + title + ", description=" + description + ", createddate="

@@ -41,20 +41,18 @@
 				</div>
 				<br>
 				
-				
+				<div class='row'>
 				<h4>Pinned</h4>
 				<div>
-					<!-- <img src="img_avatar.png" alt="Avatar" style="width: 100%" > | filter : {isPin : true,isArchived : false, isTrash: false}-->
-					<div class="card col-md-4" ng-repeat="note in notes "
+					<div class="card col-md-4" ng-repeat="note in notes | filter : {pin : true}"
 						class="container">
-						<img ng-click="note.pinned=false;editNotes(note);$event.stopPropagation()" id="pinOutput" alt="pin" 
-									src="image/bluepin.svg" style="float: right" >
-						<img ng-click="updatePinup(note)" ng-src="{{note.image}}">
-						<div ng-click="open(note)">
-							<div>{{note.title}}</div>
-							<br>
-							<div>{{note.description}}</div>
-							</div>
+						<div style="float: right">
+							
+							<span style="cursor: pointer" ng-click="note.pin=false; updateNote(note)">
+							 	<img alt="pin" style="height: 17px" src="image/bluepin.svg"></img>
+							</span>
+							
+						</div>
 							<div contenteditable="true" ng-bind-html="note.title"></div>
 							<br>
 							<div contenteditable="true" ng-bind-html="note.description"></div>
@@ -85,8 +83,6 @@
 										ng-click="archiveNote(note)"> <img alt="archive"
 										src="image/archive.svg" height="20px">
 									</span>
-
-									
 						<div style="float: left">
 
 						<span class="btn dropdown-toggle" id="menu1"
@@ -105,21 +101,20 @@
 							</div>
 					</div>
 				</div>
+				</div>
 				<br>
 				
 				<br><br><br><br><br>
-				<h4>Others</h4>
-				<div>
-					<!-- <img src="img_avatar.png" alt="Avatar" style="width: 100%" >    | filter : {isPin : false,isArchived : false, isTrash: false}-->
-					<div class="card col-md-4" ng-repeat="note in notes "
+				
+				<div class='row'><h4>Others</h4>
+					<div class="card col-md-4" ng-repeat="note in notes | filter : {pin : false}"
 						class="container">
-						<img id="pinOutput" alt="pin" src="image/pin.svg" ng-click="note.pinned=true;editNotes(note)" style="float: right">
-						<img ng-click="updatePinup(note)" ng-src="{{note.image}}">
-						<div ng-click="open(note)">
-							<div>{{note.title}}</div>
-							<br>
-							<div>{{note.description}}</div>
-							</div>
+						
+						<div id="moreOptions" style="float: right">					
+							<span style="cursor: pointer" ng-click="note.pin=true; updatePinup(note)"> 
+								<img alt="pin" style="height: 17px" src="image/pin.svg"></img>
+							</span>
+						</div>
 							<div contenteditable="true" ng-bind-html="note.title"></div>
 							<br>
 							<div contenteditable="true" ng-bind-html="note.description"></div>
