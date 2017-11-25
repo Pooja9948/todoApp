@@ -34,6 +34,10 @@ todoApp.config(function($stateProvider, $urlRouterProvider) {
 		url : '/trash',
 		templateUrl : 'template/trash.html',
 		controller : 'homeController'
+	}).state('reminder', {
+		url : '/reminder',
+		templateUrl : 'template/reminder.html',
+		controller : 'homeController'
 	});
 	$urlRouterProvider.otherwise('login');
 });

@@ -47,7 +47,7 @@
 					<h4>Pinned</h4>
 					<div>
 						<div class="card col-md-4 a"
-							ng-repeat="note in notes | filter : {pin : true ,archived:'false',trash:'false'} as pinNotes"
+							ng-repeat="note in notes | filter : {pin : true ,archived: false,trash: false} as pinNotes"
 							class="container" style="background-color: {{note.color}}">
 							<div style="float: right">
 
@@ -113,7 +113,7 @@
 				<div class='row' ng-show="otherNotes.length" >
 					<h4>Others</h4>
 					<div class="card col-md-4 a"
-						ng-repeat="note in notes | filter : {pin : false ,archived:'false',trash:'false'} as otherNotes"
+						ng-repeat="note in notes | filter : {pin : false ,archived:false,trash:false} as otherNotes"
 						class="container" style="background-color: {{note.color}}" >
 
 						<div style="float: right">
@@ -180,6 +180,7 @@
 										<li><a ng-click="trashNote(note)">Trash</a></li>
 										<li><a>Add Lable</a></li>
 										<li><a ng-click="copy(note)">Make a Copy</a></li>
+										<li><a ng-click="fbAsyncInit(note)">share</a></li>
 									</ul>
 								</div>
 							</div>

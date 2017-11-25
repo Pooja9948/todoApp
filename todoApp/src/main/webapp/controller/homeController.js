@@ -3,8 +3,8 @@ var todoApp = angular.module('todoApp');
 todoApp
 		.controller(
 				'homeController',
-				function($scope, homeService, $location ,$state , $uibModal) {
-					
+				function($scope, homeService, $location, $state, $uibModal) {
+
 					var addNote = {};
 					$scope.note = {};
 					$scope.note.description = '';
@@ -76,20 +76,20 @@ todoApp
 						"path" : 'image/grey.png'
 					} ];
 
-					
-					if($state.current.name=="home"){
-						$scope.topBarColor= "#ffbb33";
-						$scope.navBarHeading="Fundoo Keep";
+					if ($state.current.name == "home") {
+						$scope.topBarColor = "#ffbb33";
+						$scope.navBarHeading = "Fundoo Keep";
+					} else if ($state.current.name == "archive") {
+						$scope.topBarColor = "#669999";
+						$scope.navBarHeading = "Archive";
+					} else if ($state.current.name == "trash") {
+						$scope.topBarColor = "#636363";
+						$scope.navBarHeading = "Trash";
+					}else if ($state.current.name == "reminder") {
+						$scope.topBarColor = "#669999";
+						$scope.navBarHeading = "Reminder";
 					}
-					else if($state.current.name=="archive"){
-						$scope.topBarColor= "#669999";
-						$scope.navBarHeading="Archive";
-					}
-					else if($state.current.name=="trash"){
-						$scope.topBarColor= "#636363";
-						$scope.navBarHeading="Trash";
-					}
-					
+
 					$scope.saveNotes = function() {
 
 						$scope.title = $('#note-title-input').html();
@@ -189,12 +189,12 @@ todoApp
 						}, function(response) {
 						});
 					}
-					
+
 					/*trash notes*/
 					$scope.trashNote = function(note) {
 						note.archived = false;
 						note.pin = false;
-						note.trash= true;
+						note.trash = true;
 						var a = homeService.updateNote(note);
 
 						a.then(function(response) {
@@ -207,13 +207,41 @@ todoApp
 					$scope.restoreNote = function(note) {
 						note.archived = false;
 						note.pin = false;
-						note.trash= false;
+						note.trash = false;
 						var a = homeService.updateNote(note);
 						a.then(function(response) {
 							getNotes();
 						}, function(response) {
 						});
 					}
-					
-					
+/*
+					SOCIAL SHARE
+					$scope.fbAsyncInit = function(note) {
+						FB.init({
+							appId : '1490675564380779',
+							status : true,
+							cookie : true,
+							xfbml : true,
+							version : 'v2.4'
+						});
+					};
+
+					FB.ui({
+						method : 'share_open_graph',
+						action_type : 'og.likes',
+						action_properties : JSON.stringify({
+							object : {
+								'og:title' : note.title,
+								'og:description' : note.description
+							}
+						})
+					},
+					// callback
+					function(response) {
+						if (response && !response.error_message) {
+							alert('Posting completed.');
+						} else {
+							alert('Error while posting.');
+						}
+					});*/
 				});
