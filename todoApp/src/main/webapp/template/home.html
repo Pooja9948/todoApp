@@ -44,8 +44,8 @@
 				<div class='row'>
 				<h4>Pinned</h4>
 				<div>
-					<div class="card col-md-4" ng-repeat="note in notes | filter : {pin : true}"
-						class="container">
+					<div class="card col-md-4 a" ng-repeat="note in notes | filter : {pin : true}"
+						class="container" style="background-color:{{note.color}}">
 						<div style="float: right">
 							
 							<span style="cursor: pointer" ng-click="note.pin=false; updateNote(note)">
@@ -108,9 +108,9 @@
 				
 				<div class='row'><h4>Others</h4>
 					<div class="card col-md-4 a" ng-repeat="note in notes | filter : {pin : false}"
-						class="container" >
+						class="container" style="background-color:{{note.color}}">
 						
-						<div id="moreOptions" style="float: right;background-color:{{note.color}}">	{{note.color}}				
+						<div id="moreOptions" style="float: right">					
 							<span style="cursor: pointer" ng-click="note.pin=true; updateNote(note)"> 
 								<img alt="pin" style="height: 17px" src="image/pin.svg"></img>
 							</span>
