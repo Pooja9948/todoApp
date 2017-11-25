@@ -1,6 +1,6 @@
 var todoApp = angular.module('todoApp');
 
-todoApp.factory('homeService', function($http, $location) {
+todoApp.factory('homeService', function($http, $location ,$state) {
 	var homePage = {};
 
 	homePage.homeuser = function(user) {

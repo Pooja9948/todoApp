@@ -1,29 +1,71 @@
-<div class="homecontainer" ng-controller="trashController">
-	<div id="main" style="margin-left:{{margin}}px">
-		<div class="container">
-			<div class="CardContainer">
-				<div ng-repeat="note in notes | filter : {trashed: true}"  ng-click="open(note)" ng-class="{'col-md-4': view === 'grid', 'col-md-12': view === 'list'}">
-					<div class="showCards">
-						<img ng-click="note.pinned=true;note.isArchived= false;editNote(note);$event.stopPropagation()" id="pinOutput" alt="pin" src="images/pin.svg" >
-						<div>{{note.title}}</div><br>
-						<div>{{note.description}}</div><br>
-						<div ng-click="$event.stopPropagation()">
-							<img id="reminderOutput" alt="reminder" src="images/reminder.svg">
-							<img id="collaboratorOutput" alt="collaborator" src="images/colaborator.svg">
-							<img id="changeColorOutput" alt="changeColor" src="images/change-color.svg">
-							<img id="addImageOutput"  alt="addImage" src="images/add-image.svg">
-							<img id="archiveOutput" alt="archive" src="images/archive.svg" ng-click="note.isArchived= false;editNote(note);$event.stopPropagation()">
-							<div class="btn-group" uib-dropdown>
-								<span id ="dropdown" class="glyphicon glyphicon-option-vertical" uib-dropdown-toggle> </span>
-								<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">
-									<li role="menuitem" ng-click="deleteNote(note.notesId)"><a href="">Delete forever</a></li>
-									<li role="menuitem" ng-click="note.trashed=false;editNote(note)"><a href="">Restore</a></li>
-								</ul>
-							</div>
+
+<div>
+	<top-bar></top-bar>
+	<side-bar></side-bar>
+	<div>
+		<div id="content-wrapper">
+
+			<div class="container" id="content-wrapper-inside">
+				
+				
+				
+				
+				<div class='row'>
+					<div class="card col-md-4 a" ng-repeat="note in notes | filter :{archived:'false',pin:'false',trash:'true'}"
+						class="container" style="background-color:{{note.color}}">
+						
+						<div  style="float: right">					
+							<span style="cursor: pointer" ng-click="note.pin=true; updateNote(note)"> 
+								<img alt="pin" style="height: 17px" src="image/pin.svg"></img>
+							</span>
 						</div>
+						<div contenteditable="true" ng-bind-html="note.title"></div>
+						<br>
+						<div contenteditable="true" ng-bind-html="note.description"></div>
+
+							<div class="moreOptions" >
+
+								<div class="dropdown" style="float: left">
+									<img alt="reminder" src="image/reminder.svg" height="15px">
+									<img alt="colaburator" src="image/colaburator.png"
+										height="25px">
+									<div class="btn-group dropup colorDiv" uib-dropdown>
+									
+									<img id="dropdown" class="dropdown-toggle" data-toggle="dropdown" alt="color" src="image/colorpallete.svg" uib-dropdown-toggle height="20px">
+									
+									<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body" style="background-color: #f9fbff">
+										
+										<a ng-repeat="color in colors" role="menuitem"> 
+											<img ng-src="{{color.path}}" height="25px" ng-click="note.color =color.color;updateNote(note)">
+										</a>
+									</ul>
+									</div>
+
+									<img alt="image" src="image/image.svg" height="20px"> <span
+										ng-click="unarchiveNote(note)"> <img alt="archive"
+										src="image/unarchive.svg" height="20px">
+									</span>
+
+									
+						<div style="float: left">
+
+						<span class="btn dropdown-toggle" id="menu1"
+							data-toggle="dropdown"> <span
+							class="glyphicon glyphicon-option-vertical"></span>
+						</span>
+
+						
+										<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+											<li><a ng-click="deleteNotes(note)">Delete</a></li>
+											<li><a ng-click="restoreNote(note)">Restore</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
 					</div>
-			 	</div>
+				</div>
 			</div>
 		</div>
+
 	</div>
 </div>

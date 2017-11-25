@@ -1,6 +1,6 @@
 
 <nav class="navbar navbar-default">
-	<div class="container-fluid" id="header">
+	<div class="container-fluid" ng-style="{'background-color' : topBarColor}" id="topBarColor">
 		<ul class="nav navbar-nav">
 		
 			<li><i class="glyphicons glyphicons-show-lines"></i></li>
@@ -10,12 +10,12 @@
 			<li><h3>Fundoo Keep</h3></li>
 			
 			<li>
-				<span class="glyphicon glyphicon-search" style="top: 25px;"></span>
+				<span class="glyphicon glyphicon-search" style="top: 25px; margin-left:10px;"></span>
 			</li>
 			
 			<li>
-				<div class="form-group">
-					<input type="text" class="form-control search-bar" placeholder="Search">
+				<div class="form-group" id="search-div">
+					<input type="text" ng-style="{'background-color' : topBarColor}" class="form-control search-bar" placeholder="Search">
 				</div>
 			</li>
 		</ul>

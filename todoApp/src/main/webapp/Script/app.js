@@ -1,4 +1,4 @@
-var todoApp = angular.module('todoApp', [ 'ui.router', 'ngSanitize']);
+var todoApp = angular.module('todoApp', [ 'ui.router', 'ngSanitize','ui.bootstrap']);
 
 todoApp.config(function($stateProvider, $urlRouterProvider) {
 	
@@ -29,6 +29,11 @@ todoApp.config(function($stateProvider, $urlRouterProvider) {
 	}).state('archive', {
 		url : '/archive',
 		templateUrl : 'template/archive.html',
+		controller : 'homeController'
+	}).state('trash', {
+		url : '/trash',
+		templateUrl : 'template/trash.html',
+		controller : 'homeController'
 	});
 	$urlRouterProvider.otherwise('login');
 });

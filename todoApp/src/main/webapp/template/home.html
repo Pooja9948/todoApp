@@ -15,11 +15,13 @@
 					ng-style="{'background-color' : newNoteColor}">
 					<!-- <input class="test" type="text" id="note-title-input"
 						contenteditable="true" data-ng-model="note.title" placeholder="Title"><br> -->
-						<div class="test" type="text" id="note-title-input"
-						contenteditable="true" data-ng-model="note.title" placeholder="Title"></div>
-						<div class="test" type="text" id="note-body-input"
-						contenteditable="true" data-ng-model="note.description" placeholder="Write a note"></div>
-						
+					<div class="test" type="text" id="note-title-input"
+						contenteditable="true" data-ng-model="note.title"
+						placeholder="Title"></div>
+					<div class="test" type="text" id="note-body-input"
+						contenteditable="true" data-ng-model="note.description"
+						placeholder="Write a note"></div>
+
 					<!-- <div class="desc" type="text" id="note-body-input" contenteditable="true"
 						data-ng-model="note.description" placeholder="Write a note"></div> -->
 					<!-- <div style="float: left">
@@ -40,25 +42,29 @@
 
 				</div>
 				<br>
-				
-				<div class='row'>
-				<h4>Pinned</h4>
-				<div>
-					<div class="card col-md-4 a" ng-repeat="note in notes | filter : {pin : true}"
-						class="container" style="background-color:{{note.color}}">
-						<div style="float: right">
-							
-							<span style="cursor: pointer" ng-click="note.pin=false; updateNote(note)">
-							 	<img alt="pin" style="height: 17px" src="image/bluepin.svg"></img>
-							</span>
-							
+
+				<div class='row' ng-show="pinNotes.length">
+					<h4>Pinned</h4>
+					<div>
+						<div class="card col-md-4 a"
+							ng-repeat="note in notes | filter : {pin : true ,archived:'false',trash:'false'} as pinNotes"
+							class="container" style="background-color: {{note.color}}">
+							<div style="float: right">
+
+								<span style="cursor: pointer"
+									ng-click="note.pin=false; updateNote(note)"> <img
+									alt="pin" style="height: 17px" src="image/bluepin.svg"></img>
+								</span>
+
+							</div>
+							<div ng-click="showModal(note)">
+						<div contenteditable="true" ng-bind-html="note.title"></div>
+						<br>
+						<div contenteditable="true" ng-bind-html="note.description"></div>
 						</div>
-							<div contenteditable="true" ng-bind-html="note.title"></div>
-							<br>
-							<div contenteditable="true" ng-bind-html="note.description"></div>
 
 
-							<div id="moreOptions">
+							<div class="moreOptions">
 
 								<div class="dropdown" style="float: left">
 									<img alt="reminder" src="image/reminder.svg" height="15px">
@@ -83,60 +89,66 @@
 										ng-click="archiveNote(note)"> <img alt="archive"
 										src="image/archive.svg" height="20px">
 									</span>
-						<div style="float: left">
+									<div style="float: left">
 
-						<span class="btn dropdown-toggle" id="menu1"
-							data-toggle="dropdown"> <span
-							class="glyphicon glyphicon-option-vertical"></span>
-						</span>
+										<span class="btn dropdown-toggle" id="menu1"
+											data-toggle="dropdown"> <span
+											class="glyphicon glyphicon-option-vertical"></span>
+										</span>
 
-						
+
 										<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-											<li><a ng-click="deleteNotes(note)">Delete</a></li>
+											<li><a ng-click="trashNote(note)">Trash</a></li>
 											<li><a>Add Lable</a></li>
 											<li><a ng-click="copy(note)">Make a Copy</a></li>
 										</ul>
 									</div>
 								</div>
 							</div>
+						</div>
 					</div>
 				</div>
-				</div>
-				<br>
-				
-				<br><br><br><br><br>
-				
-				<div class='row'><h4>Others</h4>
-					<div class="card col-md-4 a" ng-repeat="note in notes | filter : {pin : false}"
-						class="container" style="background-color:{{note.color}}">
-						
-						<div id="moreOptions" style="float: right">					
-							<span style="cursor: pointer" ng-click="note.pin=true; updateNote(note)"> 
-								<img alt="pin" style="height: 17px" src="image/pin.svg"></img>
+				<br> <br> <br> <br> <br> <br>
+
+				<div class='row' ng-show="otherNotes.length" >
+					<h4>Others</h4>
+					<div class="card col-md-4 a"
+						ng-repeat="note in notes | filter : {pin : false ,archived:'false',trash:'false'} as otherNotes"
+						class="container" style="background-color: {{note.color}}" >
+
+						<div style="float: right">
+							<span style="cursor: pointer"
+								ng-click="note.pin=true; updateNote(note)"> <img
+								alt="pin" style="height: 17px" src="image/pin.svg"></img>
 							</span>
 						</div>
-							<div contenteditable="true" ng-bind-html="note.title"></div>
-							<br>
-							<div contenteditable="true" ng-bind-html="note.description"></div>
+						<div ng-click="showModal(note)">
+						<div contenteditable="true" ng-bind-html="note.title"></div>
+						<br>
+						<div contenteditable="true" ng-bind-html="note.description"></div>
+						</div>
 
+						<div class="moreOptions">
 
-							<div id="moreOptions">
+							<div class="dropdown" style="float: left">
+								<img alt="reminder" src="image/reminder.svg" height="15px">
+								<img alt="colaburator" src="image/colaburator.png" height="25px">
+								<div class="btn-group dropup colorDiv" uib-dropdown>
 
-								<div class="dropdown" style="float: left">
-									<img alt="reminder" src="image/reminder.svg" height="15px">
-									<img alt="colaburator" src="image/colaburator.png"
-										height="25px">
-									<div class="btn-group dropup colorDiv" uib-dropdown>
-									
-									<img id="dropdown" class="dropdown-toggle" data-toggle="dropdown" alt="color" src="image/colorpallete.svg" uib-dropdown-toggle height="20px">
-									
-									<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body" style="background-color: #f9fbff">
-										
-										<a ng-repeat="color in colors" role="menuitem"> 
-											<img ng-src="{{color.path}}" height="25px" ng-click="note.color =color.color;updateNote(note)">
+									<img id="dropdown" class="dropdown-toggle"
+										data-toggle="dropdown" alt="color"
+										src="image/colorpallete.svg" uib-dropdown-toggle height="20px">
+
+									<ul class="dropdown-menu" uib-dropdown-menu role="menu"
+										aria-labelledby="btn-append-to-body"
+										style="background-color: #f9fbff">
+
+										<a ng-repeat="color in colors" role="menuitem"> <img
+											ng-src="{{color.path}}" height="25px"
+											ng-click="note.color =color.color;updateNote(note)">
 										</a>
 									</ul>
-										<!-- <img id="dropdown" class="dropdown-toggle"
+									<!-- <img id="dropdown" class="dropdown-toggle"
 											data-toggle="dropdown" alt="color"
 											src="image/colorpallete.svg" uib-dropdown-toggle
 											height="20px">
@@ -148,30 +160,30 @@
 												ng-click="note.noteColor =color.color; addNoteColorChange(color.color)">
 											</a>
 										</ul> -->
-									</div>
+								</div>
 
-									<img alt="image" src="image/image.svg" height="20px"> <span
-										ng-click="archiveNote(note)"> <img alt="archive"
-										src="image/archive.svg" height="20px">
+								<img alt="image" src="image/image.svg" height="20px"> <span
+									ng-click="archiveNote(note)"> <img alt="archive"
+									src="image/archive.svg" height="20px">
+								</span>
+
+
+								<div style="float: left">
+
+									<span class="btn dropdown-toggle" id="menu1"
+										data-toggle="dropdown"> <span
+										class="glyphicon glyphicon-option-vertical"></span>
 									</span>
 
-									
-						<div style="float: left">
 
-						<span class="btn dropdown-toggle" id="menu1"
-							data-toggle="dropdown"> <span
-							class="glyphicon glyphicon-option-vertical"></span>
-						</span>
-
-						
-										<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-											<li><a ng-click="deleteNotes(note)">Delete</a></li>
-											<li><a>Add Lable</a></li>
-											<li><a ng-click="copy(note)">Make a Copy</a></li>
-										</ul>
-									</div>
+									<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+										<li><a ng-click="trashNote(note)">Trash</a></li>
+										<li><a>Add Lable</a></li>
+										<li><a ng-click="copy(note)">Make a Copy</a></li>
+									</ul>
 								</div>
 							</div>
+						</div>
 					</div>
 				</div>
 			</div>

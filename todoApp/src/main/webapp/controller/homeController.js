@@ -3,7 +3,8 @@ var todoApp = angular.module('todoApp');
 todoApp
 		.controller(
 				'homeController',
-				function($scope, homeService, $location) {
+				function($scope, homeService, $location ,$state , $uibModal) {
+					
 					var addNote = {};
 					$scope.note = {};
 					$scope.note.description = '';
@@ -20,74 +21,74 @@ todoApp
 						console.log(width);
 						if (width == '250') {
 							document.getElementById("sideToggle").style.width = "0px";
-							document.getElementById("content-wrapper-inside").style.marginLeft = "150px";
+							document.getElementById("content-wrapper-inside").style.marginLeft = "270px";
 						} else {
 							document.getElementById("sideToggle").style.width = "250px";
-							document.getElementById("content-wrapper-inside").style.marginLeft = "300px";
+							document.getElementById("content-wrapper-inside").style.marginLeft = "350px";
 						}
 					}
-					
+
 					//ADD COLOR
-					
-					$scope.AddNoteColor="#ffffff";
-					
-					$scope.addNoteColorChange=function(color){
-						$scope.AddNoteColor=color;
+
+					$scope.AddNoteColor = "#ffffff";
+
+					$scope.addNoteColorChange = function(color) {
+						$scope.AddNoteColor = color;
 					}
+
+					$scope.colors = [
+
+					{
+						"color" : '#ffffff',
+						"path" : 'image/white.png'
+					}, {
+						"color" : '#e74c3c',
+						"path" : 'image/Red.png'
+					}, {
+						"color" : '#ff8c1a',
+						"path" : 'image/orange.png'
+					}, {
+						"color" : '#fcff77',
+						"path" : 'image/lightyellow.png'
+					}, {
+						"color" : '#80ff80',
+						"path" : 'image/green.png'
+					}, {
+						"color" : '#99ffff',
+						"path" : 'image/skyblue.png'
+					}, {
+						"color" : '#0099ff',
+						"path" : 'image/blue.png'
+					}, {
+						"color" : '#1a53ff',
+						"path" : 'image/darkblue.png'
+					}, {
+						"color" : '#9966ff',
+						"path" : 'image/purple.png'
+					}, {
+						"color" : '#ff99cc',
+						"path" : 'image/pink.png'
+					}, {
+						"color" : '#d9b38c',
+						"path" : 'image/brown.png'
+					}, {
+						"color" : '#bfbfbf',
+						"path" : 'image/grey.png'
+					} ];
+
 					
-					
-					$scope.colors=[
-						
-						{
-							"color":'#ffffff',
-							"path":'image/white.png'
-						},
-						{
-							"color":'#e74c3c',
-							"path":'image/Red.png'
-						},
-						{
-							"color":'#ff8c1a',
-							"path":'image/orange.png'
-						},
-						{
-							"color":'#fcff77',
-							"path":'image/lightyellow.png'
-						},
-						{
-							"color":'#80ff80',
-							"path":'image/green.png'
-						},
-						{
-							"color":'#99ffff',
-							"path":'image/skyblue.png'
-						},
-						{
-							"color":'#0099ff',
-							"path":'image/blue.png'
-						},
-						{
-							"color":'#1a53ff',
-							"path":'image/darkblue.png'
-						},
-						{
-							"color":'#9966ff',
-							"path":'image/purple.png'
-						},
-						{
-							"color":'#ff99cc',
-							"path":'image/pink.png'
-						},
-						{
-							"color":'#d9b38c',
-							"path":'image/brown.png'
-						},
-						{
-							"color":'#bfbfbf',
-							"path":'image/grey.png'
-						}
-					];
-					
+					if($state.current.name=="home"){
+						$scope.topBarColor= "#ffbb33";
+						$scope.navBarHeading="Fundoo Keep";
+					}
+					else if($state.current.name=="archive"){
+						$scope.topBarColor= "#669999";
+						$scope.navBarHeading="Archive";
+					}
+					else if($state.current.name=="trash"){
+						$scope.topBarColor= "#636363";
+						$scope.navBarHeading="Trash";
+					}
 					
 					$scope.saveNotes = function() {
 
@@ -98,7 +99,7 @@ todoApp
 						var httpCreateNote = homeService.saveNotes(addNote);
 
 					}
-					
+
 					//MAKE A COPY
 					$scope.copy = function(note) {
 						note.pin = "false";
@@ -131,11 +132,12 @@ todoApp
 						});
 					}
 					/*OPEN  NOTE*/
-					$scope.open = function(note) {
+					$scope.showModal = function(note) {
 						$scope.note = note;
 						modalInstance = $uibModal.open({
 							templateUrl : 'template/newNote.html',
-							scope : $scope
+							scope : $scope,
+							size : 'md'
 						});
 					};
 
@@ -164,14 +166,49 @@ todoApp
 							}
 						});
 					}
-					
-					
+
 					/*archive notes*/
-					$scope.archiveNote=function(note){
-						note.archive="true";
-						note.pin="false";
+					$scope.archiveNote = function(note) {
+						note.archived = true;
+						note.pin = false;
 						var a = homeService.updateNote(note);
-						
+
+						a.then(function(response) {
+							getNotes();
+						}, function(response) {
+						});
+					}
+
+					/*unarchive notes*/
+					$scope.unarchiveNote = function(note) {
+						note.archived = false;
+						note.pin = false;
+						var a = homeService.updateNote(note);
+						a.then(function(response) {
+							getNotes();
+						}, function(response) {
+						});
+					}
+					
+					/*trash notes*/
+					$scope.trashNote = function(note) {
+						note.archived = false;
+						note.pin = false;
+						note.trash= true;
+						var a = homeService.updateNote(note);
+
+						a.then(function(response) {
+							getNotes();
+						}, function(response) {
+						});
+					}
+
+					/*restore notes*/
+					$scope.restoreNote = function(note) {
+						note.archived = false;
+						note.pin = false;
+						note.trash= false;
+						var a = homeService.updateNote(note);
 						a.then(function(response) {
 							getNotes();
 						}, function(response) {
@@ -179,15 +216,4 @@ todoApp
 					}
 					
 					
-					/*unarchive notes*/
-					$scope.unarchiveNote=function(note){
-						note.archive="false";
-						note.pin="false";
-						var a = homeService.updateNote(note);
-						a.then(function(response) {
-							getNotes();
-						}, function(response) {
-						});
-}
-
 				});
