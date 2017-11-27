@@ -84,6 +84,9 @@
     outline: 0px;
    /*  color: #555; */
 }
+img{
+	padding-left: 15px;
+}
 .desc{
 	border: 0px;
     outline: 0px;

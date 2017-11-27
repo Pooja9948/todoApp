@@ -245,6 +245,20 @@ todoApp
 						});
 					};
 					
+					//FOR REMINDER
+					$scope.datetimepicker=function(){
+				    	$('#datetimepicker6').datetimepicker();
+				    	var reminder = $('#datetimepicker6').val();
+				    	console.log(reminder);
+				    }
+				    $scope.tet = function(note){
+				    	var reminder = $('#datetimepicker6').val();
+				    	note.reminder = reminder;
+				    	var mydate = new Date(reminder);
+				    	note.reminder = mydate;
+				    	homeService.updateNote(note);
+				    }
+					
 					//LIST AND GRID VIEW
 					$scope.ListView=true;
 					
@@ -275,4 +289,5 @@ todoApp
 							}
 						}
 					}
+					//uibModalInstance.result.catch(function () { uibModalInstance.close(); })
 				});

@@ -8,13 +8,11 @@
 			<div class="container" id="content-wrapper-inside">
 				<div id="note-input" class="form-group">
 					<input type="text" placeholder="Take a note" id="note-input"
-						ng-focus="showInput = true" class="				" ng-hide="showInput">
+						ng-focus="showInput = true" class="" ng-hide="showInput">
 				</div>
 				<div id="actual-input-div" ng-show="showInput"
 					ng-init="newNoteColor='white'"
 					ng-style="{'background-color' : newNoteColor}">
-					<!-- <input class="test" type="text" id="note-title-input"
-						contenteditable="true" data-ng-model="note.title" placeholder="Title"><br> -->
 					<div class="test" type="text" id="note-title-input"
 						contenteditable="true" data-ng-model="note.title"
 						placeholder="Title"></div>
@@ -58,20 +56,22 @@
 
 							</div>
 							<div ng-click="showModal(note)">
-						<div contenteditable="true" ng-bind-html="note.title"></div>
-						<br>
-						<div contenteditable="true" ng-bind-html="note.description"></div>
-						</div>
+								<div contenteditable="true" ng-bind-html="note.title"></div>
+								<br>
+								<div contenteditable="true" ng-bind-html="note.description"></div>
+							</div>
 
 
 							<div class="moreOptions">
 
 								<div class="dropdown" style="float: left">
-									<img alt="reminder" src="image/reminder.svg" height="15px">
-									<img alt="colaburator" src="image/colaburator.png"
-										height="25px">
+									<input type="text" id="datetimepicker6"
+										 ng-blur="tet(note)" ng-model="note.reminder"> 
+									 <img alt="reminder" height="15px" src="image/reminder.svg"
+										ng-click="datetimepicker();note.reminder=reminder; updateNote(note)">
+									<img id="collaboratorOutput" alt="collaborator" ng-click="openCollaborator(note)" src="image/colaborator.svg">
 									<div class="btn-group dropup colorDiv" uib-dropdown>
-										<img id="dropdown" class="dropdown-toggle"
+									<img id="dropdown" class="dropdown-toggle"
 											data-toggle="dropdown" alt="color"
 											src="image/colorpallete.svg" uib-dropdown-toggle
 											height="20px">
@@ -101,6 +101,7 @@
 											<li><a ng-click="trashNote(note)">Trash</a></li>
 											<li><a>Add Lable</a></li>
 											<li><a ng-click="copy(note)">Make a Copy</a></li>
+											<li><a  ng-click="fbAsyncInit(note)">share</a></li>
 										</ul>
 									</div>
 								</div>
@@ -110,11 +111,11 @@
 				</div>
 				<br> <br> <br> <br> <br> <br>
 
-				<div class='row' ng-show="otherNotes.length" >
+				<div class='row' ng-show="otherNotes.length">
 					<h4>Others</h4>
 					<div class="card col-md-4 a"
 						ng-repeat="note in notes | filter : {pin : false ,archived:false,trash:false} as otherNotes"
-						class="container" style="background-color: {{note.color}}" >
+						class="container" style="background-color: {{note.color}}">
 
 						<div style="float: right">
 							<span style="cursor: pointer"
@@ -123,15 +124,18 @@
 							</span>
 						</div>
 						<div ng-click="showModal(note)">
-						<div contenteditable="true" ng-bind-html="note.title"></div>
-						<br>
-						<div contenteditable="true" ng-bind-html="note.description"></div>
+							<div contenteditable="true" ng-bind-html="note.title"></div>
+							<br>
+							<div contenteditable="true" ng-bind-html="note.description"></div>
 						</div>
 
 						<div class="moreOptions">
 
 							<div class="dropdown" style="float: left">
-								<img alt="reminder" src="image/reminder.svg" height="15px">
+								<input type="text" id="datetimepicker6" ng-blur="tet(note)"
+										ng-model="note.reminder"> 
+										 <img alt="reminder" height="15px" src="image/reminder.svg"
+										ng-click="datetimepicker();note.reminder=reminder; updateNote(note)">
 								<img alt="colaburator" src="image/colaburator.png" height="25px">
 								<div class="btn-group dropup colorDiv" uib-dropdown>
 
@@ -148,18 +152,6 @@
 											ng-click="note.color =color.color;updateNote(note)">
 										</a>
 									</ul>
-									<!-- <img id="dropdown" class="dropdown-toggle"
-											data-toggle="dropdown" alt="color"
-											src="image/colorpallete.svg" uib-dropdown-toggle
-											height="20px">
-										<ul class="dropdown-menu" uib-dropdown-menu role="menu"
-											aria-labelledby="btn-append-to-body"
-											style="background-color: #f9fbff">
-											<a ng-repeat="color in colors" role="menuitem"> <img
-												ng-src="{{color.path}}" height="25px"
-												ng-click="note.noteColor =color.color; addNoteColorChange(color.color)">
-											</a>
-										</ul> -->
 								</div>
 
 								<img alt="image" src="image/image.svg" height="20px"> <span
