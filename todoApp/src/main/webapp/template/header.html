@@ -20,6 +20,11 @@
 			</li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
+			<li ng-click="ListViewToggle()" id="list-gride-View" class="navigationTop">
+				<img ng-if="!ListView" height="30px" alt="gride" src="image/gridlist.svg">
+				<img ng-if="ListView" height="30px" alt="list" src="image/list1.png">
+			</li>
+			
 			<li>
 				<div class="dropdown glyphicon-pic ">
 					<span class="btn dropdown-toggle"  id="demo" type="button" data-toggle="dropdown">

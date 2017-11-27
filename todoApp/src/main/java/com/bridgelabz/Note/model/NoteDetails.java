@@ -32,6 +32,7 @@ public class NoteDetails {
 	private boolean isArchived;
 	private boolean isPin;
 	private boolean isTrash;
+	private Date reminder;
 
 
 	@JsonIgnore
@@ -117,10 +118,14 @@ public class NoteDetails {
 	public void setPin(boolean isPin) {
 		this.isPin = isPin;
 	}
+	
+	public Date getReminder() {
+		return reminder;
+	}
 
-	/*public void setTrash(boolean isPin) {
-		this.isPin = isPin;
-	}*/
+	public void setReminder(Date reminder) {
+		this.reminder = reminder;
+	}
 	/*@Override
 	public String toString() {
 		return "NoteDetails [id=" + id + ", title=" + title + ", description=" + description + ", createddate="

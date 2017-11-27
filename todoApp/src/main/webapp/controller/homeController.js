@@ -28,7 +28,7 @@ todoApp
 						}
 					}
 
-					//ADD COLOR
+					// ADD COLOR
 
 					$scope.AddNoteColor = "#ffffff";
 
@@ -85,7 +85,7 @@ todoApp
 					} else if ($state.current.name == "trash") {
 						$scope.topBarColor = "#636363";
 						$scope.navBarHeading = "Trash";
-					}else if ($state.current.name == "reminder") {
+					} else if ($state.current.name == "reminder") {
 						$scope.topBarColor = "#669999";
 						$scope.navBarHeading = "Reminder";
 					}
@@ -100,7 +100,7 @@ todoApp
 
 					}
 
-					//MAKE A COPY
+					// MAKE A COPY
 					$scope.copy = function(note) {
 						note.pin = "false";
 						note.archived = "false";
@@ -112,7 +112,7 @@ todoApp
 						});
 					}
 
-					//delete notes
+					// delete notes
 					$scope.deleteNotes = function(note) {
 						console.log("note id" + note.id);
 						var deleteNote = homeService.deleteNotes(note);
@@ -122,7 +122,7 @@ todoApp
 							console.log(response);
 						});
 					}
-					//UPDATE PIN
+					// UPDATE PIN
 					$scope.updateNote = function(note) {
 						console.log(note);
 						var a = homeService.updateNote(note);
@@ -131,7 +131,7 @@ todoApp
 						}, function(response) {
 						});
 					}
-					/*OPEN  NOTE*/
+					/* OPEN NOTE */
 					$scope.showModal = function(note) {
 						$scope.note = note;
 						modalInstance = $uibModal.open({
@@ -141,8 +141,8 @@ todoApp
 						});
 					};
 
-					//GET ALL NOTES
-					//function getNotes() {
+					// GET ALL NOTES
+					// function getNotes() {
 					var httpNotes = homeService.getAllNotes();
 
 					httpNotes.then(function(response) {
@@ -154,7 +154,7 @@ todoApp
 							homeService.notes = response.data;
 						}
 					});
-					//}
+					// }
 					function getNotes() {
 						httpNotes.then(function(response) {
 							if (response.data.status == '511') {
@@ -167,7 +167,7 @@ todoApp
 						});
 					}
 
-					/*archive notes*/
+					/* archive notes */
 					$scope.archiveNote = function(note) {
 						note.archived = true;
 						note.pin = false;
@@ -179,7 +179,7 @@ todoApp
 						});
 					}
 
-					/*unarchive notes*/
+					/* unarchive notes */
 					$scope.unarchiveNote = function(note) {
 						note.archived = false;
 						note.pin = false;
@@ -190,7 +190,7 @@ todoApp
 						});
 					}
 
-					/*trash notes*/
+					/* trash notes */
 					$scope.trashNote = function(note) {
 						note.archived = false;
 						note.pin = false;
@@ -203,7 +203,7 @@ todoApp
 						});
 					}
 
-					/*restore notes*/
+					/* restore notes */
 					$scope.restoreNote = function(note) {
 						note.archived = false;
 						note.pin = false;
@@ -214,9 +214,11 @@ todoApp
 						}, function(response) {
 						});
 					}
-/*
-					SOCIAL SHARE
+
+					// SOCIAL SHARE
 					$scope.fbAsyncInit = function(note) {
+						console.log(note.title);
+						console.log('inside fbAsyncInit');
 						FB.init({
 							appId : '1490675564380779',
 							status : true,
@@ -224,24 +226,53 @@ todoApp
 							xfbml : true,
 							version : 'v2.4'
 						});
-					};
 
-					FB.ui({
-						method : 'share_open_graph',
-						action_type : 'og.likes',
-						action_properties : JSON.stringify({
-							object : {
-								'og:title' : note.title,
-								'og:description' : note.description
+						FB.ui({
+							method : 'share_open_graph',
+							action_type : 'og.likes',
+							action_properties : JSON.stringify({
+								object : {
+									'og:title' : note.title,
+									'og:description' :note.description
+								}
+							})
+						}, function(response) {
+							if (response && !response.error_message) {
+								alert('Posting completed.');
+							} else {
+								alert('Error while posting.');
 							}
-						})
-					},
-					// callback
-					function(response) {
-						if (response && !response.error_message) {
-							alert('Posting completed.');
-						} else {
-							alert('Error while posting.');
+						});
+					};
+					
+					//LIST AND GRID VIEW
+					$scope.ListView=true;
+					
+					$scope.ListViewToggle=function(){
+						if($scope.ListView==true){
+							$scope.ListView=false;
+							listGrideView();
 						}
-					});*/
+						else{
+						$scope.ListView=true;
+						listGrideView();
+						}
+					}
+					
+					listGrideView();
+					
+					function listGrideView(){
+						if($scope.ListView){
+							var element = document.getElementsByClassName('card');
+							for(var i=0;i<element.length;i++){
+								element[i].style.width="900px";
+							}
+						}
+						else{
+							var element = document.getElementsByClassName('card');
+							for(var i=0;i<element.length;i++){
+								element[i].style.width="300px";
+							}
+						}
+					}
 				});

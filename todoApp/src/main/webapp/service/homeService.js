@@ -13,6 +13,7 @@ todoApp.factory('homeService', function($http, $location ,$state) {
 	}
 
 	// cards.notes = [];
+	//ADD NOTE
 	homePage.saveNotes = function(note) {
 		console.log("homeservice");
 		console.log("jaskdhf " + note);
@@ -55,7 +56,7 @@ todoApp.factory('homeService', function($http, $location ,$state) {
 		});
 	}
 	
-	//pin edit
+	//Update Note
 	homePage.updateNote=function(note){
 		console.log(note);
 		return $http({
