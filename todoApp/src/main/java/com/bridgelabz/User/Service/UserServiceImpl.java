@@ -59,5 +59,9 @@ public class UserServiceImpl implements UserService {
 
 		userdao.saveOTP(otpDetails);
 	}
-
+	
+	public UserDetails userValidated(int UserId){
+		
+		return userdao.userValidated(UserId);
+	}
 }

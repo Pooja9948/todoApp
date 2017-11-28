@@ -12,6 +12,10 @@
 <!-- FOR FACEBOOK SHARE -->
 <script src="https://connect.facebook.net/enUS/all.js"></script>
 
+<!-- FOR TOASTR -->
+<script src="https://npmcdn.com/angular-toastr/dist/angular-toastr.tpls.js"></script>
+<link rel="stylesheet" href="https://npmcdn.com/angular-toastr/dist/angular-toastr.css" />
+
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
 <script
@@ -45,7 +49,7 @@
 
 <script type="text/javascript" src="controller/otpController.js"></script>
 <script type="text/javascript" src="service/otpService.js"></script>
-
+<script type="text/javascript" src="controller/dummyController.js"></script>
 <script type="text/javascript" src="controller/homeController.js"></script>
 <script type="text/javascript" src="service/homeService.js"></script>
 <script type="text/javascript" src="directives/alldirectives.js"></script>

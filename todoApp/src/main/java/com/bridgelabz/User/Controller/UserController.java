@@ -36,7 +36,7 @@ import com.bridgelabz.Util.validation.Validator;
 @RestController
 public class UserController {
 
-	public  static Logger logger = Logger.getLogger(UserController.class);
+	public static Logger logger = Logger.getLogger(UserController.class);
 	@Autowired
 	UserService userservice;
 
@@ -54,7 +54,7 @@ public class UserController {
 		CustomResponse customResponse = new CustomResponse();
 		logger.trace(user);
 		String isValidate = validator.validateSaveUser(user);
-		//System.out.println("check valid" + isValidate);
+		// System.out.println("check valid" + isValidate);
 		if (isValidate.equals("")) {
 			System.out.println("is validte " + isValidate);
 			user.setPassword(PasswordEncryption.encryptedPassword(user.getPassword()));
@@ -62,13 +62,13 @@ public class UserController {
 			int id = userservice.createUser(user);
 			if (id != 0) {
 				String activeToken = GenerateToken.generateToken(id);
-				//System.out.println("jgdfqew   :" + activeToken);
+				// System.out.println("jgdfqew :" + activeToken);
 				String url = request.getRequestURL().toString();
 				url = url.substring(0, url.lastIndexOf("/")) + "/" + "verifyMail/" + activeToken;
 				try {
 					sendmail.sendMail("om4java@gmail.com", user.getEmail(), "Welcome to bridgelabz", url);
 					customResponse.setMessage(isValidate);
-					return new ResponseEntity<Response>(customResponse,HttpStatus.OK);
+					return new ResponseEntity<Response>(customResponse, HttpStatus.OK);
 				} catch (MailException e) {
 
 					e.printStackTrace();
@@ -80,7 +80,7 @@ public class UserController {
 		}
 		Response response = new Response();
 		response.setMessage(isValidate);
-		return new ResponseEntity<Response>(response,HttpStatus.CONFLICT);
+		return new ResponseEntity<Response>(response, HttpStatus.CONFLICT);
 
 	}
 
@@ -88,7 +88,7 @@ public class UserController {
 	public ResponseEntity<Response> verifyMail(@PathVariable("activeToken") String activeToken,
 			HttpServletResponse response) throws IOException {
 		CustomResponse customResponse = new CustomResponse();
-		
+
 		System.out.println("active token : " + activeToken);
 		UserDetails userDetails = null;
 		int id = VerifyToken.verifyAccessToken(activeToken);
@@ -102,7 +102,7 @@ public class UserController {
 		userDetails.setActivated(true);
 		try {
 			userservice.updateUser(userDetails);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		customResponse.setStatus(200);
@@ -112,38 +112,37 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Response> loginUser(@RequestBody UserDetails user,HttpSession session) {
+	public ResponseEntity<Response> loginUser(@RequestBody UserDetails user, HttpSession session) {
 		CustomResponse customResponse = new CustomResponse();
-		//System.out.println("email " + user.getEmail() + " password " + user.getPassword());
+		// System.out.println("email " + user.getEmail() + " password " +
+		// user.getPassword());
 		user.setPassword(PasswordEncryption.encryptedPassword(user.getPassword()));
 		System.out.println("at the time of login : " + PasswordEncryption.encryptedPassword(user.getPassword()));
 		user = userservice.loginUser(user);
-		
+
 		if (user != null) {
 			session.setAttribute("user", user);
-		//	System.out.println("user.getId() ->>"+user.getId());
+			// System.out.println("user.getId() ->>"+user.getId());
 			String accessToken = GenerateToken.generateToken(user.getId());
-			//System.out.println("token " + accessToken);
-			//session.setAttribute("user", user);
-			//session.setAttribute("token", accessToken);
-			
-			//token.setGenerateToken(accessToken);
-			//String url = request.getRequestURL().toString();
-			//url = url.substring(0, url.lastIndexOf("/")) + "/" + "finalLogin" + "/" + accessToken;
-			//System.out.println("url : " + url);
-			//userservice.saveTokenInRedis(token);
-			
-			
-			
+			// System.out.println("token " + accessToken);
+			// session.setAttribute("user", user);
+			// session.setAttribute("token", accessToken);
+
+			// token.setGenerateToken(accessToken);
+			// String url = request.getRequestURL().toString();
+			// url = url.substring(0, url.lastIndexOf("/")) + "/" + "finalLogin"
+			// + "/" + accessToken;
+			// System.out.println("url : " + url);
+			// userservice.saveTokenInRedis(token);
+
 			customResponse.setMessage(accessToken);
 			System.out.println("login successful!!!");
-			return new ResponseEntity<Response>(customResponse,HttpStatus.OK);
+			return new ResponseEntity<Response>(customResponse, HttpStatus.OK);
 		} else {
 			System.out.println("login unsuccessful!!!");
 			return new ResponseEntity<Response>(HttpStatus.CONFLICT);
 		}
 	}
-
 
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
 	public ResponseEntity<Response> logout(HttpSession session) {
@@ -157,7 +156,7 @@ public class UserController {
 	@RequestMapping(value = "/forgotpassword", method = RequestMethod.POST)
 	public Response forgotPassword(@RequestBody UserDetails user, HttpServletRequest request, HttpSession session) {
 		System.out.println(user.getEmail());
-		UserDetails userDetails= userservice.getUserByEmail(user.getEmail());
+		UserDetails userDetails = userservice.getUserByEmail(user.getEmail());
 		CustomResponse customResponse = new CustomResponse();
 		String url = request.getRequestURL().toString();
 		int lastIndex = url.lastIndexOf("/");
@@ -169,15 +168,15 @@ public class UserController {
 			return customResponse;
 		}
 		try {
-			//String generateOTP = GenerateOTP.generateToken(user.getId());
+			// String generateOTP = GenerateOTP.generateToken(user.getId());
 			String generateOTP = GenerateOTP.generateOTP();
-			//OTPDetails otpDetails=new OTPDetails();
-			//otpDetails.setOtp(generateOTP);
-			//otpDetails.setUser_id(userDetails.getId());
-			//userservice.saveOTP(otpDetails);
+			// OTPDetails otpDetails=new OTPDetails();
+			// otpDetails.setOtp(generateOTP);
+			// otpDetails.setUser_id(userDetails.getId());
+			// userservice.saveOTP(otpDetails);
 			session.setAttribute("OTP", generateOTP);
 			sendmail.sendMail("om4java@gmail.com", user.getEmail(), "",
-					urlofForgotPassword	 +"  Your OTP is : " + generateOTP);
+					urlofForgotPassword + "  Your OTP is : " + generateOTP);
 		} catch (Exception e) {
 			e.printStackTrace();
 			customResponse.setStatus(400);
@@ -187,13 +186,13 @@ public class UserController {
 		customResponse.setStatus(200);
 		return customResponse;
 	}
-	
+
 	@RequestMapping(value = "/otp", method = RequestMethod.POST)
 	public Response getOTP(@RequestBody String otp, HttpServletRequest request, HttpSession session) {
-		System.out.println("otp is : "+otp);
-		String sessionOTP= (String) session.getAttribute("OTP");
+		System.out.println("otp is : " + otp);
+		String sessionOTP = (String) session.getAttribute("OTP");
 		CustomResponse customResponse = new CustomResponse();
-		if(sessionOTP==otp){
+		if (sessionOTP == otp) {
 			customResponse.setMessage("otp matched");
 			System.out.println("login successful!!!");
 			return customResponse;
@@ -202,12 +201,19 @@ public class UserController {
 		customResponse.setStatus(200);
 		return customResponse;
 	}
+
 	@RequestMapping(value = "/resetpassword", method = RequestMethod.PUT)
 	public Response resetPassword(@RequestBody UserDetails user, HttpSession session) {
-		System.out.println("password :" + user.getPassword());
 		CustomResponse customResponse = new CustomResponse();
-		//String email = user.getEmail();
-		//UserDetails userDetails=session.getAttribute("OTP");
+		if (user == null) {
+			customResponse.setMessage("User not found :");
+			customResponse.setStatus(500);
+			return customResponse;
+		}
+		System.out.println("password :" + user.getPassword());
+
+		// String email = user.getEmail();
+		// UserDetails userDetails=session.getAttribute("OTP");
 		String password = user.getPassword();
 
 		// check validation for password
@@ -215,12 +221,8 @@ public class UserController {
 		System.out.println("check valid" + isValidate);
 
 		// email validation
-		//user = userservice.emailValidation(email);
-		if (user == null) {
-			customResponse.setMessage("User not found :");
-			customResponse.setStatus(500);
-			return customResponse;
-		}
+		// user = userservice.emailValidation(email);
+
 		user.setPassword(PasswordEncryption.encryptedPassword(password));
 		if (userservice.updateUser(user) && isValidate.equals("")) {
 			customResponse.setMessage("Reset password is success :");
@@ -231,6 +233,41 @@ public class UserController {
 			customResponse.setStatus(-200);
 			return customResponse;
 		}
+	}
+
+	@RequestMapping(value = "/user/currentUser", method = RequestMethod.GET)
+	public UserDetails currrentUser(HttpServletRequest request) {
+		CustomResponse customResponse = new CustomResponse();
+		int id = (int) request.getAttribute("userId");
+		System.out.println("*********** " + id);
+		UserDetails user = userservice.getUserById(id);
+		if (user != null) {
+			customResponse.setMessage("User found :");
+			return user;
+		}
+		return user;
+	}
+
+	@RequestMapping(value = "/user/profileChange")
+	public ResponseEntity<String> changeProfile(@RequestBody UserDetails user, HttpServletRequest request)
+			throws IOException {
+
+		int userid = (int) request.getAttribute("userId");
+		if (userid == 0) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("");
+		}
+		userservice.updateUser(user);
+		return ResponseEntity.ok("");
+	}
+	
+	@RequestMapping(value="/social")
+	public ResponseEntity<Response> getAccessTokenByglogin(HttpSession session){
+		String acessToken = (String) session.getAttribute("myAccessToken");
+		
+		CustomResponse customResponse = new CustomResponse();
+		customResponse.setMessage(acessToken);
+		return ResponseEntity.ok(customResponse);
+
 	}
 
 }

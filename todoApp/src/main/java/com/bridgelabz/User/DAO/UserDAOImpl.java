@@ -22,13 +22,13 @@ public class UserDAOImpl implements UserDAO {
 	 * @param userDetails
 	 * @return inserting all the data of user to the database
 	 */
-	public  static Logger logger = Logger.getLogger(UserDAO.class);
-	
+	public static Logger logger = Logger.getLogger(UserDAO.class);
+
 	@Autowired
 	SessionFactory sessionFactory;
 
 	private static final String key = "Token";
-	
+
 	@Autowired
 	private RedisTemplate<String, Object> template;
 
@@ -93,7 +93,7 @@ public class UserDAOImpl implements UserDAO {
 		return user;
 	}
 
-	/*FOR REDIS IMPLEMENTATION*/
+	/* FOR REDIS IMPLEMENTATION */
 	@Override
 	public void saveTokenInRedis(Token token) {
 		System.out.println("token in dao " + token);
@@ -158,8 +158,7 @@ public class UserDAOImpl implements UserDAO {
 		UserDetails user = (UserDetails) criteria.uniqueResult();
 		session.close();
 		return user;
-		
-		
+
 	}
 
 	@Override
@@ -200,6 +199,15 @@ public class UserDAOImpl implements UserDAO {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public UserDetails userValidated(int UserId) {
+		Session session = this.sessionFactory.openSession();
+		Criteria criteria = session.createCriteria(UserDetails.class).add(Restrictions.eq("id", UserId));
+		UserDetails user = (UserDetails) criteria.uniqueResult();
+		session.close();
+		return user;
+
 	}
 
 }

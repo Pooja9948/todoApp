@@ -1,6 +1,6 @@
 var todoApp = angular.module('todoApp');
 
-todoApp.factory('homeService', function($http, $location ,$state) {
+todoApp.factory('homeService', function($http, $location, $state) {
 	var homePage = {};
 
 	homePage.homeuser = function(user) {
@@ -13,7 +13,7 @@ todoApp.factory('homeService', function($http, $location ,$state) {
 	}
 
 	// cards.notes = [];
-	//ADD NOTE
+	// ADD NOTE
 	homePage.saveNotes = function(note) {
 		console.log("homeservice");
 		console.log("jaskdhf " + note);
@@ -55,17 +55,38 @@ todoApp.factory('homeService', function($http, $location ,$state) {
 			console.log("error" + response.data.myResponseMessage);
 		});
 	}
-	
-	//Update Note
-	homePage.updateNote=function(note){
+
+	// Update Note
+	homePage.updateNote = function(note) {
 		console.log(note);
 		return $http({
 			method : "PUT",
 			url : 'user/updateNote',
-			headers: {
-				'token':localStorage.getItem('token')
+			headers : {
+				'token' : localStorage.getItem('token')
 			},
-			data: note
+			data : note
+		})
+	}
+	// GET USER
+	homePage.getUser = function() {
+		return $http({
+			method : "GET",
+			url : 'user/currentUser',
+			headers : {
+				'token' : localStorage.getItem('token')
+			}
+		})
+	}
+	// CHANGE USER PROFILE
+	homePage.changeProfile = function(User) {
+		return $http({
+			method : "POST",
+			url : 'profileChange',
+			headers : {
+				'token' : localStorage.getItem('token')
+			},
+			data : User
 		})
 	}
 	return homePage;

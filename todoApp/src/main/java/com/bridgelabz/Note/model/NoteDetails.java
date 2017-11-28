@@ -32,7 +32,7 @@ public class NoteDetails {
 	private boolean isArchived;
 	private boolean isPin;
 	private boolean isTrash;
-	private Date reminder;
+	private String reminder;
 
 
 	@JsonIgnore
@@ -119,11 +119,11 @@ public class NoteDetails {
 		this.isPin = isPin;
 	}
 	
-	public Date getReminder() {
+	public String getReminder() {
 		return reminder;
 	}
 
-	public void setReminder(Date reminder) {
+	public void setReminder(String reminder) {
 		this.reminder = reminder;
 	}
 	/*@Override

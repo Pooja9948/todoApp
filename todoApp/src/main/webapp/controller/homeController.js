@@ -3,7 +3,8 @@ var todoApp = angular.module('todoApp');
 todoApp
 		.controller(
 				'homeController',
-				function($scope, homeService, $location, $state, $uibModal) {
+				function($scope, homeService, $location, $state, $uibModal,
+						toastr) {
 
 					var addNote = {};
 					$scope.note = {};
@@ -28,7 +29,7 @@ todoApp
 						}
 					}
 
-					// ADD COLOR
+					// ADD COLORdelReminder(note)
 
 					$scope.AddNoteColor = "#ffffff";
 
@@ -90,6 +91,7 @@ todoApp
 						$scope.navBarHeading = "Reminder";
 					}
 
+					/* SAVE NOTE */
 					$scope.saveNotes = function() {
 
 						$scope.title = $('#note-title-input').html();
@@ -97,7 +99,12 @@ todoApp
 						addNote.title = $scope.note.title;
 						addNote.description = $scope.note.description;
 						var httpCreateNote = homeService.saveNotes(addNote);
-
+						httpCreateNote.then(function(response) {
+							getNotes();
+							toastr.success('You have created a note',
+									'check it out');
+						}, function(response) {
+						});
 					}
 
 					// MAKE A COPY
@@ -156,14 +163,47 @@ todoApp
 					});
 					// }
 					function getNotes() {
-						httpNotes.then(function(response) {
-							if (response.data.status == '511') {
-								$location.path('/login')
-							} else {
-								console.log(response.data);
-								$scope.notes = response.data;
-								homeService.notes = response.data;
-							}
+						httpNotes
+								.then(function(response) {
+									if (response.data.status == '511') {
+										$location.path('/login')
+									} else {
+										console.log(response.data);
+										$scope.notes = response.data;
+										homeService.notes = response.data;
+										$interval(
+												function() {
+													var i = 0;
+													for (i; i < $scope.notes.length; i++) {
+														if ($scope.notes[i].reminder != 'false') {
+
+															var currentDate = $filter(
+																	'date')
+																	(
+																			new Date(),
+																			'MM/dd/yyyy h:mm a');
+															if ($scope.notes[i].reminder === currentDate) {
+
+																toastr
+																		.success(
+																				'You have a reminder for a note',
+																				'check it out');
+															}
+														}
+													}
+												}, 9000);
+
+									}
+								});
+					}
+
+					/* remove reminder */
+					$scope.delReminder = function(note) {
+						note.reminder = null;
+						var a = homeService.updateNote(note);
+						a.then(function(response) {
+							getNotes();
+						}, function(response) {
 						});
 					}
 
@@ -233,7 +273,7 @@ todoApp
 							action_properties : JSON.stringify({
 								object : {
 									'og:title' : note.title,
-									'og:description' :note.description
+									'og:description' : note.description
 								}
 							})
 						}, function(response) {
@@ -244,50 +284,99 @@ todoApp
 							}
 						});
 					};
-					
-					//FOR REMINDER
-					$scope.datetimepicker=function(){
-				    	$('#datetimepicker6').datetimepicker();
-				    	var reminder = $('#datetimepicker6').val();
-				    	console.log(reminder);
-				    }
-				    $scope.tet = function(note){
-				    	var reminder = $('#datetimepicker6').val();
-				    	note.reminder = reminder;
-				    	var mydate = new Date(reminder);
-				    	note.reminder = mydate;
-				    	homeService.updateNote(note);
-				    }
-					
-					//LIST AND GRID VIEW
-					$scope.ListView=true;
-					
-					$scope.ListViewToggle=function(){
-						if($scope.ListView==true){
-							$scope.ListView=false;
+
+					// FOR REMINDER
+					$scope.datetimepicker = function() {
+						$('#datetimepicker6').datetimepicker();
+						var reminder = $('#datetimepicker6').val();
+						console.log(reminder);
+					}
+					$scope.tet = function(note) {
+						var reminder = $('#datetimepicker6').val();
+						note.reminder = reminder;
+						var mydate = new Date(reminder);
+						note.reminder = mydate;
+						homeService.updateNote(note);
+					}
+
+					// LIST AND GRID VIEW
+					$scope.ListView = true;
+
+					$scope.ListViewToggle = function() {
+						if ($scope.ListView == true) {
+							$scope.ListView = false;
+							listGrideView();
+						} else {
+							$scope.ListView = true;
 							listGrideView();
 						}
-						else{
-						$scope.ListView=true;
-						listGrideView();
-						}
 					}
-					
+
 					listGrideView();
-					
-					function listGrideView(){
-						if($scope.ListView){
-							var element = document.getElementsByClassName('card');
-							for(var i=0;i<element.length;i++){
-								element[i].style.width="900px";
+
+					function listGrideView() {
+						if ($scope.ListView) {
+							var element = document
+									.getElementsByClassName('card');
+							for (var i = 0; i < element.length; i++) {
+								element[i].style.width = "900px";
 							}
-						}
-						else{
-							var element = document.getElementsByClassName('card');
-							for(var i=0;i<element.length;i++){
-								element[i].style.width="300px";
+						} else {
+							var element = document
+									.getElementsByClassName('card');
+							for (var i = 0; i < element.length; i++) {
+								element[i].style.width = "300px";
 							}
 						}
 					}
-					//uibModalInstance.result.catch(function () { uibModalInstance.close(); })
+					/* GET USER */
+					getUser();
+
+					function getUser() {
+						var a = homeService.getUser();
+						a.then(function(response) {
+							$scope.User = response.data;
+							console.log(response.data);
+						}, function(response) {
+							// console.log("Not Found");
+						});
+					}
+
+					/*For Image*/
+					$scope.imageSrc = "";
+
+					$scope.$on("fileProgress", function(e, progress) {
+						$scope.progress = progress.loaded / progress.total;
+					});
+
+					$scope.openImageUploader = function(type) {
+						$scope.type = type;
+						$('#imageuploader').trigger('click');
+					}
+
+					/* logout user */
+					$scope.logout = function() {
+						localStorage.removeItem('token');
+						$location.path('/login');
+					}
+
+					$scope.type = {};
+					$scope.type.image = '';
+
+					$scope.$watch('imageSrc', function(newimg, oldimg) {
+						if ($scope.imageSrc != '') {
+							if ($scope.type === 'input') {
+								$scope.addimg = $scope.imageSrc;
+							} else if ($scope.type === 'user') {
+								$scope.User.profile = $scope.imageSrc;
+								$scope.changeProfile($scope.User);
+							} else {
+								console.log();
+								$scope.type.image = $scope.imageSrc;
+								$scope.updateNote($scope.type);
+							}
+						}
+
+					});
+
 				});

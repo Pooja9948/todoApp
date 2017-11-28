@@ -66,12 +66,12 @@ public class FacebookProfileData {
 				 userByEmail.setActivated(true);
 				userService.createUser(userByEmail);
 
-				response.sendRedirect("http://localhost:8080/todoApp/#!/homePage");
+				response.sendRedirect("http://localhost:8080/todoApp/#!/dummy");
 			}else {
 				String myAccessToken = GenerateToken.generateToken(userByEmail.getId());
 				//LOG.info("token geneted by jwt"+myAccessToken);
 				session.setAttribute("myAccessToken", myAccessToken);
-				response.sendRedirect("http://localhost:8080/todoApp/#!/dummyFbLogin");
+				response.sendRedirect("http://localhost:8080/todoApp/#!/dummy");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -83,13 +83,6 @@ public class FacebookProfileData {
 		return null;
 
 	}
-	@RequestMapping(value="/tokenAftergFbLogin")
-	public ResponseEntity<Response> getAccessTokenByglogin(HttpSession session){
-		String acessToken = (String) session.getAttribute("myAccessToken");
-		CustomResponse customResponse = new CustomResponse();
-		customResponse.setMessage(acessToken);
-		return ResponseEntity.ok(customResponse);
-
-	}
+	
 
 }

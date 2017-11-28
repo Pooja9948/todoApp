@@ -23,5 +23,7 @@ public interface UserService {
 	public UserDetails getUserByEmail(String email);
 
 	public void saveOTP(OTPDetails otpDetails);
+	
+	public UserDetails userValidated(int UserId);
 	// public void registration(UserDetails userForFb);
 }

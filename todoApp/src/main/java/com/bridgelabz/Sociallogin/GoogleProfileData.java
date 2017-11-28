@@ -55,22 +55,15 @@ public class GoogleProfileData {
 				googleUser.setLastname(objectMapper.readTree(googleProfileInfo).get("family_name").asText());
 				googleUser.setActivated(true);
 				userService.createUser(googleUser);
-				String myAccessToken = GenerateToken.generateToken(userByEmail.getId());
-				System.out.println("checking access token"+myAccessToken);
-				session.setAttribute("myAccessToken", myAccessToken);
-				response.sendRedirect("http://localhost:8080/todo/#!/homePage");
+				
+				response.sendRedirect("http://localhost:8080/todoApp/#!/dummy");
 			}
 			else {
 				String myAccessToken = GenerateToken.generateToken(userByEmail.getId());
 				session.setAttribute("myAccessToken", myAccessToken);
-				response.sendRedirect("http://localhost:8080/todo/#!/dummyLogin");
+				response.sendRedirect("http://localhost:8080/todoApp/#!/dummy");
 			}
 			
-			String id = objectMapper.readTree(googleProfileInfo).get("id").asText();
-			String verified_email = objectMapper.readTree(googleProfileInfo).get("verified_email").asText(); 
-			String given_name = objectMapper.readTree(googleProfileInfo).get("given_name").asText();
-			String family_name=objectMapper.readTree(googleProfileInfo).get("family_name").asText();
-			String gender = objectMapper.readTree(googleProfileInfo).get("gender").asText();
 			
 		} catch (IOException e) {
 			e.printStackTrace();

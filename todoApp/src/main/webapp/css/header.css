@@ -52,3 +52,18 @@
 .navigationTop{
 	margin: 20px;
 }
+
+.profile{
+	padding-right: 350px;
+	height : 200px;
+}
+
+.image{
+/* 			height:100px; */
+/* 			width:140px; */
+			background-repeat: no-repeat;
+		    background-position: 50%;
+		    border-radius: 50%;
+		    width: 100px;
+		    height: 100px;
+		}

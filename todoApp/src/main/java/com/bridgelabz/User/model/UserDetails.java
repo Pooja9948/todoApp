@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -37,6 +38,18 @@ public class UserDetails {
 	private String mobileno;
 
 	private boolean isActivated;
+	
+	@Lob
+	@Column(columnDefinition = "LONGBLOB")
+	private String profileImage; 
+	
+	public String getProfileImage() {
+		return profileImage;
+	}
+
+	public void setProfileImage(String profileImage) {
+		this.profileImage = profileImage;
+	}
 
 	public boolean isActivated() {
 		return isActivated;

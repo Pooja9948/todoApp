@@ -1,7 +1,8 @@
-var todoApp = angular.module('todoApp', [ 'ui.router', 'ngSanitize','ui.bootstrap']);
+var todoApp = angular.module('todoApp', [ 'ui.router', 'ngSanitize',
+		'ui.bootstrap', 'toastr', 'ui.bootstrap.datepicker' ]);
 
 todoApp.config(function($stateProvider, $urlRouterProvider) {
-	
+
 	$stateProvider.state('registrationForm', {
 		url : '/registrationForm',
 		templateUrl : 'template/registerpage.html',
@@ -38,6 +39,9 @@ todoApp.config(function($stateProvider, $urlRouterProvider) {
 		url : '/reminder',
 		templateUrl : 'template/reminder.html',
 		controller : 'homeController'
+	}).state('dummy', {
+		url : '/dummy',
+		controller : 'dummyController'
 	});
 	$urlRouterProvider.otherwise('login');
 });
