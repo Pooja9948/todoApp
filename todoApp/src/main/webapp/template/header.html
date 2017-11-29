@@ -27,23 +27,33 @@
 			</li>
 			
 			<li>
-				<div class="dropdown glyphicon-pic ">
-					<span class="btn dropdown-toggle"  id="demo" type="button" data-toggle="dropdown">
+			
+				<div class="imagedropdown glyphicon-pic">
+					<span class="btn dropdown-toggle" id="menu1" type="button" data-toggle="dropdown" style="margin-top:12px">
 						<span class="glyphicon glyphicon-user"></span>
-						<!-- <img alt="{{User.firstName.charAt(0)}}" class="img-circle" ng-src="{{User.profile}}" height="35px">
-						{{User.firstName}}
-						{{User.email}} -->
+						<img alt="{{User.firstName.charAt(0)}}" class="img-circle" ng-src="{{User.profile}}" height="35px">
 					</span>
-					<ul class="dropdown-menu profile" role="menu"  aria-labelledby="demo">
-					<img alt="{{User.firstName.charAt(0)}}" title="{{User.firstName.charAt(0)}}" class="img-circle" ng-src="{{User.profile}}" height="100px" width="100px">
+					
+					<ul class="dropdown-menu profile" role="menu" style="background-color: white; padding-left: 10px" aria-labelledby="menu1">
+						<li     style="height: 150px;width: 200px;">
 						
-						<img alt="ChangeProfile" ng-click="openImageUploader('user')" src="" height="20px">
+						<img align="middle" alt="{{User.firstName.charAt(0)}}" class="img-circle profile-picture" ng-src="{{User.profileImage}}" height="100px" width="100px">
 						
-						<input id="imageuploader" ng-show="false" type="file" ng-file-select="onFileSelect($files)" ng-model="imageSrc">
-						{{User.firstName}}
+						<!-- <img alt="ChangeProfile" ng-click="openImageUploader(User)" src="" height="20px"> -->
+						
+						 <input id="imageuploader" ng-show="false"  type="file" ng-file-select="onFileSelect($files)" ng-model="imageSrc">
+						
+						
+						
+						</li><br>
+						<li>
+						{{User.firstname}} {{User.lastname}}
+								<br>
 						{{User.email}}
-						<!-- <li><a href="#" ng-bind-html='User.firstname' ng-bind-html='User.lastname' ><span class="glyphicon glyphicon-user"></span></a></li> -->
-						<li ng-click="logout()">logout</li>
+						<div>
+						<button style="float: left" ng-click="logout()">logout</button>
+						</div>
+						</li>
 					</ul>
 				</div>
 			</li>

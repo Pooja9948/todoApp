@@ -177,17 +177,10 @@ todoApp
 													for (i; i < $scope.notes.length; i++) {
 														if ($scope.notes[i].reminder != 'false') {
 
-															var currentDate = $filter(
-																	'date')
-																	(
-																			new Date(),
-																			'MM/dd/yyyy h:mm a');
+															var currentDate = $filter('date')(new Date(),'MM/dd/yyyy h:mm a');
 															if ($scope.notes[i].reminder === currentDate) {
 
-																toastr
-																		.success(
-																				'You have a reminder for a note',
-																				'check it out');
+																toastr.success('You have a reminder for a note','check it out');
 															}
 														}
 													}
@@ -342,7 +335,7 @@ todoApp
 						});
 					}
 
-					/*For Image*/
+					/* For Image */
 					$scope.imageSrc = "";
 
 					$scope.$on("fileProgress", function(e, progress) {

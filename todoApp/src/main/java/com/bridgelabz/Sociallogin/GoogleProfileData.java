@@ -53,6 +53,7 @@ public class GoogleProfileData {
 				googleUser.setEmail(objectMapper.readTree(googleProfileInfo).get("email").asText());
 				googleUser.setFirstname(objectMapper.readTree(googleProfileInfo).get("given_name").asText());
 				googleUser.setLastname(objectMapper.readTree(googleProfileInfo).get("family_name").asText());
+				googleUser.setProfileImage(objectMapper.readTree(googleProfileInfo).get("picture").asText());
 				googleUser.setActivated(true);
 				userService.createUser(googleUser);
 				

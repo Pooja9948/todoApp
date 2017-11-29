@@ -91,3 +91,7 @@ img{
 	border: 0px;
     outline: 0px;
 }
+
+[contenteditable]:focus {
+    outline: 0px solid transparent;
+}

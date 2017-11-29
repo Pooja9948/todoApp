@@ -63,6 +63,7 @@ public class FacebookProfileData {
 				 userByEmail.setEmail(mapper.readTree(profileInfoFromFB).get("email").asText());
 				 userByEmail.setFirstname(mapper.readTree(profileInfoFromFB).get("first_name").asText());
 				 userByEmail.setLastname(mapper.readTree(profileInfoFromFB).get("last_name").asText());
+				 userByEmail.setProfileImage(mapper.readTree(profileInfoFromFB).get("picture").asText());
 				 userByEmail.setActivated(true);
 				userService.createUser(userByEmail);
 

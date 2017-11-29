@@ -38,9 +38,8 @@
 	<div class="modal-body">
 		<div class="form-group">
 
-			<div id="notetitle" contenteditable="true" ng-model="note.title"></div>
-			<div id="noteDescription" contenteditable="true"
-				ng-model="note.description"></div>
+			<div id="notetitle" placeholder="title" contenteditable="true" ng-model="note.title" ng-change="updateNote(note)"></div>
+			<div id="noteDescription" placeholder="Take a note..." contenteditable="true" ng-model="note.description" ng-change="updateNote(note)"></div>
 
 			<div class="moreOptions">
 
