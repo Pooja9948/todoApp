@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -33,7 +34,12 @@ public class NoteDetails {
 	private boolean isPin;
 	private boolean isTrash;
 	private String reminder;
+	
+	@Lob
+	@Column(columnDefinition = "LONGBLOB")
+	private String noteImage;
 
+	
 
 	@JsonIgnore
 	@ManyToOne
@@ -125,6 +131,14 @@ public class NoteDetails {
 
 	public void setReminder(String reminder) {
 		this.reminder = reminder;
+	}
+	
+	public String getNoteImage() {
+		return noteImage;
+	}
+
+	public void setNoteImage(String noteImage) {
+		this.noteImage = noteImage;
 	}
 	/*@Override
 	public String toString() {

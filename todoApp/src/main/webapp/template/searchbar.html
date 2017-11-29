@@ -9,10 +9,9 @@
 				
 				
 				
-				<div align="center"><h4>Notes in Trash are deleted after 7 days.</h4>
-				<div ng-click=delAllNote>EMPTY TRASH NOW</div></div>
+				
 				<div class='row'>
-					<div class="card col-md-4 a" ng-repeat="note in notes | filter :{archived:'false',pin:'false',trash:'true'}"
+					<div class="card col-md-4 a" ng-repeat="note in notes "
 						class="container" style="background-color:{{note.color}}">
 						
 						<div  style="float: right">					
@@ -20,9 +19,11 @@
 								<img alt="pin" style="height: 17px" src="image/pin.svg"></img>
 							</span>
 						</div>
+							<div ng-click="showModal(note)">
 						<div contenteditable="true" ng-bind-html="note.title"></div>
 						<br>
 						<div contenteditable="true" ng-bind-html="note.description"></div>
+						</div>
 
 							<div class="moreOptions" >
 
@@ -57,8 +58,9 @@
 
 						
 										<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-											<li><a ng-click="deleteNotes(note)">Delete</a></li>
-											<li><a ng-click="restoreNote(note)">Restore</a></li>
+											<li><a ng-click="updateNote(note)">Delete</a></li>
+											<li><a>Add Lable</a></li>
+											<li><a ng-click="copy(note)">Make a Copy</a></li>
 										</ul>
 									</div>
 								</div>

@@ -42,6 +42,14 @@ todoApp.config(function($stateProvider, $urlRouterProvider) {
 	}).state('dummy', {
 		url : '/dummy',
 		controller : 'dummyController'
+	}).state('searchbar', {
+		url : '/searchbar',
+		templateUrl : 'template/searchbar.html',
+		controller : 'homeController'
+	}).state('header', {
+		url : '/header',
+		templateUrl : 'template/header.html',
+		controller : 'homeController'
 	});
 	$urlRouterProvider.otherwise('login');
 });

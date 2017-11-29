@@ -15,4 +15,8 @@ public interface NoteDAO {
 	public NoteDetails getNoteById(int noteId);
 
 	public List<NoteDetails> getAllNotes(UserDetails userDetails);
+	
+	public void deleteScheduleNote();
+	
+	public void deleteAllNote();
 }

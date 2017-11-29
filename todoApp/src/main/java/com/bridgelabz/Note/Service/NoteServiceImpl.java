@@ -11,25 +11,33 @@ import com.bridgelabz.User.model.UserDetails;
 public class NoteServiceImpl implements NoteService {
 	@Autowired
 	NoteDAO noteDao;
-	
-	public void createNote(NoteDetails noteDetails){
+
+	public void createNote(NoteDetails noteDetails) {
 		noteDao.createNote(noteDetails);
 	}
-	
-	public void updateNote(NoteDetails noteDetails){
+
+	public void updateNote(NoteDetails noteDetails) {
 		noteDao.updateNote(noteDetails);
 	}
-	
-	public void deleteNote(int noteId){
+
+	public void deleteNote(int noteId) {
 		noteDao.deleteNote(noteId);
 	}
-	
-	public List<NoteDetails> getAllNotes(UserDetails userDetails){
+
+	public List<NoteDetails> getAllNotes(UserDetails userDetails) {
 		return noteDao.getAllNotes(userDetails);
 	}
-	
-	public NoteDetails getNoteById(int noteId)
-	{
+
+	public NoteDetails getNoteById(int noteId) {
 		return noteDao.getNoteById(noteId);
+	}
+
+	@Override
+	public void deleteScheduleNote() {
+		noteDao.deleteScheduleNote();
+	}
+
+	public void deleteAllNote() {
+		noteDao.deleteAllNote();
 	}
 }

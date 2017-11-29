@@ -100,5 +100,51 @@ public class NoteDAOImpl implements NoteDAO {
 		
 		return notes;
 	}
+	
+	public void deleteScheduleNote() {
+		Session session = sessionfactory.openSession();
+
+		System.out.println("jhdbvj ");
+		//Date currentdate=new Date();
+		Date deleteTime = new Date(System.currentTimeMillis() - 7*24*60*60*1000);
+		boolean trash= true;
+		try {
+			transaction = session.beginTransaction();
+			Query deleteNote = session.createQuery("delete from NoteDetails where modifiedDate<:deleteTime and isTrash=:trash");
+			deleteNote.setParameter("deleteTime", deleteTime);
+			deleteNote.setParameter("trash", trash);
+
+			int count = deleteNote.executeUpdate();
+			System.out.println("Number of notes deleted: " + count);
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		}
+
+	}
+	
+	public void deleteAllNote() {
+		Session session = sessionfactory.openSession();
+
+		boolean trash= true;
+		try {
+			transaction = session.beginTransaction();
+			Query deleteNote = session.createQuery("delete from NoteDetails where  isTrash=:trash");
+			deleteNote.setParameter("trash", trash);
+
+			int count = deleteNote.executeUpdate();
+			System.out.println("Number of notes deleted: " + count);
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		}
+
+	}
 
 }

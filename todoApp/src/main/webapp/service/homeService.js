@@ -78,6 +78,15 @@ todoApp.factory('homeService', function($http, $location, $state) {
 			}
 		})
 	}
+	homePage.delAllNote = function() {
+		return $http({
+			method : "DELETE",
+			url : 'user/delAllNotes',
+			headers : {
+				'token' : localStorage.getItem('token')
+			}
+		})
+	}
 	// CHANGE USER PROFILE
 	homePage.changeProfile = function(User) {
 		return $http({

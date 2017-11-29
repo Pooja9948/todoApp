@@ -89,8 +89,20 @@ todoApp
 					} else if ($state.current.name == "reminder") {
 						$scope.topBarColor = "#669999";
 						$scope.navBarHeading = "Reminder";
+					}else if ($state.current.name == "searchbar") {
+						$scope.topBarColor = "#3e50b4";
+						$scope.navBarHeading = "Search";
 					}
-
+					
+					/*FOR SEARCH BAR*/
+					$scope.searchbar = function() {
+						modalInstance = $uibModal.open({
+							templateUrl : 'template/searchbar.html',
+							scope : $scope,
+							size : 'md'
+						});
+					};
+					
 					/* SAVE NOTE */
 					$scope.saveNotes = function() {
 
@@ -119,10 +131,20 @@ todoApp
 						});
 					}
 
-					// delete notes
+					// delete note
 					$scope.deleteNotes = function(note) {
 						console.log("note id" + note.id);
 						var deleteNote = homeService.deleteNotes(note);
+						deleteNote.then(function(response) {
+							getNotes();
+						}), then(function(response) {
+							console.log(response);
+						});
+					}
+					
+					/*DELETE ALL NOTES*/
+					$scope.delAllNote = function() {
+						var deleteNote = homeService.deleteAllNotes();
 						deleteNote.then(function(response) {
 							getNotes();
 						}), then(function(response) {

@@ -22,11 +22,6 @@ import com.bridgelabz.User.model.UserDetails;
 import com.bridgelabz.Util.response.CustomResponse;
 import com.bridgelabz.Util.response.Response;
 
-/*import com.bridgelabz.Util.CustomResponse;
-import com.bridgelabz.Util.Response;
-import com.bridgelabz.model.NoteDetails;
-import com.bridgelabz.model.UserDetails;
-import com.bridgelabz.service.NoteService;*/
 
 @RestController
 @RequestMapping(value = "/user")
@@ -95,6 +90,16 @@ public class NoteController {
 		System.out.println("note is deleted");
 		CustomResponse customResponse = new CustomResponse();
 		customResponse.setMessage("Note deleted successfully!!!");
+		return ResponseEntity.ok(customResponse);
+	}
+	
+	@RequestMapping(value = "/delAllNotes", method = RequestMethod.DELETE)
+	public ResponseEntity<Response> deleteAllNote() {
+		NoteDetails note = new NoteDetails();
+		noteService.deleteAllNote();
+		System.out.println("All notes are deleted");
+		CustomResponse customResponse = new CustomResponse();
+		customResponse.setMessage("Notes deleted successfully!!!");
 		return ResponseEntity.ok(customResponse);
 	}
 
