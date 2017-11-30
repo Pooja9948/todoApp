@@ -43,6 +43,7 @@
 			<list>
 				<value>com.bridgelabz.User.model.UserDetails</value>
 				<value>com.bridgelabz.Note.model.NoteDetails</value>
+				<value>com.bridgelabz.Note.model.NoteCollaborate</value>
 				<!-- <value>com.bridgelabz.model.OTPDetails</value> -->
 			</list>
 		</property>

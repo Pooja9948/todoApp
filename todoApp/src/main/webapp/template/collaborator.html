@@ -1,0 +1,52 @@
+<div class="modal-content" ng-init="getUserlist(note,User,indexOfNote)">
+	<div class="modal-header">
+		<font size="5px">Collborators</font>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+
+			<div class="col-sm-2">
+				<img ng-src="{{owner.profileImage}}" class="img-circle" width="50px"
+					height="50px" />
+			</div>
+
+			<div class="col-sm-8" ng-init="getOwner(note)">
+				<font size="4px">{{owner.firstName}} {{owner.lastName}}<i
+					class="pull-right">(owner)</i></font><br>{{owner.email}}
+			</div>
+		</div>
+		<br>
+
+		<div ng-repeat="user in users">
+			<div class="row">
+
+				<div class="col-sm-2">
+					<img ng-src="{{User.profileImage}}" class="img-circle" width="50px"
+						height="50px" />
+				</div>
+
+				<div class="col-sm-8">
+					<font size="4px">{{User.firstName}} {{User.lastName}}</font>
+					<!-- <button type="button" class="close pull-right" aria-label="Close">
+	 <span aria-hidden="true">&times;</span>
+	</button> -->
+					<button type="button" class="close pull-right col-sm-1"
+						ng-click="removeCollborator(note,user)">&times;</button>
+					<br>{{User.email}}
+				</div>
+			</div>
+			<br>
+		</div>
+		<div class="row">
+			<input type="text" class="col-sm-12" id="searchbox"
+				ng-model="$parent.shareWith.email" placeholder="Enter Collborator">
+		</div>
+	</div>
+
+	<div class="modal-footer">
+
+		<div role="button" ng-click="collborate(note,User)"
+			class="btn btn-done pull-right inline" data-dismiss="modal">DONE</div>
+	</div>
+
+</div>

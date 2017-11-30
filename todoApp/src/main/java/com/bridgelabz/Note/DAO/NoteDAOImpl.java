@@ -1,12 +1,15 @@
 package com.bridgelabz.Note.DAO;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.Query;
+import org.hibernate.query.Query;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -14,6 +17,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bridgelabz.Note.model.NoteCollaborate;
 import com.bridgelabz.Note.model.NoteDetails;
 import com.bridgelabz.User.Controller.UserController;
 import com.bridgelabz.User.model.UserDetails;
@@ -146,5 +150,51 @@ public class NoteDAOImpl implements NoteDAO {
 		}
 
 	}
+	
+	public int saveCollborator(NoteCollaborate collborate) {
+		int collboratorId=0;
+		Session session=sessionfactory.openSession();
+		Transaction transaction=session.beginTransaction();
+		try{
+		collboratorId=(Integer) session.save(collborate);
+		transaction.commit();
+		}catch(HibernateException e){
+			e.printStackTrace();
+			transaction.rollback();
+		}finally{
+			session.close();
+		}
+		return collboratorId;
+	}
+
+	public List<UserDetails> getListOfUser(int noteId) {
+
+		Session session = sessionfactory.openSession();
+		Query querycollab = session.createQuery("select c.shareId from NoteCollaborate c where c.noteId= " + noteId);
+		List<UserDetails> listOfSharedCollaborators = querycollab.list();
+		System.out.println("listOfSharedCollaborators "+listOfSharedCollaborators);
+		session.close();
+		return listOfSharedCollaborators;	
+	}
+	
+	public Set<NoteDetails> getCollboratedNotes(int userId) {
+		Session session = sessionfactory.openSession();
+		Query query = session.createQuery("select c.noteId from NoteCollaborate c where c.shareId= " + userId);
+		List<NoteDetails> colllboratedNotes = query.list();
+		Set<NoteDetails> notes=new HashSet<NoteDetails>(colllboratedNotes);
+	
+		session.close();
+		return notes;
+	}
+	
+	public int removeCollborator(int shareWith,int noteId) {
+		Session session = sessionfactory.openSession();
+		Transaction transaction=session.beginTransaction();
+		Query query = session.createQuery("delete  NoteCollaborate c where c.shareId= "+shareWith+" and c.noteId="+noteId );
+	
+		int status=query.executeUpdate();
+		session.close();
+		return status;
+}
 
 }

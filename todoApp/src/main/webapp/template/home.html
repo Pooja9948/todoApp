@@ -69,7 +69,9 @@
 										 ng-blur="tet(note)" ng-model="note.reminder"> 
 									 <img alt="reminder" height="15px" src="image/reminder.svg"
 										ng-click="datetimepicker();note.reminder=reminder; updateNote(note)">
-									<img id="collaboratorOutput" alt="collaborator" ng-click="openCollaborator(note)" src="image/colaburator.png" height="25px">
+									
+									<img alt="colaburator" class="btn" ng-click="openCollboarate(note,User,$index)" src="image/colaburator.png" height="35px">
+									
 									<div class="btn-group dropup colorDiv" uib-dropdown>
 									<img id="dropdown" class="dropdown-toggle"
 											data-toggle="dropdown" alt="color"
@@ -156,8 +158,11 @@
 								</div>
 
 								<!-- <img alt="image" src="image/image.svg" height="20px"> -->
-								<img alt="ChangeProfile" src="image/image.svg" height="20px" ng-click="openImageUploader(User)" height="20px"> <span
-									ng-click="archiveNote(note)"> <img alt="archive"
+								<!-- <img alt="ChangeProfile" src="image/image.svg" height="20px" ng-click="openImageUploader(User)" height="20px"> -->
+								
+								
+								
+							<span  ng-click="archiveNote(note)"> <img alt="archive"
 									src="image/archive.svg" height="20px">
 								</span>
 

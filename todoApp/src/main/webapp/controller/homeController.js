@@ -306,6 +306,7 @@ todoApp
 						var reminder = $('#datetimepicker6').val();
 						console.log(reminder);
 					}
+					
 					$scope.tet = function(note) {
 						var reminder = $('#datetimepicker6').val();
 						note.reminder = reminder;
@@ -368,7 +369,110 @@ todoApp
 						$scope.type = type;
 						$('#imageuploader').trigger('click');
 					}
+					
+					/*COLLABORATOR*/
+					$scope.openCollboarate = function(note, user, index) {
+						$scope.note = note;
+						$scope.user = user;
+						$scope.indexOfNote = index;
+						modalInstance = $uibModal.open({
+							templateUrl : 'template/collaborator.html',
+							scope : $scope,
+							size : 'md'
+						});
+					}
+					/*$scope.showModal = function(note) {
+						$scope.note = note;
+						modalInstance = $uibModal.open({
+							templateUrl : 'template/newNote.html',
+							scope : $scope,
+							size : 'md'
+						});
+					};*/
+					$scope.getUserlist = function(note, user, index) {
+						var obj = {};
+						obj.noteId = note;
+						obj.ownerId = user;
+						obj.shareId = {};
 
+						var url = 'user/collaborate';
+						var token = localStorage.getItem('token');	
+						var userDetails = homeService.service(url, 'POST', token, obj);
+						userDetails.then(function(response) {
+
+							console.log(response.data);
+							$scope.users = response.data;
+							note.collabratorUsers = response.data;
+
+						}, function(response) {
+							$scope.user = {};
+						
+
+						});
+					
+						console.log(user);
+						
+					}
+
+					$scope.collborate = function(note, user, index) {
+						var obj = {};
+						console.log(note);
+						obj.noteId = note;
+						obj.ownerId = user;
+						obj.shareId = $scope.shareWith;
+
+						var url = 'user/collaborate';
+						var token = localStorage.getItem('token');
+						var userDetails = homeService.service(url, 'POST', token, obj);
+						userDetails.then(function(response) {
+
+							console.log(response.data);
+							$scope.users = response.data;
+							note.collabratorUsers = response.data;
+
+						}, function(response) {
+							$scope.user = {};
+
+						});
+						
+						console.log(user);
+
+					}
+
+					$scope.getOwner = function(note) {
+						var url = 'user/getOwner';
+						var token = localStorage.getItem('token');
+						var user = homeService.service(url, 'POST', token, note);
+						user.then(function(response) {
+
+							$scope.owner = response.data;
+
+						}, function(response) {
+							$scope.users = {};
+						});
+					}
+
+					$scope.removeCollborator = function(note, user, index) {
+						var obj = {};
+						var url = 'user/removeCollborator';
+						obj.noteId = note;
+						obj.ownerId = {
+							'email' : ''
+						};
+						obj.shareId = user;
+						var token = localStorage.getItem('token');
+						var user = homeService.service(url, 'POST', token, obj);
+						user.then(function(response) {
+							$scope.collborate(note, $scope.owner);
+
+							console.log(response.data);
+
+						}, function(response) {
+							console.log(response.data);
+
+						});
+}
+					
 					/* logout user */
 					$scope.logout = function() {
 						localStorage.removeItem('token');
