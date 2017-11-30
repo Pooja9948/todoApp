@@ -26,7 +26,7 @@ public interface NoteService {
 
 	public List<UserDetails> getListOfUser(int noteId);
 
-	public Set<NoteDetails> getCollboratedNotes(int userId);
+	public List<NoteDetails> getCollboratedNotes(int userId);
 
 	public int removeCollborator(int shareWith, int noteId);
 }

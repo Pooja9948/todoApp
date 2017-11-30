@@ -53,7 +53,7 @@ public class NoteServiceImpl implements NoteService {
 		return noteDao.getListOfUser(noteId);
 	}
 
-	public Set<NoteDetails> getCollboratedNotes(int userId) {
+	public List<NoteDetails> getCollboratedNotes(int userId) {
 
 		return noteDao.getCollboratedNotes(userId);
 	}

@@ -1,4 +1,4 @@
-<div class="modal-content" ng-init="getUserlist(note,User,indexOfNote)">
+<div class="modal-content" ng-init="getUserlist(note,user,indexOfNote)">
 	<div class="modal-header">
 		<font size="5px">Collborators</font>
 	</div>
@@ -11,7 +11,7 @@
 			</div>
 
 			<div class="col-sm-8" ng-init="getOwner(note)">
-				<font size="4px">{{owner.firstName}} {{owner.lastName}}<i
+				<font size="4px">{{owner.firstname}} {{owner.lastname}}<i
 					class="pull-right">(owner)</i></font><br>{{owner.email}}
 			</div>
 		</div>
@@ -26,13 +26,13 @@
 				</div>
 
 				<div class="col-sm-8">
-					<font size="4px">{{User.firstName}} {{User.lastName}}</font>
+					<font size="4px">{{user.firstname}} {{user.lastname}}</font>
 					<!-- <button type="button" class="close pull-right" aria-label="Close">
 	 <span aria-hidden="true">&times;</span>
 	</button> -->
 					<button type="button" class="close pull-right col-sm-1"
 						ng-click="removeCollborator(note,user)">&times;</button>
-					<br>{{User.email}}
+					<br>{{user.email}}
 				</div>
 			</div>
 			<br>

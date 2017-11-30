@@ -3,6 +3,7 @@ package com.bridgelabz.Note.Controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -115,8 +116,20 @@ public class NoteController {
 		System.out.println("id---------------------------->" + id);
 
 		List<NoteDetails> notes = noteService.getAllNotes(user);
+		
+		List<NoteDetails> noteCollabortor = noteService.getCollboratedNotes(user.getId());
+		
+		List<NoteDetails> noteList = new ArrayList<>();
+		for (int i = 0; i < notes.size(); i++) {
+			noteList.add(notes.get(i));
+		}
+		
+		for (int i = 0; i < noteCollabortor.size(); i++) {
+			noteList.add(noteCollabortor.get(i));
+		}
+		
 		// System.out.println("all notes : " + notes);
-		return notes;
+		return noteList;
 	}
 
 	@RequestMapping(value = "/collaborate", method = RequestMethod.POST)
