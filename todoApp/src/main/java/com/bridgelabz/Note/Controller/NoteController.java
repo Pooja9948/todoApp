@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bridgelabz.Note.Service.NoteService;
 import com.bridgelabz.Note.model.NoteCollaborate;
 import com.bridgelabz.Note.model.NoteDetails;
+import com.bridgelabz.Note.model.NoteLabel;
 import com.bridgelabz.User.Service.UserService;
 import com.bridgelabz.User.model.UserDetails;
 import com.bridgelabz.Util.response.CustomResponse;
@@ -116,18 +117,18 @@ public class NoteController {
 		System.out.println("id---------------------------->" + id);
 
 		List<NoteDetails> notes = noteService.getAllNotes(user);
-		
+
 		List<NoteDetails> noteCollabortor = noteService.getCollboratedNotes(user.getId());
-		
+
 		List<NoteDetails> noteList = new ArrayList<>();
 		for (int i = 0; i < notes.size(); i++) {
 			noteList.add(notes.get(i));
 		}
-		
+
 		for (int i = 0; i < noteCollabortor.size(); i++) {
 			noteList.add(noteCollabortor.get(i));
 		}
-		
+
 		// System.out.println("all notes : " + notes);
 		return noteList;
 	}
@@ -145,7 +146,6 @@ public class NoteController {
 
 		shareUser = userService.emailValidation(shareUser.getEmail());
 
-		
 		String accessToken = request.getHeader("token");
 		UserDetails user = userService.getUserById(VerifyToken.verifyAccessToken(accessToken));
 
@@ -227,4 +227,80 @@ public class NoteController {
 			return ResponseEntity.ok(response);
 		}
 	}
+/*
+	 LABEL NOTES 
+
+	@RequestMapping(value = "/saveLabel", method = RequestMethod.POST)
+	public ResponseEntity<CustomResponse> saveLabel(@RequestBody NoteLabel labels, HttpSession session,
+			HttpServletRequest request) {
+		CustomResponse response = new CustomResponse();
+		try {
+			if (!(labels.getLabelName() == "" || labels.getLabelName() == null)) {
+				NoteLabel objLabel = noteService.getLabelByName(labels.getLabelName());
+				if (objLabel == null) {
+					UserDetails user = (UserDetails) request.getAttribute("user");
+					labels.setUser(user);
+					noteService.saveLabel(labels);
+					response.setMessage("label save successfully:-");
+					return ResponseEntity.ok(response);
+				} else {
+					response.setMessage("your label is already exixst:-");
+					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+				}
+			}
+			response.setMessage("label can't be emplty:-");
+			return ResponseEntity.ok(response);
+
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(response);
+		}
+	}
+
+	@RequestMapping(value = "getLabelNotes/{label}", method = RequestMethod.GET)
+	public List<NoteDetails> getLabels(@PathVariable String label, HttpServletRequest request) {
+		UserDetails user = (UserDetails) request.getAttribute("user");
+		List<NoteDetails> alNotes = noteService.getLabelNotes(label, user);
+		return alNotes;
+	}
+
+	@RequestMapping(value = "/deleteLabels/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<CustomResponse> deleteLabel(@PathVariable int id) {
+		CustomResponse response = new CustomResponse();
+		boolean isDeleted = noteService.deleteLabelById(id);
+		if (isDeleted) {
+			response.setMessage("deleted successfully");
+			return ResponseEntity.ok(response);
+		} else {
+			response.setMessage("unable to delete");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+		}
+
+	}
+
+	@RequestMapping(value = "/editLabel", method = RequestMethod.POST)
+	public ResponseEntity<CustomResponse> editNotes(@RequestBody NoteLabel label, HttpServletRequest request) {
+
+		CustomResponse response = new CustomResponse();
+		UserDetails user = (UserDetails) request.getAttribute("user");
+		NoteLabel objLabel = noteService.getLabelById(label.getLabelId());
+		label.setUser(user);
+		boolean isEdited;
+		Date resetDate = new Date();
+		isEdited = noteService.editLabel(label);
+		if (isEdited) {
+			response.setMessage("editing notes are successfull");
+			return ResponseEntity.ok(response);
+		} else {
+			response.setMessage("edition is not possible");
+			return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(response);
+		}
+	}
+
+	@RequestMapping(value = "/getLabels", method = RequestMethod.GET)
+	public List<NoteLabel> getLabels(HttpSession session, HttpServletRequest request) {
+		UserDetails user = (UserDetails) request.getAttribute("user");
+		List<NoteLabel> labels = noteService.getLabels(user);
+		return labels;
+	}
+*/
 }

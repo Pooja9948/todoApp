@@ -13,7 +13,7 @@
 <script src="https://connect.facebook.net/enUS/all.js"></script>
 
 <!-- FOR TOASTR -->
-<script src="https://npmcdn.com/angular-toastr/dist/angular-toastr.tpls.js"></script>
+<script src="https://npmcdn.com/angular-toastr/dist/angular-toastr.tpls.js"></script>	
 <link rel="stylesheet" href="https://npmcdn.com/angular-toastr/dist/angular-toastr.css" />
 
 <script
@@ -30,6 +30,10 @@
 <!-- <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script> -->
 
 <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+
+<script src="bower_components/angular-base64/angular-base64.min.js"></script>
+<script src="bower_components/angular-base64-upload/dist/angular-base64-upload.min.js"></script>
+<script src="bower_components/ng-file-upload/ng-file-upload.min.js"></script>
 
 <script type="text/javascript" src="Script/app.js"></script>
 

@@ -10,6 +10,10 @@ todoApp
 					$scope.note = {};
 					$scope.note.description = '';
 					$scope.note.title = '';
+					/*$scope.editLabelFocus = false;
+					$scope.labels = {};
+					$scope.newLabel = '';
+					var labelName = path.substr(path.lastIndexOf("/") + 1);*/
 					var modalInstance;
 					$scope.homePage = function() {
 						var httpServiceUser = homeService.homeuser($scope.user);
@@ -89,12 +93,12 @@ todoApp
 					} else if ($state.current.name == "reminder") {
 						$scope.topBarColor = "#669999";
 						$scope.navBarHeading = "Reminder";
-					}else if ($state.current.name == "searchbar") {
+					} else if ($state.current.name == "searchbar") {
 						$scope.topBarColor = "#3e50b4";
 						$scope.navBarHeading = "Search";
 					}
-					
-					/*FOR SEARCH BAR*/
+
+					/* FOR SEARCH BAR */
 					$scope.searchbar = function() {
 						modalInstance = $uibModal.open({
 							templateUrl : 'template/searchbar.html',
@@ -102,7 +106,7 @@ todoApp
 							size : 'md'
 						});
 					};
-					
+
 					/* SAVE NOTE */
 					$scope.saveNotes = function() {
 
@@ -141,8 +145,8 @@ todoApp
 							console.log(response);
 						});
 					}
-					
-					/*DELETE ALL NOTES*/
+
+					/* DELETE ALL NOTES */
 					$scope.delAllNote = function() {
 						var deleteNote = homeService.deleteAllNotes();
 						deleteNote.then(function(response) {
@@ -199,10 +203,17 @@ todoApp
 													for (i; i < $scope.notes.length; i++) {
 														if ($scope.notes[i].reminder != 'false') {
 
-															var currentDate = $filter('date')(new Date(),'MM/dd/yyyy h:mm a');
+															var currentDate = $filter(
+																	'date')
+																	(
+																			new Date(),
+																			'MM/dd/yyyy h:mm a');
 															if ($scope.notes[i].reminder === currentDate) {
 
-																toastr.success('You have a reminder for a note','check it out');
+																toastr
+																		.success(
+																				'You have a reminder for a note',
+																				'check it out');
 															}
 														}
 													}
@@ -306,7 +317,7 @@ todoApp
 						var reminder = $('#datetimepicker6').val();
 						console.log(reminder);
 					}
-					
+
 					$scope.tet = function(note) {
 						var reminder = $('#datetimepicker6').val();
 						note.reminder = reminder;
@@ -358,7 +369,7 @@ todoApp
 						});
 					}
 
-					/* For Image */
+					/* For Image 
 					$scope.imageSrc = "";
 
 					$scope.$on("fileProgress", function(e, progress) {
@@ -368,9 +379,9 @@ todoApp
 					$scope.openImageUploader = function(type) {
 						$scope.type = type;
 						$('#imageuploader').trigger('click');
-					}
-					
-					/*COLLABORATOR*/
+					}*/
+
+					/* COLLABORATOR */
 					$scope.openCollboarate = function(note, user, index) {
 						$scope.note = note;
 						$scope.user = user;
@@ -381,14 +392,11 @@ todoApp
 							size : 'md'
 						});
 					}
-					/*$scope.showModal = function(note) {
-						$scope.note = note;
-						modalInstance = $uibModal.open({
-							templateUrl : 'template/newNote.html',
-							scope : $scope,
-							size : 'md'
-						});
-					};*/
+					/*
+					 * $scope.showModal = function(note) { $scope.note = note;
+					 * modalInstance = $uibModal.open({ templateUrl :
+					 * 'template/newNote.html', scope : $scope, size : 'md' }); };
+					 */
 					$scope.getUserlist = function(note, user, index) {
 						var obj = {};
 						obj.noteId = note;
@@ -396,8 +404,9 @@ todoApp
 						obj.shareId = {};
 
 						var url = 'user/collaborate';
-						var token = localStorage.getItem('token');	
-						var userDetails = homeService.service(url, 'POST', token, obj);
+						var token = localStorage.getItem('token');
+						var userDetails = homeService.service(url, 'POST',
+								token, obj);
 						userDetails.then(function(response) {
 
 							console.log(response.data);
@@ -406,12 +415,11 @@ todoApp
 
 						}, function(response) {
 							$scope.user = {};
-						
 
 						});
-					
+
 						console.log(user);
-						
+
 					}
 
 					$scope.collborate = function(note, user, index) {
@@ -423,7 +431,8 @@ todoApp
 
 						var url = 'user/collaborate';
 						var token = localStorage.getItem('token');
-						var userDetails = homeService.service(url, 'POST', token, obj);
+						var userDetails = homeService.service(url, 'POST',
+								token, obj);
 						userDetails.then(function(response) {
 
 							console.log(response.data);
@@ -434,7 +443,7 @@ todoApp
 							$scope.user = {};
 
 						});
-						
+
 						console.log(user);
 
 					}
@@ -442,7 +451,8 @@ todoApp
 					$scope.getOwner = function(note) {
 						var url = 'user/getOwner';
 						var token = localStorage.getItem('token');
-						var user = homeService.service(url, 'POST', token, note);
+						var user = homeService
+								.service(url, 'POST', token, note);
 						user.then(function(response) {
 
 							$scope.owner = response.data;
@@ -471,15 +481,96 @@ todoApp
 							console.log(response.data);
 
 						});
-}
-					
+					}
+/*
+					 note labels 
+					$scope.saveLabel = function(label) {
+						var data = {};
+						if (label === undefined) {
+							data.labelName = $scope.newLabel;
+						} else {
+							data.labelName = label.labelName;
+						}
+						var saveLabel = labelService.saveLabel(data);
+						saveLabel.then(function(response) {
+							getLabels();
+							$scope.labels = response.data;
+						}, function(response) {
+							if (response.status == '400')
+								$location.path('/loginPage')
+						});
+					}
+
+					$scope.deleteLabel = function(label) {
+						labelService.deleteLabel(label);
+						getlabels();
+					}
+					$scope.openLabelList = function() {
+						modalInstance = $uibModal.open({
+							templateUrl : 'template/label-list.html',
+							windowClass : 'app-modal-window',
+							scope : $scope
+						});
+					}
+
+					getlabels();
+					function getlabels() {
+						var httpGetLabels = labelService.getLabels(labelName);
+						httpGetLabels.then(function(response) {
+							console.log(response.data);
+							$scope.labels = response.data;
+						}, function(response) {
+							if (response.status == '400')
+								$location.path('/loginPage')
+						});
+					}
+
+					search
+					$scope.searchText;
+					$scope.doSearch = function() {
+						dataStore.searchData($scope.searchText);
+					}*/
 					/* logout user */
 					$scope.logout = function() {
 						localStorage.removeItem('token');
 						$location.path('/login');
 					}
 
-					$scope.type = {};
+					//Image uploader
+					$scope.openImageUploader = function(type) {
+						$scope.type = type;
+						$('#image').trigger('click');
+						return false;
+					}
+
+					$scope.stepsModel = [];
+					$scope.imageUpload = function(element) {
+						var reader = new FileReader();
+						reader.onload = $scope.imageIsLoaded;
+						reader.readAsDataURL(element.files[0]);
+					}
+					$scope.imageIsLoaded = function(e) {
+						$scope.$apply(function() {
+							$scope.stepsModel.push(e.target.result);
+
+							var imageSrc = e.target.result;
+							$scope.type.image = imageSrc;
+
+							// call upate service
+							var archiveRequest = homeService.updateNote($scope.type);
+							archiveRequest.then(function(response) {
+								
+								$state.reload();
+								
+							}, function(error) {
+
+								console.log("Could not update note");
+							});
+
+						});
+					}
+
+					/*$scope.type = {};
 					$scope.type.image = '';
 
 					$scope.$watch('imageSrc', function(newimg, oldimg) {
@@ -496,6 +587,6 @@ todoApp
 							}
 						}
 
-					});
+					});*/
 
 				});

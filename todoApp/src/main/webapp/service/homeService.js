@@ -110,5 +110,66 @@ todoApp.factory('homeService', function($http, $location, $state) {
 			}
 		});
 	}
+	/* FOR LABELS */
+	homePage.saveLabel = function(label) {
+		return $http({
+			method : "POST",
+			url : 'user/saveLabel',
+			headers : {
+				'token' : localStorage.getItem('token')
+			},
+			data : label,
+		})/*
+			 * .then(function(response){ },function(response){
+			 * if(response.status=='400') $location.path('/loginPage'); });
+			 */
+	}
+	homePage.getLabels = function() {
+		return $http({
+			method : "GET",
+			url : 'user/getLabels',
+			headers : {
+				'token' : localStorage.getItem('token')
+			},
+
+		})/*
+			 * .then(function(response){ },function(response){
+			 * if(response.status=='400') $location.path('/loginPage'); });
+			 */
+	}
+	homePage.deleteLabel = function(id) {
+		return $http({
+			method : "DELETE",
+			url : 'user/deleteLabels/' + id,
+			headers : {
+				'token' : localStorage.getItem('token')
+			}
+		})
+	}
+	homePage.editNotes = function(label) {
+		return $http({
+			method : "POST",
+			url : 'user/editLabels',
+			headers : {
+				'token' : localStorage.getItem('token')
+			},
+			data : notes,
+		}).then(function(response) {
+			console.log("edited notes:-");
+			console.log(response.data);
+		}, function(response) {
+			console.log("error" + response.data.myResponseMessage);
+
+		});
+	}
+	homePage.getLabelNotes = function(labelName) {
+		return $http({
+			method : "GET",
+			url : "user/getLabelNotes/" + labelName,
+			headers : {
+				'token' : localStorage.getItem('token')
+			}
+		})
+	}
 	return homePage;
 });

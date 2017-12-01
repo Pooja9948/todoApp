@@ -44,16 +44,17 @@
 				<div class='row' ng-show="pinNotes.length">
 					<h4>Pinned</h4>
 					<div>
+					<input ng-show="false" id="image" type='file' ng-model-instant ng-model="file" onchange="angular.element(this).scope().imageUpload(this)"/>
 						<div class="card col-md-4 a"
 							ng-repeat="note in notes | filter : {pin : true ,archived: false,trash: false} as pinNotes"
 							class="container" style="background-color: {{note.color}}">
 							<div style="float: right">
-
+								<img ng-src="{{note.noteImage}}" ng-if("note.noteImage")>
 								<span style="cursor: pointer"
 									ng-click="note.pin=false; updateNote(note)"> <img
 									alt="pin" style="height: 17px" src="image/bluepin.svg"></img>
 								</span>
-
+								
 							</div>
 							<div ng-click="showModal(note)">
 								<div contenteditable="true" ng-bind-html="note.title"></div>
@@ -80,14 +81,13 @@
 										<ul class="dropdown-menu" uib-dropdown-menu role="menu"
 											aria-labelledby="btn-append-to-body"
 											style="background-color: #f9fbff">
-											<a ng-repeat="color in colors" role="menuitem"> <img
-												ng-src="{{color.path}}" height="25px"
-												ng-click="note.color =color.color; updateNote(note)">
+											<a ng-repeat="color in colors" role="menuitem"> 
+											<img ng-src="{{color.path}}" height="25px" ng-click="note.color =color.color; updateNote(note)">
 											</a>
 										</ul>
 									</div>
 
-									<img alt="image" src="image/image.svg" height="20px"> <span
+									<img alt="image" src="image/image.svg" height="20px" aria-label="Image Upload" ng-click="openImageUploader(note)"> <span
 										ng-click="archiveNote(note)"> <img alt="archive"
 										src="image/archive.svg" height="20px">
 									</span>
@@ -138,7 +138,7 @@
 								<img alt="reminder" height="15px" src="image/reminder.svg"
 										ng-click="datetimepicker();note.reminder=reminder; updateNote(note)">
 										
-								<img alt="colaburator" src="image/colaburator.png" height="25px">
+								<img alt="colaburator" class="btn" ng-click="openCollboarate(note,User,$index)" src="image/colaburator.png" height="35px">
 								<div class="btn-group dropup colorDiv" uib-dropdown>
 
 									<img id="dropdown" class="dropdown-toggle"
@@ -176,7 +176,7 @@
 
 									<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
 										<li><a ng-click="trashNote(note)">Trash</a></li>
-										<li><a>Add Lable</a></li>
+										<li><a ng-click="callback()">Add Lable</a></li>
 										<li><a ng-click="copy(note)">Make a Copy</a></li>
 										<li><a href="" ng-click="fbAsyncInit(note)">share</a></li>
 									</ul>
