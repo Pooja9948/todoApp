@@ -227,18 +227,21 @@ public class NoteController {
 			return ResponseEntity.ok(response);
 		}
 	}
-/*
-	 LABEL NOTES 
+
+	 /*LABEL NOTES*/ 
 
 	@RequestMapping(value = "/saveLabel", method = RequestMethod.POST)
 	public ResponseEntity<CustomResponse> saveLabel(@RequestBody NoteLabel labels, HttpSession session,
 			HttpServletRequest request) {
+		System.out.println("save label");
 		CustomResponse response = new CustomResponse();
 		try {
 			if (!(labels.getLabelName() == "" || labels.getLabelName() == null)) {
 				NoteLabel objLabel = noteService.getLabelByName(labels.getLabelName());
 				if (objLabel == null) {
-					UserDetails user = (UserDetails) request.getAttribute("user");
+					int id = (int) request.getAttribute("userId");
+
+					UserDetails user = userService.getUserById(id);
 					labels.setUser(user);
 					noteService.saveLabel(labels);
 					response.setMessage("label save successfully:-");
@@ -248,7 +251,7 @@ public class NoteController {
 					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 				}
 			}
-			response.setMessage("label can't be emplty:-");
+			response.setMessage("label can't be empty");
 			return ResponseEntity.ok(response);
 
 		} catch (Exception e) {
@@ -256,12 +259,12 @@ public class NoteController {
 		}
 	}
 
-	@RequestMapping(value = "getLabelNotes/{label}", method = RequestMethod.GET)
+	/*@RequestMapping(value = "getLabelNotes/{label}", method = RequestMethod.GET)
 	public List<NoteDetails> getLabels(@PathVariable String label, HttpServletRequest request) {
 		UserDetails user = (UserDetails) request.getAttribute("user");
 		List<NoteDetails> alNotes = noteService.getLabelNotes(label, user);
 		return alNotes;
-	}
+	}*/
 
 	@RequestMapping(value = "/deleteLabels/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<CustomResponse> deleteLabel(@PathVariable int id) {
@@ -296,11 +299,11 @@ public class NoteController {
 		}
 	}
 
-	@RequestMapping(value = "/getLabels", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/getLabels", method = RequestMethod.GET)
 	public List<NoteLabel> getLabels(HttpSession session, HttpServletRequest request) {
 		UserDetails user = (UserDetails) request.getAttribute("user");
 		List<NoteLabel> labels = noteService.getLabels(user);
 		return labels;
-	}
-*/
+	}*/
+
 }

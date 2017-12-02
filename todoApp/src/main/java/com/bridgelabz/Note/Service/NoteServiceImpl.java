@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bridgelabz.Note.DAO.NoteDAO;
 import com.bridgelabz.Note.model.NoteCollaborate;
 import com.bridgelabz.Note.model.NoteDetails;
+import com.bridgelabz.Note.model.NoteLabel;
 import com.bridgelabz.User.model.UserDetails;
 
 public class NoteServiceImpl implements NoteService {
@@ -61,5 +62,37 @@ public class NoteServiceImpl implements NoteService {
 	public int removeCollborator(int shareWith, int noteId) {
 
 		return noteDao.removeCollborator(shareWith, noteId);
+	}
+
+	@Override
+	public void saveLabel(NoteLabel labels) {
+		noteDao.saveLabel(labels);
+	}
+
+	@Override
+	public boolean deleteLabelById(int id) {
+		noteDao.deleteById(id);
+		return true;
+	}
+
+	@Override
+	public List<NoteLabel> getLabels(UserDetails user) {
+		return noteDao.getLabels(user);
+	}
+
+	@Override
+	public NoteLabel getLabelById(int labelId) {
+		return noteDao.getLabelById(labelId);
+	}
+
+	@Override
+	public boolean editLabel(NoteLabel label) {
+		noteDao.editLabel(label);
+		return true;
+	}
+
+	@Override
+	public NoteLabel getLabelByName(String labelName) {
+		return noteDao.getLabelByName(labelName);
 	}
 }

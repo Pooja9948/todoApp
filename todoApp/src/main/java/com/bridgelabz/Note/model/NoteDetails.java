@@ -1,6 +1,10 @@
 package com.bridgelabz.Note.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +12,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -29,23 +35,21 @@ public class NoteDetails {
 
 	Date createddate;
 	Date modifiedDate;
-	
+
 	private boolean isArchived;
 	private boolean isPin;
 	private boolean isTrash;
 	private String reminder;
-	
+
 	@Lob
 	@Column(columnDefinition = "LONGBLOB")
 	private String noteImage;
-
-	
 
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "user_detailid")
 	private UserDetails userDetails;
-
+	
 	public int getId() {
 		return id;
 	}
@@ -69,6 +73,7 @@ public class NoteDetails {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
 	public Date getCreateddate() {
 		return createddate;
 	}
@@ -84,7 +89,7 @@ public class NoteDetails {
 	public void setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
-	
+
 	public String getColor() {
 		return color;
 	}
@@ -92,7 +97,7 @@ public class NoteDetails {
 	public void setColor(String color) {
 		this.color = color;
 	}
-	
+
 	public UserDetails getUser() {
 		return userDetails;
 	}
@@ -100,7 +105,7 @@ public class NoteDetails {
 	public void setUser(UserDetails userDetails) {
 		this.userDetails = userDetails;
 	}
-	
+
 	public boolean getArchived() {
 		return isArchived;
 	}
@@ -124,7 +129,7 @@ public class NoteDetails {
 	public void setPin(boolean isPin) {
 		this.isPin = isPin;
 	}
-	
+
 	public String getReminder() {
 		return reminder;
 	}
@@ -132,7 +137,7 @@ public class NoteDetails {
 	public void setReminder(String reminder) {
 		this.reminder = reminder;
 	}
-	
+
 	public String getNoteImage() {
 		return noteImage;
 	}
@@ -140,10 +145,57 @@ public class NoteDetails {
 	public void setNoteImage(String noteImage) {
 		this.noteImage = noteImage;
 	}
-	/*@Override
-	public String toString() {
-		return "NoteDetails [id=" + id + ", title=" + title + ", description=" + description + ", createddate="
-				+ createddate + ", modifiedDate=" + modifiedDate + ", userDetails=" + userDetails + "]";
+
+	@ManyToMany
+	@JoinTable(name = "note_user", joinColumns = { @JoinColumn(name = "id") }, inverseJoinColumns = {
+			@JoinColumn(name = "id") })
+	@JsonIgnore
+	List<UserDetails> alUser = new ArrayList<>();
+	
+	public UserDetails getUserDetails() {
+		return userDetails;
+	}
+
+	public void setUserDetails(UserDetails userDetails) {
+		this.userDetails = userDetails;
+	}
+
+	public List<UserDetails> getAlUser() {
+		return alUser;
+	}
+
+	public void setAlUser(List<UserDetails> alUser) {
+		this.alUser = alUser;
+	}
+
+	@ManyToMany
+	@JoinTable(name = "note_label", joinColumns = { @JoinColumn(name = "id") }, inverseJoinColumns = {
+			@JoinColumn(name = "label_id") })
+	@JsonIgnore
+	private Set<NoteLabel> alLabels = new HashSet<>();
+
+	public Set<NoteLabel> getAlLabels() {
+		return alLabels;
+	}
+
+	public void setAlLabels(Set<NoteLabel> alLabels) {
+		this.alLabels = alLabels;
+	}
+
+	public Set<NoteLabel> getLabels() {
+		return alLabels;
+	}
+
+	public void setLabels(Set<NoteLabel> alLabels) {
+		this.alLabels = alLabels;
+	}
+	
+	/*public Set<NoteLabel> getAlLabels() {
+		return alLabels;
+	}
+
+	public void setAlLabels(Set<NoteLabel> alLabels) {
+		this.alLabels = alLabels;
 	}*/
 
 }

@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bridgelabz.Note.model.NoteCollaborate;
 import com.bridgelabz.Note.model.NoteDetails;
+import com.bridgelabz.Note.model.NoteLabel;
 import com.bridgelabz.User.Controller.UserController;
 import com.bridgelabz.User.model.UserDetails;
 
@@ -95,12 +96,13 @@ public class NoteDAOImpl implements NoteDAO {
 
 		System.out.println("user id ---+++++-----++++ " + userDetails.getId());
 		int uid = userDetails.getId();
-		
-		 /*Query getNote = session.createQuery(
-		 "from NoteDetails where user_detailid=:uid or user_detailid IN (select ownerId_user_detailid from NoteCollaborate where shareId_user_detailid =:uid ) order by modifiedDate desc");
-		 getNote.setParameter("uid", uid);*/
-		 
-		 
+
+		/*
+		 * Query getNote = session.createQuery(
+		 * "from NoteDetails where user_detailid=:uid or user_detailid IN (select ownerId_user_detailid from NoteCollaborate where shareId_user_detailid =:uid ) order by modifiedDate desc"
+		 * ); getNote.setParameter("uid", uid);
+		 */
+
 		// Query getCollaborateNote = session.createQuery("");
 		// getCollaborateNote.setParameter("uid", uid);
 
@@ -109,10 +111,10 @@ public class NoteDAOImpl implements NoteDAO {
 		criteria.add(Restrictions.eq("userDetails", user));
 		criteria.addOrder(Order.desc("modifiedDate"));
 		List notes = criteria.list();
-		
-		//List notes = getNote.list();
+
+		// List notes = getNote.list();
 		// logger.trace(criteria.list());
-		//logger.info(getNote.list());
+		// logger.info(getNote.list());
 		return notes;
 	}
 
@@ -193,7 +195,7 @@ public class NoteDAOImpl implements NoteDAO {
 		Session session = sessionfactory.openSession();
 		Query query = session.createQuery("select c.noteId from NoteCollaborate c where c.shareId= " + userId);
 		List<NoteDetails> colllboratedNotes = query.list();
-		//Set<NoteDetails> notes = new HashSet<NoteDetails>(colllboratedNotes);
+		// Set<NoteDetails> notes = new HashSet<NoteDetails>(colllboratedNotes);
 
 		session.close();
 		return colllboratedNotes;
@@ -210,4 +212,99 @@ public class NoteDAOImpl implements NoteDAO {
 		return status;
 	}
 
+	@Override
+	public void saveLabel(NoteLabel label) {
+		Session session = sessionfactory.openSession();
+		transaction = session.beginTransaction();
+		try {
+			System.out.println("inside save label");
+			session.save(label);
+			transaction.commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void deleteById(int id) {
+		Session session = sessionfactory.openSession();
+		transaction = (Transaction) session.beginTransaction();
+		Criteria criteria = session.createCriteria(NoteLabel.class);
+		criteria.add(Restrictions.eq("id", id));
+		NoteLabel labels = (NoteLabel) criteria.uniqueResult();
+
+		try {
+			session.delete(labels);
+			transaction.commit();
+			session.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public List<NoteLabel> getLabels(UserDetails user) {
+		Session session = sessionfactory.openSession();
+		// transaction = (Transaction) session.beginTransaction();
+		Criteria criteria = session.createCriteria(NoteLabel.class);
+		criteria.add(Restrictions.eqOrIsNull("user", user));
+		List<NoteLabel> labels = criteria.list();
+		return labels;
+	}
+
+	@Override
+	public NoteLabel getLabelById(final int labelId) {
+		NoteLabel objLabel = null;
+		Session session = sessionfactory.openSession();
+		transaction = session.beginTransaction();
+		try {
+			objLabel = (NoteLabel) session.get(NoteLabel.class, labelId);
+			transaction.commit();
+			session.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+				session.close();
+				return null;
+			}
+			e.printStackTrace();
+		}
+		return objLabel;
+	}
+
+	@Override
+	public boolean editLabel(NoteLabel label) {
+		Session session = sessionfactory.openSession();
+		transaction = session.beginTransaction();
+		try {
+			session.update(label);
+			transaction.commit();
+			session.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+				session.close();
+				return false;
+			}
+			e.printStackTrace();
+		}
+		return true;
+
+	}
+
+	@Override
+	public NoteLabel getLabelByName(String labelName) {
+		NoteLabel objLabel = null;
+		Session session = sessionfactory.openSession();
+		Criteria criteria = session.createCriteria(NoteLabel.class);
+		criteria.add(Restrictions.eq("labelName", labelName));
+		objLabel = (NoteLabel) criteria.uniqueResult();
+		session.close();
+		return objLabel;
+	}
 }

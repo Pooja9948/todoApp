@@ -1,6 +1,8 @@
 package com.bridgelabz.User.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -9,10 +11,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.bridgelabz.Note.model.NoteDetails;
+import com.bridgelabz.Note.model.NoteLabel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -63,6 +67,11 @@ public class UserDetails {
 	@OneToMany(mappedBy = "userDetails")
 	private Set<NoteDetails> notes = new HashSet<>();
 
+	@OneToMany(mappedBy = "user")
+	@JsonIgnore
+	private List<NoteLabel> alLabels;
+
+	
 	public int getId() {
 		return id;
 	}
@@ -126,5 +135,10 @@ public class UserDetails {
 	public void setMobileno(String mobileno) {
 		this.mobileno = mobileno;
 	}
+	
+	@ManyToMany(mappedBy = "alUser")
+	@JsonIgnore
+	private List<NoteDetails> alNotes = new ArrayList<>();
+	
 
 }

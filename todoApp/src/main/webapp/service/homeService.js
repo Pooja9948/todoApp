@@ -111,6 +111,18 @@ todoApp.factory('homeService', function($http, $location, $state) {
 		});
 	}
 	/* FOR LABELS */
+	
+	
+	
+	homePage.getLabelNotes = function(labelName) {
+		return $http({
+			method : "GET",
+			url : "user/getLabelNotes/" + labelName,
+			headers : {
+				'token' : localStorage.getItem('token')
+			}
+		})
+	}
 	homePage.saveLabel = function(label) {
 		return $http({
 			method : "POST",
@@ -118,13 +130,13 @@ todoApp.factory('homeService', function($http, $location, $state) {
 			headers : {
 				'token' : localStorage.getItem('token')
 			},
-			data : label,
+			data : label
 		})/*
 			 * .then(function(response){ },function(response){
 			 * if(response.status=='400') $location.path('/loginPage'); });
 			 */
 	}
-	homePage.getLabels = function() {
+	/*homePage.getLabels = function() {
 		return $http({
 			method : "GET",
 			url : 'user/getLabels',
@@ -132,11 +144,11 @@ todoApp.factory('homeService', function($http, $location, $state) {
 				'token' : localStorage.getItem('token')
 			},
 
-		})/*
+		})
 			 * .then(function(response){ },function(response){
 			 * if(response.status=='400') $location.path('/loginPage'); });
-			 */
-	}
+			 
+	}*/
 	homePage.deleteLabel = function(id) {
 		return $http({
 			method : "DELETE",

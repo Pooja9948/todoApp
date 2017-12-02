@@ -1,0 +1,19 @@
+<div class="body" style="margin:10px">
+	<div id="labelHeader"><h4>Add or Edit Labels</h4></div>
+	<div class="newLabel">
+	<img alt="plus" src="image/plus.svg"  ng-show="!editLabelFocus">
+	<img alt="remove" src="image/remove.svg" ng-show="editLabelFocus">
+		<input class="newLabel" type="text" placeholder="Create new label" ng-model= "$parent.newLabel" 
+			ng-focus="editLabelFocus=true" ng-blur="editLabelFocus=false" 
+			aria-label="Create new label" maxlength="50">
+			<img alt="save" src="image/edit.svg" ng-click="saveLabel(label)">
+	<hr class="break">
+	</div >
+	<div class="labelList" ng-repeat="label in labels">
+		<img alt="delete" src="image/delete.svg" ng-click="deleteLabel(label.labelId)">
+		<input class="labelList" type="text" ng-model="label.labelName" maxlength="50" style="border:none;outline:none">
+		<img alt="save" src="image/edit.svg" ng-click="saveLabel(label)">
+	</div>
+	<hr class="break">
+	<button type="btn" ng-click="saveLabel()">Done</button>	
+</div>

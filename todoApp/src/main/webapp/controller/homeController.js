@@ -107,6 +107,36 @@ todoApp
 						});
 					};
 
+					/*REMINDER*/
+					$scope.AddReminder = '';
+					$scope.openAddReminder = function() {
+						$('#datepicker').datetimepicker();
+						$scope.AddReminder = $('#datepicker').val();
+					}
+
+					$scope.reminder = "";
+					$scope.openReminder = function(note) {
+						$('.reminder').datetimepicker();
+						var id = '#datepicker' + note.id;
+						$scope.reminder = $(id).val();
+
+						if ($scope.reminder === ""
+								|| $scope.reminder === undefined) {
+							console.log(note);
+							console.log($scope.reminder);
+						} else {
+							console.log($scope.reminder);
+							note.reminder = $scope.reminder;
+							$scope.updateNote(note);
+							$scope.reminder = "";
+						}
+					}
+
+					$scope.removeReminder = function(note) {
+						console.log($scope.file);
+						note.reminder = null;
+						$scope.updateNote(note);
+					}
 					/* SAVE NOTE */
 					$scope.saveNotes = function() {
 
@@ -223,16 +253,6 @@ todoApp
 								});
 					}
 
-					/* remove reminder */
-					$scope.delReminder = function(note) {
-						note.reminder = null;
-						var a = homeService.updateNote(note);
-						a.then(function(response) {
-							getNotes();
-						}, function(response) {
-						});
-					}
-
 					/* archive notes */
 					$scope.archiveNote = function(note) {
 						note.archived = true;
@@ -310,21 +330,6 @@ todoApp
 							}
 						});
 					};
-
-					// FOR REMINDER
-					$scope.datetimepicker = function() {
-						$('#datetimepicker6').datetimepicker();
-						var reminder = $('#datetimepicker6').val();
-						console.log(reminder);
-					}
-
-					$scope.tet = function(note) {
-						var reminder = $('#datetimepicker6').val();
-						note.reminder = reminder;
-						var mydate = new Date(reminder);
-						note.reminder = mydate;
-						homeService.updateNote(note);
-					}
 
 					// LIST AND GRID VIEW
 					$scope.ListView = true;
@@ -482,8 +487,8 @@ todoApp
 
 						});
 					}
-/*
-					 note labels 
+
+					/* note labels */
 					$scope.saveLabel = function(label) {
 						var data = {};
 						if (label === undefined) {
@@ -491,7 +496,7 @@ todoApp
 						} else {
 							data.labelName = label.labelName;
 						}
-						var saveLabel = labelService.saveLabel(data);
+						var saveLabel = homeService.saveLabel(data);
 						saveLabel.then(function(response) {
 							getLabels();
 							$scope.labels = response.data;
@@ -502,7 +507,7 @@ todoApp
 					}
 
 					$scope.deleteLabel = function(label) {
-						labelService.deleteLabel(label);
+						homeService.deleteLabel(label);
 						getlabels();
 					}
 					$scope.openLabelList = function() {
@@ -512,10 +517,11 @@ todoApp
 							scope : $scope
 						});
 					}
-
-					getlabels();
+					var path = $location.path();
+					var labelName = path.substr(path.lastIndexOf("/")+1);
+					/*getlabels();
 					function getlabels() {
-						var httpGetLabels = labelService.getLabels(labelName);
+						var httpGetLabels = homeService.getLabels(labelName);
 						httpGetLabels.then(function(response) {
 							console.log(response.data);
 							$scope.labels = response.data;
@@ -523,13 +529,13 @@ todoApp
 							if (response.status == '400')
 								$location.path('/loginPage')
 						});
-					}
-
-					search
-					$scope.searchText;
-					$scope.doSearch = function() {
-						dataStore.searchData($scope.searchText);
 					}*/
+
+						/*search
+						$scope.searchText;
+						$scope.doSearch = function() {
+							dataStore.searchData($scope.searchText);
+						}*/
 					/* logout user */
 					$scope.logout = function() {
 						localStorage.removeItem('token');
@@ -557,11 +563,12 @@ todoApp
 							$scope.type.image = imageSrc;
 
 							// call upate service
-							var archiveRequest = homeService.updateNote($scope.type);
+							var archiveRequest = homeService
+									.updateNote($scope.type);
 							archiveRequest.then(function(response) {
-								
+
 								$state.reload();
-								
+
 							}, function(error) {
 
 								console.log("Could not update note");

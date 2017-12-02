@@ -44,51 +44,74 @@
 				<div class='row' ng-show="pinNotes.length">
 					<h4>Pinned</h4>
 					<div>
-					<input ng-show="false" id="image" type='file' ng-model-instant ng-model="file" onchange="angular.element(this).scope().imageUpload(this)"/>
+						<input ng-show="false" id="image" type='file' ng-model-instant
+							ng-model="file"
+							onchange="angular.element(this).scope().imageUpload(this)" />
 						<div class="card col-md-4 a"
 							ng-repeat="note in notes | filter : {pin : true ,archived: false,trash: false} as pinNotes"
-							class="container" style="background-color: {{note.color}}">
+							class="container" style="background-color: {{note.color">
 							<div style="float: right">
 								<img ng-src="{{note.noteImage}}" ng-if("note.noteImage")>
 								<span style="cursor: pointer"
 									ng-click="note.pin=false; updateNote(note)"> <img
 									alt="pin" style="height: 17px" src="image/bluepin.svg"></img>
 								</span>
-								
+
 							</div>
 							<div ng-click="showModal(note)">
 								<div contenteditable="true" ng-bind-html="note.title"></div>
 								<br>
 								<div contenteditable="true" ng-bind-html="note.description"></div>
 							</div>
-
+							<div id="reminder" ng-if="note.reminder!=null">
+								{{note.reminder}}<span class="closebtn"
+									ng-click="removeReminder(note)">&#x274C;</span>
+							</div>
 
 							<div class="moreOptions">
 
 								<div class="dropdown" style="float: left">
-									<input type="text" id="datetimepicker6"
-										 ng-blur="tet(note)" ng-model="note.reminder"> 
-									 <img alt="reminder" height="15px" src="image/reminder.svg"
-										ng-click="datetimepicker();note.reminder=reminder; updateNote(note)">
+									<div class="dropdown inline">
+										<span class="btn dropdown-toggle" id="menu2"
+											data-toggle="dropdown"> <img alt="reminder"
+											src="image/reminder.svg" height="17px">
+										</span>
+
+										<ul class="dropdown-menu" role="menu" aria-labelledby="menu2">
+											<li><input type="text"
+												ng-attr-id="datepicker{{note.id}}" class="reminder">
+											</li>
+											<li>
+												<button ng-click="openReminder(note)">
+													<span class="glyphicon glyphicon-calendar"></span>
+												</button>
+											</li>
+										</ul>
+
 									
-									<img alt="colaburator" class="btn" ng-click="openCollboarate(note,User,$index)" src="image/colaburator.png" height="35px">
-									
+
+									<img alt="colaburator" class="btn"
+										ng-click="openCollboarate(note,User,$index)"
+										src="image/colaburator.png" height="35px">
+
 									<div class="btn-group dropup colorDiv" uib-dropdown>
-									<img id="dropdown" class="dropdown-toggle"
+										<img id="dropdown" class="dropdown-toggle"
 											data-toggle="dropdown" alt="color"
 											src="image/colorpallete.svg" uib-dropdown-toggle
 											height="20px">
 										<ul class="dropdown-menu" uib-dropdown-menu role="menu"
 											aria-labelledby="btn-append-to-body"
 											style="background-color: #f9fbff">
-											<a ng-repeat="color in colors" role="menuitem"> 
-											<img ng-src="{{color.path}}" height="25px" ng-click="note.color =color.color; updateNote(note)">
+											<a ng-repeat="color in colors" role="menuitem"> <img
+												ng-src="{{color.path}}" height="25px"
+												ng-click="note.color =color.color; updateNote(note)">
 											</a>
 										</ul>
 									</div>
 
-									<img alt="image" src="image/image.svg" height="20px" aria-label="Image Upload" ng-click="openImageUploader(note)"> <span
-										ng-click="archiveNote(note)"> <img alt="archive"
+									<img alt="image" src="image/image.svg" height="20px"
+										aria-label="Image Upload" ng-click="openImageUploader(note)">
+									<span ng-click="archiveNote(note)"> <img alt="archive"
 										src="image/archive.svg" height="20px">
 									</span>
 									<div style="float: left">
@@ -103,20 +126,21 @@
 											<li><a ng-click="trashNote(note)">Trash</a></li>
 											<li><a>Add Lable</a></li>
 											<li><a ng-click="copy(note)">Make a Copy</a></li>
-											<li><a  ng-click="fbAsyncInit(note)">share</a></li>
+											<li><a ng-click="fbAsyncInit(note)">share</a></li>
 										</ul>
 									</div>
 								</div>
 							</div>
+							</div>
 						</div>
 					</div>
 				</div>
-				
+
 				<div class='row' ng-show="otherNotes.length">
 					<h4>Others</h4>
 					<div class="card col-md-4 a"
 						ng-repeat="note in notes | filter : {pin : false ,archived:false,trash:false} as otherNotes"
-						class="container" style="background-color: {{note.color}}">
+						class="container" style="background-color: {{note.color">
 
 						<div style="float: right">
 							<span style="cursor: pointer"
@@ -129,16 +153,35 @@
 							<br>
 							<div contenteditable="true" ng-bind-html="note.description"></div>
 						</div>
-
+						<div id="reminder" ng-if="note.reminder!=null">
+								{{note.reminder}}<span class="closebtn"
+									ng-click="removeReminder(note)">&#x274C;</span>
+							</div>
 						<div class="moreOptions">
 
 							<div class="dropdown" style="float: left">
-								<input type="text" id="datetimepicker6" ng-blur="tet(note)"
-										ng-model="note.reminder"> 
-								<img alt="reminder" height="15px" src="image/reminder.svg"
-										ng-click="datetimepicker();note.reminder=reminder; updateNote(note)">
-										
-								<img alt="colaburator" class="btn" ng-click="openCollboarate(note,User,$index)" src="image/colaburator.png" height="35px">
+								<div class="dropdown inline">
+										<span class="btn dropdown-toggle" id="menu2"
+											data-toggle="dropdown"> <img alt="reminder"
+											src="image/reminder.svg" height="17px">
+										</span>
+
+										<ul class="dropdown-menu" role="menu" aria-labelledby="menu2">
+											<li><input type="text"
+												ng-attr-id="datepicker{{note.id}}" class="reminder">
+											</li>
+											<li>
+												<button ng-click="openReminder(note)">
+													<span class="glyphicon glyphicon-calendar"></span>
+												</button>
+											</li>
+										</ul>
+
+									
+
+								<img alt="colaburator" class="btn"
+									ng-click="openCollboarate(note,User,$index)"
+									src="image/colaburator.png" height="35px">
 								<div class="btn-group dropup colorDiv" uib-dropdown>
 
 									<img id="dropdown" class="dropdown-toggle"
@@ -156,12 +199,7 @@
 									</ul>
 								</div>
 
-								<!-- <img alt="image" src="image/image.svg" height="20px"> -->
-								<!-- <img alt="ChangeProfile" src="image/image.svg" height="20px" ng-click="openImageUploader(User)" height="20px"> -->
-								
-								
-								
-							<span  ng-click="archiveNote(note)"> <img alt="archive"
+								<span ng-click="archiveNote(note)"> <img alt="archive"
 									src="image/archive.svg" height="20px">
 								</span>
 
@@ -176,12 +214,13 @@
 
 									<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
 										<li><a ng-click="trashNote(note)">Trash</a></li>
-										<li><a ng-click="callback()">Add Lable</a></li>
+										<li><a ng-click="openLabelList()">Add Label</a></li>
 										<li><a ng-click="copy(note)">Make a Copy</a></li>
 										<li><a href="" ng-click="fbAsyncInit(note)">share</a></li>
 									</ul>
 								</div>
 							</div>
+						</div>
 						</div>
 					</div>
 				</div>
