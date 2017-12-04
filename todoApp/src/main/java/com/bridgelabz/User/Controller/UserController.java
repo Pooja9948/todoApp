@@ -248,10 +248,10 @@ public class UserController {
 		return user;
 	}
 
-	@RequestMapping(value = "/user/profileChange")
+	@RequestMapping(value = "/user/profileChange", method = RequestMethod.POST)
 	public ResponseEntity<String> changeProfile(@RequestBody UserDetails user, HttpServletRequest request)
 			throws IOException {
-
+		System.out.println("inside profilechange....");
 		int userid = (int) request.getAttribute("userId");
 		if (userid == 0) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("");

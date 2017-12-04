@@ -8,10 +8,8 @@
 			<div class="container" id="content-wrapper-inside">
 				
 				
-				
-				
 				<div class='row'>
-					<div class="card col-md-4 a" ng-repeat="note in notes "
+					<div class="card col-md-4 a" ng-repeat="note in notes | filter : searchText"
 						class="container" style="background-color:{{note.color}}">
 						
 						<div  style="float: right">					

@@ -26,11 +26,11 @@
 }
 
 .SideNavigation a {
-    padding: 8px 8px 8px 32px;
+    padding: 5px 5px 5px 32px;
     text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
+    font-size: 15px;
+    color: black;
+    
     transition: 0.3s;
 }
 
@@ -41,4 +41,21 @@
 @media screen and (max-height: 450px) {
   .SideNavigation {padding-top: 15px;}
   .SideNavigation a {font-size: 18px;}
+}
+
+.break {
+	margin: 0 0 0 0;
+}
+
+#span {
+	display: inline-flex;
+	font-size: 20px;
+}
+
+#labelList {
+	font-size: 15px;
+}
+
+#font {
+	font-size: 15px;
 }

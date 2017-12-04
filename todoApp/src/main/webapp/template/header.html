@@ -11,12 +11,12 @@
 			<li><h3>Fundoo Keep</h3></li>
 			
 			<li>
-				<span class="glyphicon glyphicon-search" style="top: 25px; margin-left:10px;"></span>
+				<span class="glyphicon glyphicon-search"  style="top: 25px; margin-left:10px;"></span>
 			</li>
 			
 			<li>
 				<div class="form-group" id="search-div">
-					<input type="text" ng-model="search" ng-style="{'background-color' : topBarColor}" ng-click="" class="form-control search-bar" placeholder="Search">
+					<input type="text" ng-model="searchText" class="form-control search-bar" placeholder="Search" ui-sref="searchbar">
 				</div>
 			</li>
 		</ul>
@@ -28,16 +28,15 @@
 			
 			<li>
 			
-				<div class="imagedropdown glyphicon-pic">
-					<span class="btn dropdown-toggle" id="menu1" type="button" data-toggle="dropdown" style="margin-top:12px">
-						<span class="glyphicon glyphicon-user"></span>
-						<img alt="{{User.firstName.charAt(0)}}" class="img-circle" ng-src="{{User.profile}}" height="35px">
+				<div class="imagedropdown">
+					<span class="btn dropdown-toggle" id="menu1" type="button" data-toggle="dropdown" style="float: right;margin:10px">
+						<img alt="{{User.firstname.charAt(0)}}" class="img-circle" ng-src="{{User.profileImage}}" height="35px">
 					</span>
 					
 					<ul class="dropdown-menu profile" role="menu" style="background-color: white; padding-left: 10px" aria-labelledby="menu1">
 						<li     style="height: 150px;width: 200px;">
 						
-						<img align="middle" alt="{{User.firstName.charAt(0)}}" class="img-circle profile-picture" ng-src="{{User.profileImage}}" height="100px" width="100px">
+						<img align="middle" alt="{{User.firstname.charAt(0)}}" ng-src="{{User.profileImage}}" ng-click="openImageUploader('user')" height="100px" class="img-circle">
 						
 						<!-- <img alt="ChangeProfile" ng-click="openImageUploader(User)" src="" height="20px"> -->
 						

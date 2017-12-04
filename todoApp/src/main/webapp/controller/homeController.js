@@ -3,17 +3,13 @@ var todoApp = angular.module('todoApp');
 todoApp
 		.controller(
 				'homeController',
-				function($scope, homeService, $location, $state, $uibModal,
-						toastr) {
+				function($scope, homeService, $location, $state, $uibModal,fileReader,
+						$filter, $interval, toastr) {
 
 					var addNote = {};
 					$scope.note = {};
 					$scope.note.description = '';
 					$scope.note.title = '';
-					/*$scope.editLabelFocus = false;
-					$scope.labels = {};
-					$scope.newLabel = '';
-					var labelName = path.substr(path.lastIndexOf("/") + 1);*/
 					var modalInstance;
 					$scope.homePage = function() {
 						var httpServiceUser = homeService.homeuser($scope.user);
@@ -98,16 +94,8 @@ todoApp
 						$scope.navBarHeading = "Search";
 					}
 
-					/* FOR SEARCH BAR */
-					$scope.searchbar = function() {
-						modalInstance = $uibModal.open({
-							templateUrl : 'template/searchbar.html',
-							scope : $scope,
-							size : 'md'
-						});
-					};
 
-					/*REMINDER*/
+					/* REMINDER */
 					$scope.AddReminder = '';
 					$scope.openAddReminder = function() {
 						$('#datepicker').datetimepicker();
@@ -227,6 +215,7 @@ todoApp
 										console.log(response.data);
 										$scope.notes = response.data;
 										homeService.notes = response.data;
+
 										$interval(
 												function() {
 													var i = 0;
@@ -374,17 +363,6 @@ todoApp
 						});
 					}
 
-					/* For Image 
-					$scope.imageSrc = "";
-
-					$scope.$on("fileProgress", function(e, progress) {
-						$scope.progress = progress.loaded / progress.total;
-					});
-
-					$scope.openImageUploader = function(type) {
-						$scope.type = type;
-						$('#imageuploader').trigger('click');
-					}*/
 
 					/* COLLABORATOR */
 					$scope.openCollboarate = function(note, user, index) {
@@ -397,11 +375,6 @@ todoApp
 							size : 'md'
 						});
 					}
-					/*
-					 * $scope.showModal = function(note) { $scope.note = note;
-					 * modalInstance = $uibModal.open({ templateUrl :
-					 * 'template/newNote.html', scope : $scope, size : 'md' }); };
-					 */
 					$scope.getUserlist = function(note, user, index) {
 						var obj = {};
 						obj.noteId = note;
@@ -490,20 +463,40 @@ todoApp
 
 					/* note labels */
 					$scope.saveLabel = function(label) {
+						console.log("save label " + label);
 						var data = {};
 						if (label === undefined) {
 							data.labelName = $scope.newLabel;
 						} else {
 							data.labelName = label.labelName;
 						}
+						console.log("save label data " + label);
 						var saveLabel = homeService.saveLabel(data);
 						saveLabel.then(function(response) {
-							getLabels();
+							getlabels();
 							$scope.labels = response.data;
 						}, function(response) {
 							if (response.status == '400')
 								$location.path('/loginPage')
 						});
+					}
+
+					$scope.toggleLabelOfNote = function(note, label) {
+						console.log('clicked');
+						var index = -1;
+						var i = 0;
+						for (i = 0, len = note.labels.length; i < len; i++) {
+							if (note.labels[i].labelName === label.labelName) {
+								index = i;
+								break;
+							}
+						}
+
+						if (index == -1) {
+							note.labels.push(label);
+						} else {
+							note.labels.splice(index, 1);
+						}
 					}
 
 					$scope.deleteLabel = function(label) {
@@ -518,10 +511,11 @@ todoApp
 						});
 					}
 					var path = $location.path();
-					var labelName = path.substr(path.lastIndexOf("/")+1);
-					/*getlabels();
+					var labelName = path.substr(path.lastIndexOf("/") + 1);
+					getlabels();
 					function getlabels() {
-						var httpGetLabels = homeService.getLabels(labelName);
+						var httpGetLabels = homeService
+								.getLabelNotes(labelName);
 						httpGetLabels.then(function(response) {
 							console.log(response.data);
 							$scope.labels = response.data;
@@ -529,71 +523,62 @@ todoApp
 							if (response.status == '400')
 								$location.path('/loginPage')
 						});
-					}*/
+					}
 
-						/*search
-						$scope.searchText;
-						$scope.doSearch = function() {
-							dataStore.searchData($scope.searchText);
-						}*/
 					/* logout user */
 					$scope.logout = function() {
 						localStorage.removeItem('token');
 						$location.path('/login');
 					}
 
-					//Image uploader
+					// Image uploader
+
+					$scope.imageSrc = "";
+
+					$scope.$on("fileProgress", function(e, progress) {
+						$scope.progress = progress.loaded / progress.total;
+					});
+
 					$scope.openImageUploader = function(type) {
 						$scope.type = type;
-						$('#image').trigger('click');
-						return false;
+						$('#imageuploader').trigger('click');
 					}
 
-					$scope.stepsModel = [];
-					$scope.imageUpload = function(element) {
-						var reader = new FileReader();
-						reader.onload = $scope.imageIsLoaded;
-						reader.readAsDataURL(element.files[0]);
-					}
-					$scope.imageIsLoaded = function(e) {
-						$scope.$apply(function() {
-							$scope.stepsModel.push(e.target.result);
+					$scope.changeProfile = function(user) {
 
-							var imageSrc = e.target.result;
-							$scope.type.image = imageSrc;
+						var a = homeService.changeProfile(user);
 
-							// call upate service
-							var archiveRequest = homeService
-									.updateNote($scope.type);
-							archiveRequest.then(function(response) {
+						a.then(function(response) {
 
-								$state.reload();
-
-							}, function(error) {
-
-								console.log("Could not update note");
-							});
+						}, function(response) {
 
 						});
 					}
 
-					/*$scope.type = {};
-					$scope.type.image = '';
+					$scope.removeImage = function() {
+						$scope.AddNoteBox = false;
+						$scope.addimg = undefined;
+					}
 
-					$scope.$watch('imageSrc', function(newimg, oldimg) {
-						if ($scope.imageSrc != '') {
-							if ($scope.type === 'input') {
-								$scope.addimg = $scope.imageSrc;
-							} else if ($scope.type === 'user') {
-								$scope.User.profile = $scope.imageSrc;
-								$scope.changeProfile($scope.User);
-							} else {
-								console.log();
-								$scope.type.image = $scope.imageSrc;
-								$scope.updateNote($scope.type);
-							}
-						}
+					$scope.type = {};
+					$scope.type.noteImage = '';
 
-					});*/
+					$scope
+							.$watch(
+									'imageSrc',
+									function(newimg, oldimg) {
+										if ($scope.imageSrc != '') {
+											if ($scope.type === 'input') {
+												$scope.addimg = $scope.imageSrc;
+											} else if ($scope.type === 'user') {
+												$scope.User.profileImage = $scope.imageSrc;
+												$scope
+														.changeProfile($scope.User);
+											} else {
+												$scope.type.noteImage = $scope.imageSrc;
+												$scope.updateNote($scope.type);
+											}
+										}
+									});
 
 				});

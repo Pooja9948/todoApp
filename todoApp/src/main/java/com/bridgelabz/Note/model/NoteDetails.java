@@ -148,7 +148,7 @@ public class NoteDetails {
 
 	@ManyToMany
 	@JoinTable(name = "note_user", joinColumns = { @JoinColumn(name = "id") }, inverseJoinColumns = {
-			@JoinColumn(name = "id") })
+			@JoinColumn(name = "userId") })
 	@JsonIgnore
 	List<UserDetails> alUser = new ArrayList<>();
 	
@@ -189,13 +189,5 @@ public class NoteDetails {
 	public void setLabels(Set<NoteLabel> alLabels) {
 		this.alLabels = alLabels;
 	}
-	
-	/*public Set<NoteLabel> getAlLabels() {
-		return alLabels;
-	}
-
-	public void setAlLabels(Set<NoteLabel> alLabels) {
-		this.alLabels = alLabels;
-	}*/
 
 }

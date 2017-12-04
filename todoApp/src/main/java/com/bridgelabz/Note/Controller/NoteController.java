@@ -247,7 +247,7 @@ public class NoteController {
 					response.setMessage("label save successfully:-");
 					return ResponseEntity.ok(response);
 				} else {
-					response.setMessage("your label is already exixst:-");
+					response.setMessage("your label is already exist:-");
 					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 				}
 			}
@@ -259,12 +259,15 @@ public class NoteController {
 		}
 	}
 
-	/*@RequestMapping(value = "getLabelNotes/{label}", method = RequestMethod.GET)
-	public List<NoteDetails> getLabels(@PathVariable String label, HttpServletRequest request) {
-		UserDetails user = (UserDetails) request.getAttribute("user");
-		List<NoteDetails> alNotes = noteService.getLabelNotes(label, user);
+	@RequestMapping(value = "getLabelNotes/{label}", method = RequestMethod.GET)
+	public List<NoteLabel> getLabels(@PathVariable String label, HttpServletRequest request) {
+		int id = (int) request.getAttribute("userId");
+		
+		UserDetails user = userService.getUserById(id);
+		List<NoteLabel> alNotes = noteService.getLabels(user);
+		//System.out.println("list of note label "+alNotes);
 		return alNotes;
-	}*/
+	}
 
 	@RequestMapping(value = "/deleteLabels/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<CustomResponse> deleteLabel(@PathVariable int id) {

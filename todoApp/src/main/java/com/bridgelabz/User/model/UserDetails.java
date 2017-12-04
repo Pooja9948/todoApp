@@ -26,7 +26,7 @@ public class UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_detailid")
-	private int id;
+	private int userId;
 
 	private String firstname;
 
@@ -71,13 +71,16 @@ public class UserDetails {
 	@JsonIgnore
 	private List<NoteLabel> alLabels;
 
+	@ManyToMany(mappedBy = "alUser")
+	@JsonIgnore
+	private List<NoteDetails> alNotes = new ArrayList<>();
 	
 	public int getId() {
-		return id;
+		return userId;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.userId = id;
 	}
 
 	public String getFirstname() {
@@ -136,9 +139,6 @@ public class UserDetails {
 		this.mobileno = mobileno;
 	}
 	
-	@ManyToMany(mappedBy = "alUser")
-	@JsonIgnore
-	private List<NoteDetails> alNotes = new ArrayList<>();
 	
 
 }

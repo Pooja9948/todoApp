@@ -91,7 +91,7 @@ todoApp.factory('homeService', function($http, $location, $state) {
 	homePage.changeProfile = function(User) {
 		return $http({
 			method : "POST",
-			url : 'profileChange',
+			url : 'user/profileChange',
 			headers : {
 				'token' : localStorage.getItem('token')
 			},

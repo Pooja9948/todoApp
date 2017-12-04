@@ -2,7 +2,14 @@
 	<ul>
 		<li><a href="#!/home">Notes</a></li>
 		<li><a href="#!/reminder">Reminder</a></li>
+		<hr id="break">
+		<div><span id="span">Labels<a id="font" ng-click="openLabelList()">Edit</a></span></div>
+		<div ng-repeat="label in labels">
+			<a id="labelList" ui-sref=".labels({id: label.labelName})">{{label.labelName}}</a>
+		</div>
+		<a id="font" ng-click="openLabelList()">create new label</a>
+		<hr id="break">
 		<li><a href="#!/trash">Trash</a></li>
 		<li><a href="#!/archive">Archive</a></li>
 	</ul>
-</div>	
+</div>
