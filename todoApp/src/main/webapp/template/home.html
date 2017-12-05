@@ -49,7 +49,7 @@
 							onchange="angular.element(this).scope().imageUpload(this)" />
 						<div class="card col-md-4 a"
 							ng-repeat="note in notes | filter : {pin : true ,archived: false,trash: false} as pinNotes"
-							class="container" style="background-color: {{note.color">
+							class="container" style="background-color: {{note.color}}">
 							<div style="float: right">
 								<img ng-src="{{note.noteImage}}" ng-if("note.noteImage")>
 								<span style="cursor: pointer"
@@ -140,7 +140,7 @@
 					<h4>Others</h4>
 					<div class="card col-md-4 a"
 						ng-repeat="note in notes | filter : {pin : false ,archived:false,trash:false} as otherNotes"
-						class="container" style="background-color: {{note.color">
+						class="container" style="background-color: {{note.color}}">
 
 						<div style="float: right">
 							<span style="cursor: pointer"
@@ -160,6 +160,15 @@
 							{{note.reminder}}<span class="closebtn"
 								ng-click="removeReminder(note)">&#x274C;</span>
 						</div>
+						
+						
+						<div ng-repeat="label in note.labels">
+							<div id="label" ng-if="label.labelName!=null">
+								{{label.labelName}}<span class="closebtn"
+									ng-click="removeLabel(note,label)">&#x274C;</span>
+							</div>
+						</div>
+						
 						<div class="moreOptions">
 
 							<div class="dropdown" style="float: left">
@@ -232,14 +241,14 @@
 														<div ng-repeat="label in labels"
 															class="dropdown-submenu-item checkbox">
 															<label> <input type="checkbox"
-																ng-click="toggleLabelOfNote(note, label); updateNote(note);"
-																ng-checked="checkboxCheck(note, label)">
+																ng-click="toggleLabelOfNote(note,label); updateNote(note);"
+																ng-checked="checkboxCheck(note,label)">
 																{{label.labelName}}
 															</label>
 														</div>
 													</li>
 													<li style="cursor: pointer; background: rgba(0, 0, 0, .2)"
-														ng-if="newLabelCreate"
+														ng-if="label"
 														ng-click="saveLabel(label)">
 														<div>
 															 Create <b>"{{label.labelName}}"</b>

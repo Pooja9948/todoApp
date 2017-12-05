@@ -10,6 +10,8 @@ todoApp
 					$scope.note = {};
 					$scope.note.description = '';
 					$scope.note.title = '';
+					$scope.labels = {};
+					$scope.newLabel = '';
 					var modalInstance;
 					$scope.homePage = function() {
 						var httpServiceUser = homeService.homeuser($scope.user);
@@ -499,7 +501,19 @@ todoApp
 						}
 					}
 
+					$scope.editLabel = function(label) {
+						console.log("edit labbbbeeeelll"+label);
+						homeService.editLabel(label);
+						getlabels();
+					}
+					/*$scope.removeLabel = function(note) {
+						console.log($scope.file);
+						console.log("remove labbbbeeeelll"+note);
+						homeService.removeLabel(note);
+						getlabels();
+					}*/
 					$scope.deleteLabel = function(label) {
+						console.log("labbbbeeeelll"+label.labelId);
 						homeService.deleteLabel(label);
 						getlabels();
 					}
@@ -510,6 +524,19 @@ todoApp
 							scope : $scope
 						});
 					}
+					$scope.removeLabel = function (note, item) {
+				    	$scope.note = note;
+				    	var comparator = angular.equals;
+				        if (angular.isArray($scope.note.labels)) {
+				          for (var i = $scope.note.labels.length; i--;) {
+				            if (comparator($scope.note.labels[i],item)) {
+				            	$scope.note.labels.splice(i, 1);
+				              break;
+				            }
+				          }
+				        }
+				      homeService.updateNote(note);
+					}
 					var path = $location.path();
 					var labelName = path.substr(path.lastIndexOf("/") + 1);
 					getlabels();
@@ -517,7 +544,7 @@ todoApp
 						var httpGetLabels = homeService
 								.getLabelNotes(labelName);
 						httpGetLabels.then(function(response) {
-							console.log(response.data);
+							console.log("response data "+response.data);
 							$scope.labels = response.data;
 						}, function(response) {
 							if (response.status == '400')

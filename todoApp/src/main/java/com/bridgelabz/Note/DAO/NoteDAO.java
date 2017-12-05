@@ -42,4 +42,6 @@ public interface NoteDAO {
 	boolean editLabel(NoteLabel label);
 
 	NoteLabel getLabelByName(String labelName);
+
+	public boolean removeNoteId(int id);
 }

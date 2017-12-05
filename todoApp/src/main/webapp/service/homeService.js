@@ -149,10 +149,28 @@ todoApp.factory('homeService', function($http, $location, $state) {
 			 * if(response.status=='400') $location.path('/loginPage'); });
 			 
 	}*/
-	homePage.deleteLabel = function(id) {
+	homePage.deleteLabel = function(label) {
 		return $http({
 			method : "DELETE",
-			url : 'user/deleteLabels/' + id,
+			url : 'user/deleteLabels/'+label.labelId,
+			headers : {
+				'token' : localStorage.getItem('token')
+			}
+		})
+	}
+	homePage.removeLabel = function(note) {
+		return $http({
+			method : "DELETE",
+			url : 'user/removeLabel/'+note.id,
+			headers : {
+				'token' : localStorage.getItem('token')
+			}
+		})
+	}
+	homePage.editLabel = function(label) {
+		return $http({
+			method : "POST",
+			url : 'user/editLabel/'+label,
 			headers : {
 				'token' : localStorage.getItem('token')
 			}

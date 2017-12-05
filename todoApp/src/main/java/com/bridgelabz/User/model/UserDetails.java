@@ -71,9 +71,9 @@ public class UserDetails {
 	@JsonIgnore
 	private List<NoteLabel> alLabels;
 
-	@ManyToMany(mappedBy = "alUser")
+	/*@ManyToMany(mappedBy = "alUser")
 	@JsonIgnore
-	private List<NoteDetails> alNotes = new ArrayList<>();
+	private List<NoteDetails> alNotes = new ArrayList<>();*/
 	
 	public int getId() {
 		return userId;

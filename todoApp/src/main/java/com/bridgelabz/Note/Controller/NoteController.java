@@ -301,6 +301,25 @@ public class NoteController {
 			return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(response);
 		}
 	}
+	
+	@RequestMapping(value = "/removeLabel/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<CustomResponse> removeLabel(@PathVariable("id") int noteId, HttpServletRequest request) {
+		System.out.println("inside remove label controller "+noteId);
+		CustomResponse response = new CustomResponse();
+		UserDetails user = (UserDetails) request.getAttribute("user");
+		boolean isEdited = noteService.removeNoteId(noteId);
+		//label.setUser(user);
+		//boolean isEdited;
+		//Date resetDate = new Date();
+		//isEdited = noteService.editLabel(label);
+		if (isEdited) {
+			response.setMessage("remove notes are successfull");
+			return ResponseEntity.ok(response);
+		} else {
+			response.setMessage("remove is not possible");
+			return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(response);
+		}
+	}
 
 	/*@RequestMapping(value = "/getLabels", method = RequestMethod.GET)
 	public List<NoteLabel> getLabels(HttpSession session, HttpServletRequest request) {

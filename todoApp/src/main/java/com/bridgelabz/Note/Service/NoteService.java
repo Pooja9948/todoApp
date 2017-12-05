@@ -42,4 +42,6 @@ public interface NoteService {
 	NoteLabel getLabelByName(String labelName);
 
 	boolean editLabel(NoteLabel label);
+	
+	boolean removeNoteId(int id);
 }

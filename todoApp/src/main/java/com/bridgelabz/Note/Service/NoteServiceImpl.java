@@ -95,4 +95,8 @@ public class NoteServiceImpl implements NoteService {
 	public NoteLabel getLabelByName(String labelName) {
 		return noteDao.getLabelByName(labelName);
 	}
+	
+	public boolean removeNoteId(int id){
+		return noteDao.removeNoteId(id);
+	}
 }

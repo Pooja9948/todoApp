@@ -50,6 +50,12 @@ public class NoteDetails {
 	@JoinColumn(name = "user_detailid")
 	private UserDetails userDetails;
 	
+	@ManyToMany
+	@JoinTable(name = "note_label", joinColumns = { @JoinColumn(name = "id") }, inverseJoinColumns = {
+			@JoinColumn(name = "label_id") })
+	@JsonIgnore
+	private Set<NoteLabel> alLabels = new HashSet<>();
+
 	public int getId() {
 		return id;
 	}
@@ -146,11 +152,11 @@ public class NoteDetails {
 		this.noteImage = noteImage;
 	}
 
-	@ManyToMany
+	/*@ManyToMany
 	@JoinTable(name = "note_user", joinColumns = { @JoinColumn(name = "id") }, inverseJoinColumns = {
 			@JoinColumn(name = "userId") })
 	@JsonIgnore
-	List<UserDetails> alUser = new ArrayList<>();
+	List<UserDetails> alUser = new ArrayList<>();*/
 	
 	public UserDetails getUserDetails() {
 		return userDetails;
@@ -160,19 +166,14 @@ public class NoteDetails {
 		this.userDetails = userDetails;
 	}
 
-	public List<UserDetails> getAlUser() {
+	/*public List<UserDetails> getAlUser() {
 		return alUser;
 	}
 
 	public void setAlUser(List<UserDetails> alUser) {
 		this.alUser = alUser;
-	}
+	}*/
 
-	@ManyToMany
-	@JoinTable(name = "note_label", joinColumns = { @JoinColumn(name = "id") }, inverseJoinColumns = {
-			@JoinColumn(name = "label_id") })
-	@JsonIgnore
-	private Set<NoteLabel> alLabels = new HashSet<>();
 
 	public Set<NoteLabel> getAlLabels() {
 		return alLabels;
@@ -189,5 +190,5 @@ public class NoteDetails {
 	public void setLabels(Set<NoteLabel> alLabels) {
 		this.alLabels = alLabels;
 	}
-
+	
 }
