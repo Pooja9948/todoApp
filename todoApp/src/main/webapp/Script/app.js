@@ -50,6 +50,10 @@ todoApp.config(function($stateProvider, $urlRouterProvider) {
 		url : '/header',
 		templateUrl : 'template/header.html',
 		controller : 'homeController'
+	}).state('labels', {
+		url : "/labels/:id",
+		templateUrl : 'template/home.html',
+		controller : 'homeController'
 	});
 	$urlRouterProvider.otherwise('login');
 });

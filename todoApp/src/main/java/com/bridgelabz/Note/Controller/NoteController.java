@@ -110,7 +110,7 @@ public class NoteController {
 
 	@RequestMapping(value = "/getAllNotes", method = RequestMethod.GET)
 	public List<NoteDetails> getAllNotes(HttpServletRequest request) {
-
+System.out.println("Getting alll notes");
 		int id = (int) request.getAttribute("userId");
 
 		UserDetails user = userService.getUserById(id);
@@ -287,9 +287,10 @@ public class NoteController {
 	public ResponseEntity<CustomResponse> editNotes(@RequestBody NoteLabel label, HttpServletRequest request) {
 
 		CustomResponse response = new CustomResponse();
-		UserDetails user = (UserDetails) request.getAttribute("user");
-		NoteLabel objLabel = noteService.getLabelById(label.getLabelId());
+		int id = (int) request.getAttribute("userId");
+		UserDetails user=userService.getUserById(id);
 		label.setUser(user);
+		System.out.println("edited label name "+label.getLabelName());
 		boolean isEdited;
 		Date resetDate = new Date();
 		isEdited = noteService.editLabel(label);
@@ -302,30 +303,6 @@ public class NoteController {
 		}
 	}
 	
-	@RequestMapping(value = "/removeLabel/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<CustomResponse> removeLabel(@PathVariable("id") int noteId, HttpServletRequest request) {
-		System.out.println("inside remove label controller "+noteId);
-		CustomResponse response = new CustomResponse();
-		UserDetails user = (UserDetails) request.getAttribute("user");
-		boolean isEdited = noteService.removeNoteId(noteId);
-		//label.setUser(user);
-		//boolean isEdited;
-		//Date resetDate = new Date();
-		//isEdited = noteService.editLabel(label);
-		if (isEdited) {
-			response.setMessage("remove notes are successfull");
-			return ResponseEntity.ok(response);
-		} else {
-			response.setMessage("remove is not possible");
-			return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(response);
-		}
-	}
-
-	/*@RequestMapping(value = "/getLabels", method = RequestMethod.GET)
-	public List<NoteLabel> getLabels(HttpSession session, HttpServletRequest request) {
-		UserDetails user = (UserDetails) request.getAttribute("user");
-		List<NoteLabel> labels = noteService.getLabels(user);
-		return labels;
-	}*/
+	
 
 }

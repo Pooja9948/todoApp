@@ -12,7 +12,7 @@
 	<div class="labelList" ng-repeat="label in labels" style="margin:10px">
 		<img alt="delete" src="image/delete.svg" ng-click="deleteLabel(label)">
 		<input class="labelList" type="text" ng-model="label.labelName" maxlength="50" style="border:none;outline:none">
-		<img alt="save" src="image/edit.svg" ng-click="saveLabel(label)">
+		<img alt="save" src="image/edit.svg" ng-click="editLabel(label)">
 	</div>
 	<hr class="break">
 	<button type="btn" ng-click="saveLabel()">Done</button>	

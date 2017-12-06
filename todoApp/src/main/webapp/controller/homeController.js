@@ -95,7 +95,7 @@ todoApp
 						$scope.topBarColor = "#3e50b4";
 						$scope.navBarHeading = "Search";
 					}
-
+					
 
 					/* REMINDER */
 					$scope.AddReminder = '';
@@ -193,6 +193,9 @@ todoApp
 							size : 'md'
 						});
 					};
+					
+					var path = $location.path();
+					var labelName = path.substr(path.lastIndexOf("/") + 1);
 
 					// GET ALL NOTES
 					// function getNotes() {
@@ -202,18 +205,43 @@ todoApp
 						if (response.data.status == '511') {
 							$location.path('/login')
 						} else {
-							console.log(response.data);
 							$scope.notes = response.data;
+							if($state.current.name == "labels"){
+								
+								//alert(labelName);
+								$scope.topBarColor = "#3e50b4";
+								$scope.navBarHeading = labelName;
+								var tempNotes=[];
+								for(var i=0; i < $scope.notes.length; i++){
+									var labels = $scope.notes[i].labels;
+									for(var j=0; j < labels.length; j++){
+										if(labels[j].labelName==labelName){
+											tempNotes.push($scope.notes[i]);
+											//alert('yhyj');
+										}
+									}
+								}
+								console.log(tempNotes);
+								$scope.notes=tempNotes;
+							}
+							
+							console.log(response.data);
 							homeService.notes = response.data;
 						}
 					});
 					// }
+					
+					
+					
 					function getNotes() {
+						var httpNotes = homeService.getAllNotes();
 						httpNotes
 								.then(function(response) {
 									if (response.data.status == '511') {
+
 										$location.path('/login')
 									} else {
+										
 										console.log(response.data);
 										$scope.notes = response.data;
 										homeService.notes = response.data;
@@ -537,8 +565,8 @@ todoApp
 				        }
 				      homeService.updateNote(note);
 					}
-					var path = $location.path();
-					var labelName = path.substr(path.lastIndexOf("/") + 1);
+					
+					//alert(labelName);
 					getlabels();
 					function getlabels() {
 						var httpGetLabels = homeService

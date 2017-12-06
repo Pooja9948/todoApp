@@ -158,7 +158,7 @@ todoApp.factory('homeService', function($http, $location, $state) {
 			}
 		})
 	}
-	homePage.removeLabel = function(note) {
+	/*homePage.removeLabel = function(note) {
 		return $http({
 			method : "DELETE",
 			url : 'user/removeLabel/'+note.id,
@@ -166,15 +166,24 @@ todoApp.factory('homeService', function($http, $location, $state) {
 				'token' : localStorage.getItem('token')
 			}
 		})
-	}
+	}*/
 	homePage.editLabel = function(label) {
 		return $http({
 			method : "POST",
-			url : 'user/editLabel/'+label,
+			url : 'user/editLabel',
 			headers : {
 				'token' : localStorage.getItem('token')
-			}
+			},
+			data : label
 		})
+		/*return $http({
+			method : "POST",
+			url : 'user/editLabel/',
+			headers : {
+				'token' : localStorage.getItem('token')
+			},
+			data : label,
+		})*/
 	}
 	homePage.editNotes = function(label) {
 		return $http({

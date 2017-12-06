@@ -279,6 +279,21 @@ public class NoteDAOImpl implements NoteDAO {
 	@Override
 	public boolean editLabel(NoteLabel label) {
 		Session session = sessionfactory.openSession();
+
+		try {
+			transaction = session.beginTransaction();
+			session.update(label);			
+			transaction.commit();
+			return true;
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+			return false;
+		}
+		
+		/*Session session = sessionfactory.openSession();
 		transaction = session.beginTransaction();
 		try {
 			session.update(label);
@@ -294,7 +309,7 @@ public class NoteDAOImpl implements NoteDAO {
 			}
 			e.printStackTrace();
 		}
-		return true;
+		return true;*/
 
 	}
 
