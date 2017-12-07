@@ -45,6 +45,7 @@
 				<value>com.bridgelabz.Note.model.NoteDetails</value>
 				<value>com.bridgelabz.Note.model.NoteCollaborate</value>
 				<value>com.bridgelabz.Note.model.NoteLabel</value>
+				<value>com.bridgelabz.Note.model.NoteUrl</value>
 				<!-- <value>com.bridgelabz.model.OTPDetails</value> -->
 			</list>
 		</property>
@@ -83,6 +84,7 @@
 	<bean id="userdao" class="com.bridgelabz.User.DAO.UserDAOImpl" />
 	<bean id="noteService" class="com.bridgelabz.Note.Service.NoteServiceImpl" />
 	<bean id="notedao" class="com.bridgelabz.Note.DAO.NoteDAOImpl" />
+	<bean id="nUrl" class="com.bridgelabz.Note.Controller.NoteUrlService" />
 	<bean id="encryption" class="com.bridgelabz.Util.PasswordEncryption" />
 	<bean class="com.bridgelabz.Util.validation.Validator" />
 	<bean id="noteSchedule" class="com.bridgelabz.Note.scheduler.ScheduleNote"/>

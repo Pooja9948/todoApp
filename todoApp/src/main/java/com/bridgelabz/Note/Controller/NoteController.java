@@ -1,5 +1,6 @@
 package com.bridgelabz.Note.Controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +22,7 @@ import com.bridgelabz.Note.Service.NoteService;
 import com.bridgelabz.Note.model.NoteCollaborate;
 import com.bridgelabz.Note.model.NoteDetails;
 import com.bridgelabz.Note.model.NoteLabel;
+import com.bridgelabz.Note.model.NoteUrl;
 import com.bridgelabz.User.Service.UserService;
 import com.bridgelabz.User.model.UserDetails;
 import com.bridgelabz.Util.response.CustomResponse;
@@ -36,20 +38,25 @@ public class NoteController {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	NoteUrlService nUrl;
 
 	@RequestMapping(value = "/createNote", method = RequestMethod.POST)
 	public ResponseEntity<Response> createNote(@RequestBody NoteDetails noteDetails, HttpSession session,
-			HttpServletRequest request) {
+			HttpServletRequest request) throws IOException {
 		// UserDetails user = (UserDetails) session.getAttribute("user");
+		NoteUrl noteUrl=(NoteUrl)nUrl.checkUrl(noteDetails);
 		int userId = (int) request.getAttribute("userId");
 
 		UserDetails user = userService.getUserById(userId);
-
+		
 		noteDetails.setUser(user);
 		if (user != null) {
 			Date date = new Date();
 			noteDetails.setCreateddate(date);
 			noteDetails.setModifiedDate(date);
+			noteDetails.setNoteUrls(nUrl);
 			noteService.createNote(noteDetails);
 			System.out.println("Note created!!");
 			CustomResponse customResponse = new CustomResponse();

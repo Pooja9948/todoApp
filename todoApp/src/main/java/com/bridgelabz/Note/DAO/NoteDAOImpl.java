@@ -292,25 +292,6 @@ public class NoteDAOImpl implements NoteDAO {
 			e.printStackTrace();
 			return false;
 		}
-		
-		/*Session session = sessionfactory.openSession();
-		transaction = session.beginTransaction();
-		try {
-			session.update(label);
-			transaction.commit();
-			session.close();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (transaction != null) {
-				transaction.rollback();
-				session.close();
-				return false;
-			}
-			e.printStackTrace();
-		}
-		return true;*/
-
 	}
 
 	@Override
@@ -326,12 +307,6 @@ public class NoteDAOImpl implements NoteDAO {
 
 	@Override
 	public boolean removeNoteId(int id) {
-		/*Session session = sessionfactory.openSession();
-		transaction = (Transaction) session.beginTransaction();
-		Criteria criteria = session.createCriteria(NoteLabel.class);
-		criteria.add(Restrictions.eq("id", id));
-		NoteLabel labels = (NoteLabel) criteria.uniqueResult();
-		*/
 		Session session = sessionfactory.openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
@@ -339,10 +314,6 @@ public class NoteDAOImpl implements NoteDAO {
 			Query query = session
 					.createQuery("delete id NoteLabel where id="+ id);
 
-			/*System.out.println("inside remove label dao impl"+labels.getLabelId());
-			session.delete(labels);
-			transaction.commit();
-			session.close();*/
 			int status = query.executeUpdate();
 			return true;
 		} catch (Exception e) {

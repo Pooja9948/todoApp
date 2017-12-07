@@ -1,9 +1,7 @@
 package com.bridgelabz.Note.model;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -16,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.bridgelabz.User.model.UserDetails;
@@ -55,7 +54,20 @@ public class NoteDetails {
 			@JoinColumn(name = "label_id") })
 	@JsonIgnore
 	private Set<NoteLabel> alLabels = new HashSet<>();
+	
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "note")
+	private Set<NoteUrl> noteUrls = new HashSet<>();
+	
+	public Set<NoteUrl> getNoteUrls() {
+		return noteUrls;
+	}
 
+	public void setNoteUrls(Set<NoteUrl> noteUrls) {
+		this.noteUrls = noteUrls;
+	}
+	
 	public int getId() {
 		return id;
 	}
