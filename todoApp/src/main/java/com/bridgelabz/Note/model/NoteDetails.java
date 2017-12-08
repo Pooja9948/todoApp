@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -56,8 +57,8 @@ public class NoteDetails {
 	private Set<NoteLabel> alLabels = new HashSet<>();
 	
 	
-	@JsonIgnore
-	@OneToMany(mappedBy = "note")
+	//@JsonIgnore
+	@OneToMany(mappedBy = "note",cascade=CascadeType.ALL)
 	private Set<NoteUrl> noteUrls = new HashSet<>();
 	
 	public Set<NoteUrl> getNoteUrls() {

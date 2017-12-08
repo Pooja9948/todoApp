@@ -50,40 +50,40 @@
 
 						<div class="card col-md-4 a"
 							ng-repeat="note in notes | filter : {pin : true ,archived: false,trash: false} as pinNotes"
-							class="container" style="background-color: {{note.color}}">
+							class="container" style="background-color: {{note.color">
 
 							<!-- SHOW IMAGE WITH BLUEPIN -->
 							<div style="float: right">
-							<span style="cursor: pointer"
-								ng-click="note.pin=true; updateNote(note)"> <img
-								alt="pin" style="height: 17px" src="image/bluepin.svg"></img>
-							</span>
-						</div>
+								<span style="cursor: pointer"
+									ng-click="note.pin=false; updateNote(note)"> <img
+									alt="pin" style="height: 17px" src="image/bluepin.svg"></img>
+								</span>
+							</div>
 
 							<!-- EDIT NOTE -->
-						<div ng-click="showModal(note)">
-							<a> <!-- SHOW IMAGE--> <img ng-src="{{note.noteImage}}"
-								style="width: 100%" />
-							</a>
+							<div ng-click="showModal(note)">
+								<a> <!-- SHOW IMAGE--> <img ng-src="{{note.noteImage}}"
+									style="width: 100%" />
+								</a>
 
-							<!-- SHOW NOTE TITLE AND DESCRIPTION -->
-							<div contenteditable="true" ng-bind-html="note.title"></div>
-							<br>
-							<div contenteditable="true" ng-bind-html="note.description"></div>
-						</div>
+								<!-- SHOW NOTE TITLE AND DESCRIPTION -->
+								<div contenteditable="true" ng-bind-html="note.title"></div>
+								<br>
+								<div contenteditable="true" ng-bind-html="note.description | parseUrlFilter"></div>
+							</div>
 
 							<!-- SHOW REMINDER -->
 							<div id="reminder" ng-if="note.reminder!=null">
 								{{note.reminder}}<span class="closebtn"
 									ng-click="removeReminder(note)">&#x274C;</span>
 							</div>
-							
+
 							<!-- show label -->
 							<div ng-repeat="label in note.labels">
-							<div id="label" ng-if="label.labelName!=null">
-								{{label.labelName}}<span class="closebtn"
-									ng-click="removeLabel(note,label)">&#x274C;</span>
-							</div>
+								<div id="label" ng-if="label.labelName!=null">
+									{{label.labelName}}<span class="closebtn"
+										ng-click="removeLabel(note,label)">&#x274C;</span>
+								</div>
 							</div>
 							<div class="moreOptions">
 								<div class="dropdown" style="float: left">
@@ -143,47 +143,69 @@
 												class="glyphicon glyphicon-option-vertical"></span>
 											</span>
 											<ul class="dropdown-menu multi-level" role="menu"
-											aria-labelledby="menu1">
-											
+												aria-labelledby="menu1">
+
 												<!-- ADD TO TRASH -->
 												<li><a ng-click="trashNote(note)">Trash</a></li>
-												
+
 												<!-- ADD TO LABEL -->
 												<li class="dropdown-submenu"><a tabindex="-1" href="#">Add
-													label</a>
-												<ul class="dropdown-menu">
-													<li><a tabindex="-1" href="#">Create label</a></li>
-													<li><input class="input-label"
-														placeholder="Enter label name" ng-model="$parent.newLabel"
-														ng-blur="saveLabel(label)"></li>
-													<li>
-														<div ng-repeat="label in labels"
-															class="dropdown-submenu-item checkbox">
-															<label> <input type="checkbox"
-																ng-click="toggleLabelOfNote(note,label); updateNote(note);"
-																ng-checked="checkboxCheck(note,label)">
-																{{label.labelName}}
-															</label>
-														</div>
-													</li>
-													<li style="cursor: pointer; background: rgba(0, 0, 0, .2)"
-														ng-if="label" ng-click="saveLabel(label)">
-														<div>
-															Create <b>"{{label.labelName}}"</b>
-														</div>
-													</li>
-												</ul>
-											</li>
-											
+														label</a>
+													<ul class="dropdown-menu">
+														<li><a tabindex="-1" href="#">Create label</a></li>
+														<li><input class="input-label"
+															placeholder="Enter label name"
+															ng-model="$parent.newLabel" ng-blur="saveLabel(label)"></li>
+														<li>
+															<div ng-repeat="label in labels"
+																class="dropdown-submenu-item checkbox">
+																<label> <input type="checkbox"
+																	ng-click="toggleLabelOfNote(note,label); updateNote(note);"
+																	ng-checked="checkboxCheck(note,label)">
+																	{{label.labelName}}
+																</label>
+															</div>
+														</li>
+														<li style="cursor: pointer; background: rgba(0, 0, 0, .2)"
+															ng-if="label" ng-click="saveLabel(label)">
+															<div>
+																Create <b>"{{label.labelName}}"</b>
+															</div>
+														</li>
+													</ul></li>
+
 												<!-- MAKE COPY -->
 												<li><a ng-click="copy(note)">Make a Copy</a></li>
 												<!-- SOCIAL SHARE -->
 												<li><a ng-click="fbAsyncInit(note)">share</a></li>
 											</ul>
+											
 										</div>
 									</div>
 								</div>
+
 							</div>
+							
+							<div ng-if="true" ng-repeat="url in note.noteUrls">
+											{{url.urlTitle}}
+											<div ng-if="url.urlTitle">
+
+												<a ng-href="{{url.url}}" target="_blank">Hello
+													<!-- <div class="row"
+														style="background-color: #E5E5E5; margin-right: 0px; margin-left: 0px; border: 1px solid grey">
+														<div style="padding: 0px">
+															<img ng-src="{{url.urlImage}}" height="70" width="80">
+														</div>
+														<div class="col-sm-8">
+															<div ng-bind="url.urlTitle"></div>
+															<div ng-bind="url.domainName"
+																style="font-size: 10px; color: black;"></div>
+														</div>
+													</div> -->
+												</a>
+											</div>
+											</div>
+							
 						</div>
 					</div>
 				</div>
@@ -192,7 +214,7 @@
 					<h4>Others</h4>
 					<div class="card col-md-4 a"
 						ng-repeat="note in notes | filter : {pin : false ,archived:false,trash:false} as otherNotes"
-						class="container" style="background-color: {{note.color}}">
+						class="container" style="background-color: {{note.color">
 
 						<!-- SHOW IMAGE WITH BLUEPIN -->
 						<div style="float: right">
@@ -201,7 +223,7 @@
 								alt="pin" style="height: 17px" src="image/pin.svg"></img>
 							</span>
 						</div>
-						
+
 						<!-- EDIT NOTE -->
 						<div ng-click="showModal(note)">
 							<a> <!-- SHOW IMAGE--> <img ng-src="{{note.noteImage}}"
@@ -293,7 +315,7 @@
 
 										<ul class="dropdown-menu multi-level" role="menu"
 											aria-labelledby="menu1">
-											
+
 											<!-- ADD TO TRASH -->
 											<li><a ng-click="trashNote(note)">Trash</a></li>
 
@@ -321,8 +343,7 @@
 															Create <b>"{{label.labelName}}"</b>
 														</div>
 													</li>
-												</ul>
-											</li>
+												</ul></li>
 
 											<!-- MAKE COPY -->
 											<li><a ng-click="copy(note)">Make a Copy</a></li>

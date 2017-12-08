@@ -15,8 +15,8 @@ public class NoteServiceImpl implements NoteService {
 	@Autowired
 	NoteDAO noteDao;
 
-	public void createNote(NoteDetails noteDetails) {
-		noteDao.createNote(noteDetails);
+	public NoteDetails createNote(NoteDetails noteDetails) {
+		return noteDao.createNote(noteDetails);
 	}
 
 	public void updateNote(NoteDetails noteDetails) {

@@ -44,9 +44,9 @@ public class NoteController {
 
 	@RequestMapping(value = "/createNote", method = RequestMethod.POST)
 	public ResponseEntity<Response> createNote(@RequestBody NoteDetails noteDetails, HttpSession session,
-			HttpServletRequest request) throws IOException {
+			HttpServletRequest request) throws Exception {
 		// UserDetails user = (UserDetails) session.getAttribute("user");
-		NoteUrl noteUrl=(NoteUrl)nUrl.checkUrl(noteDetails);
+		//NoteUrl noteUrl=(NoteUrl)nUrl.checkUrl(noteDetails);
 		int userId = (int) request.getAttribute("userId");
 
 		UserDetails user = userService.getUserById(userId);
@@ -56,8 +56,10 @@ public class NoteController {
 			Date date = new Date();
 			noteDetails.setCreateddate(date);
 			noteDetails.setModifiedDate(date);
-			noteDetails.setNoteUrls(nUrl);
-			noteService.createNote(noteDetails);
+			//noteDetails.setNoteUrls(nUrl);
+			NoteDetails note=noteService.createNote(noteDetails);
+			
+			nUrl.createNoteUrls(note);
 			System.out.println("Note created!!");
 			CustomResponse customResponse = new CustomResponse();
 			customResponse.setMessage("Note create successfully");

@@ -6,10 +6,11 @@ import java.util.Set;
 import com.bridgelabz.Note.model.NoteCollaborate;
 import com.bridgelabz.Note.model.NoteDetails;
 import com.bridgelabz.Note.model.NoteLabel;
+import com.bridgelabz.Note.model.NoteUrl;
 import com.bridgelabz.User.model.UserDetails;
 
 public interface NoteDAO {
-	public void createNote(NoteDetails note);
+	public NoteDetails createNote(NoteDetails note);
 
 	public void updateNote(NoteDetails noteDetails);
 
@@ -44,4 +45,8 @@ public interface NoteDAO {
 	NoteLabel getLabelByName(String labelName);
 
 	public boolean removeNoteId(int id);
+	
+	//public void saveNoteUrls(NoteUrl noteUrls,NoteDetails noteDetails);
+
+	void saveNoteUrls(Set<NoteUrl> noteUrls, NoteDetails noteDetails);
 }

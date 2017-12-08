@@ -11,6 +11,21 @@ todoApp.directive('topBar', function() {
 		templateUrl : 'template/header.html'	
 	}
 });
+
+
+
+todoApp.filter('parseUrlFilter', function () {
+
+    var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/gi;
+
+    return function (text, target) {
+
+        return text.replace(urlPattern, '<a target="' + target + '" href="$&">$&</a>');
+    };
+
+});
+
+
 todoApp.directive('contenteditable', function () {
     return {
         restrict: 'A', // only activate on element attribute

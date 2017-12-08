@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bridgelabz.Note.model.NoteCollaborate;
 import com.bridgelabz.Note.model.NoteDetails;
 import com.bridgelabz.Note.model.NoteLabel;
+import com.bridgelabz.Note.model.NoteUrl;
 import com.bridgelabz.User.Controller.UserController;
 import com.bridgelabz.User.model.UserDetails;
 
@@ -30,7 +31,7 @@ public class NoteDAOImpl implements NoteDAO {
 	SessionFactory sessionfactory;
 	Transaction transaction = null;
 
-	public void createNote(NoteDetails note) {
+	public NoteDetails createNote(NoteDetails note) {
 		Session session = sessionfactory.openSession();
 
 		try {
@@ -43,6 +44,7 @@ public class NoteDAOImpl implements NoteDAO {
 			}
 			e.printStackTrace();
 		}
+		return note;
 	}
 
 	public void updateNote(NoteDetails noteDetails) {
@@ -321,4 +323,20 @@ public class NoteDAOImpl implements NoteDAO {
 			return false;
 		}
 	}
+
+	/*SAVE URLS*/
+	@Override
+	public void saveNoteUrls(Set<NoteUrl> noteUrls, NoteDetails noteDetails) {
+		Session session = sessionfactory.openSession();
+		transaction = session.beginTransaction();
+		System.out.println("inside save note url dao impl");
+		for(NoteUrl urls : noteUrls){
+			urls.setNote(noteDetails);
+			session.save(urls);
+			transaction.commit();
+		}
+		
+	}
+
+	
 }

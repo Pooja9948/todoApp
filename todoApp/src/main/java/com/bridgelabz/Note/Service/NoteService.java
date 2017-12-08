@@ -9,7 +9,7 @@ import com.bridgelabz.Note.model.NoteLabel;
 import com.bridgelabz.User.model.UserDetails;
 
 public interface NoteService {
-	public void createNote(NoteDetails noteDetails);
+	public NoteDetails createNote(NoteDetails noteDetails);
 
 	public void updateNote(NoteDetails noteDetails);
 

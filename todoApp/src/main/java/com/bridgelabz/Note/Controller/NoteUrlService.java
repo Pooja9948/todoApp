@@ -1,10 +1,7 @@
 package com.bridgelabz.Note.Controller;
 
-import java.io.IOException;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,39 +9,40 @@ import java.util.regex.Pattern;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bridgelabz.Note.DAO.NoteDAO;
 import com.bridgelabz.Note.model.NoteDetails;
 import com.bridgelabz.Note.model.NoteUrl;
 
 public class NoteUrlService {
-
+	@Autowired
+	NoteDAO noteDao;
 	static String pattern = "(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
 	String var;
-	
+
 	public static Set<String> checkUrl(String description) throws Exception {
 
 		System.out.println("Inside url checker");
-		//String title = note.getTitle();
-		//String description = note.getDescription();
+		// String title = note.getTitle();
+		// String description = note.getDescription();
 		Pattern patt = Pattern.compile(pattern);
 		Matcher matcher = patt.matcher(description);
-		Set<String> noteUrlList = null;	
+		Set<String> noteUrlList = null;
 		while (matcher.find()) {
 			System.out.println("URL MATCHERSSSSSSS....." + matcher.start() + " and ending in " + matcher.end());
 			if (noteUrlList == null) {
-				noteUrlList =  new HashSet<>();
+				noteUrlList = new HashSet<>();
 			}
 			noteUrlList.add(description.substring(matcher.start(), matcher.end()));
 		}
 		return noteUrlList;
 	}
-	
-	public List<NoteUrl> getUrls(String description) throws Exception {
-		
+
+	public static Set<NoteUrl> getUrls(String description) throws Exception {
+
 		Set<NoteUrl> noteUrl = null;
 
-		// sanity check
 		if (description == null) {
 			return null;
 		}
@@ -54,88 +52,59 @@ public class NoteUrlService {
 		if (trimmedString == "") {
 			return null;
 		}
-		
+
 		Set<String> linkSet = checkUrl(trimmedString);
-		
+
 		if (linkSet != null) {
 			noteUrl = new HashSet<>();
 			for (String link : linkSet) {
 
-				//NoteUrl noteUrl = new NoteUrl();
-				//noteUrl.setUrl(link);
+				NoteUrl noteUrl1 = new NoteUrl();
+				noteUrl1.setUrl(link);
 
 				URI uri = new URI(link);
 
 				String domain = uri.getHost();
 
-				// call another method to generate and save link metadata from each link
-				//UrlMetaData urlMetaData = linkScraper.getUrlMetaData(link);
-
 				String title = null;
 				String imageUrl = null;
-				
-				/*Document doc = Jsoup.connect(description.substring(matcher.start(), matcher.end())).get();
-				Elements metaOgTitle = doc.select("meta[property=og:title]");
-				if (metaOgTitle != null) {
-					title = metaOgTitle.attr("content");
-					if (title == null) {
-						title = doc.title();
+				Pattern patt = Pattern.compile(pattern);
+				Matcher matcher = patt.matcher(description);
+				while (matcher.find()) {
+					Document doc = Jsoup.connect(trimmedString.substring(matcher.start(), matcher.end())).get();
+
+					Elements metaOgTitle = doc.select("meta[property=og:title]");
+					if (metaOgTitle != null) {
+						title = metaOgTitle.attr("content");
+						if (title == null) {
+							title = doc.title();
+						}
+					}
+					Elements metaOgImage = doc.select("meta[property=og:image]");
+					if (metaOgImage != null) {
+						imageUrl = metaOgImage.attr("content");
 					}
 				}
-				
-				noteUrl.setUrlTitle(title);
-				noteUrl.setUrlImage(imageUrl);
-				noteUrl.setDomainName(domain);
+				noteUrl1.setUrlTitle(title);
+				noteUrl1.setUrlImage(imageUrl);
+				noteUrl1.setDomainName(domain);
 
-				noteLinks.add(noteUrl);*/
+				noteUrl.add(noteUrl1);
 			}
-			return (List<NoteUrl>) noteUrl;
+			return noteUrl;
 		}
-		/*String title1 = null;
-		String image = null;
-		int count = 0;
-		
-			
-			NoteUrl noteUrl = new NoteUrl();
-			noteUrl.setUrlTitle(description.substring(matcher.start(), matcher.end()));
-			Document doc = Jsoup.connect(description.substring(matcher.start(), matcher.end())).get();
-			Elements metaOgTitle = doc.select("meta[property=og:title]");
-			if (metaOgTitle != null) {
-				title1 = metaOgTitle.attr("content");
-				if (title1 == null) {
-					title1 = doc.title();
-				}
-			}
-			// domain??
-			noteUrl.setUrlTitle(title);
-			System.out.println("TITLE FROM THE URL --->" + title);
-
-			Elements metaOgImage = doc.select("meta[property=og:image]");
-			if (metaOgImage != null) {
-				image = metaOgImage.attr("content");
-			}
-			System.out.println("IMAGE FROM THE URL --->" + image);
-			noteUrl.setUrlImage(image);
-
-			noteUrlList.add(noteUrl);
-			System.out.println("list of url add " + noteUrlList.add(noteUrl));
-			count++;
-
-			if (description == null) {
-				return null;
-			}
-
-			String trimmedString = description.trim();
-
-			if (trimmedString == "") {
-				return null;
-			}
-		
-
-		
-		 * if(count > 0) return true;
-		 
-		return noteUrlList;*/
 		return null;
+	}
+
+	public Set<NoteUrl> createNoteUrls(NoteDetails noteDetails) throws Exception {
+
+		Set<NoteUrl> noteUrls = NoteUrlService.getUrls(noteDetails.getDescription());
+
+		if (noteUrls != null) {
+			noteDao.saveNoteUrls(noteUrls, noteDetails);
+			return noteUrls;
+		}
+		return noteUrls;
+
 	}
 }
