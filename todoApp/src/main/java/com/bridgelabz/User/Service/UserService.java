@@ -25,5 +25,7 @@ public interface UserService {
 	public void saveOTP(OTPDetails otpDetails);
 	
 	public UserDetails userValidated(int UserId);
+	
+	public boolean updateUserPassword(UserDetails userDetails);
 	// public void registration(UserDetails userForFb);
 }

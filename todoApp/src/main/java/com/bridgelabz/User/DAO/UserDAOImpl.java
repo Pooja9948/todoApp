@@ -22,7 +22,7 @@ public class UserDAOImpl implements UserDAO {
 	 * @param userDetails
 	 * @return inserting all the data of user to the database
 	 */
-	public static Logger logger = Logger.getLogger(UserDAO.class);
+	public static Logger logger = Logger.getLogger(UserDAOImpl.class);
 
 	@Autowired
 	SessionFactory sessionFactory;
@@ -123,17 +123,17 @@ public class UserDAOImpl implements UserDAO {
 	public boolean updateUserPassword(UserDetails userDetails) {
 		Session session = sessionFactory.openSession();
 		Transaction transaction = null;
-		System.out.println("email in updateUser : " + userDetails.getEmail() + "password in updateUser :"
+		System.out.println("id in updateUser : " + userDetails.getId() + "password in updateUser :"
 				+ userDetails.getPassword());
-		String email = userDetails.getEmail();
+		int id = userDetails.getId();
 		String password = userDetails.getPassword();
 		try {
 			transaction = session.beginTransaction();
 			// session.saveOrUpdate(userDetails);
 			Query updateUser = session
-					.createQuery("update UserDetails set password = :password1" + " where email=:email1");
+					.createQuery("update UserDetails set password = :password1" + " where userId=:id");
 			updateUser.setParameter("password1", password);
-			updateUser.setParameter("email1", email);
+			updateUser.setParameter("id", id);
 
 			updateUser.executeUpdate();
 			transaction.commit();

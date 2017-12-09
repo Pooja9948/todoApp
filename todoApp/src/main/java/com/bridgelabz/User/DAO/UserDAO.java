@@ -24,6 +24,8 @@ public interface UserDAO {
 	public void saveOTP(OTPDetails otpDetails);
 	
 	public UserDetails userValidated(int UserId);
+	
+	public boolean updateUserPassword(UserDetails userDetails);
 
 	// public boolean emailValidate(String email);
 	// boolean emailValidate(UserDetails userDetails);

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.User;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.User.Service.UserService;
@@ -56,9 +58,9 @@ public class UserController {
 		String isValidate = validator.validateSaveUser(user);
 		// System.out.println("check valid" + isValidate);
 		if (isValidate.equals("")) {
-			System.out.println("is validte " + isValidate);
+			//System.out.println("is validte " + isValidate);
 			user.setPassword(PasswordEncryption.encryptedPassword(user.getPassword()));
-			System.out.println("encrypted password : " + user.getPassword());
+			//System.out.println("encrypted password : " + user.getPassword());
 			int id = userservice.createUser(user);
 			if (id != 0) {
 				String activeToken = GenerateToken.generateToken(id);
@@ -89,13 +91,13 @@ public class UserController {
 			HttpServletResponse response) throws IOException {
 		CustomResponse customResponse = new CustomResponse();
 
-		System.out.println("active token : " + activeToken);
+		//System.out.println("active token : " + activeToken);
 		UserDetails userDetails = null;
 		int id = VerifyToken.verifyAccessToken(activeToken);
-		System.out.println("id :" + id);
+		//System.out.println("id :" + id);
 		try {
 			userDetails = userservice.getUserById(id);
-			System.out.println("User details : " + userDetails);
+			//System.out.println("User details : " + userDetails);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -117,29 +119,19 @@ public class UserController {
 		// System.out.println("email " + user.getEmail() + " password " +
 		// user.getPassword());
 		user.setPassword(PasswordEncryption.encryptedPassword(user.getPassword()));
-		System.out.println("at the time of login : " + PasswordEncryption.encryptedPassword(user.getPassword()));
+		//System.out.println("at the time of login : " + PasswordEncryption.encryptedPassword(user.getPassword()));
 		user = userservice.loginUser(user);
 
 		if (user != null) {
 			session.setAttribute("user", user);
 			// System.out.println("user.getId() ->>"+user.getId());
 			String accessToken = GenerateToken.generateToken(user.getId());
-			// System.out.println("token " + accessToken);
-			// session.setAttribute("user", user);
-			// session.setAttribute("token", accessToken);
-
-			// token.setGenerateToken(accessToken);
-			// String url = request.getRequestURL().toString();
-			// url = url.substring(0, url.lastIndexOf("/")) + "/" + "finalLogin"
-			// + "/" + accessToken;
-			// System.out.println("url : " + url);
-			// userservice.saveTokenInRedis(token);
 
 			customResponse.setMessage(accessToken);
-			System.out.println("login successful!!!");
+			//System.out.println("login successful!!!");
 			return new ResponseEntity<Response>(customResponse, HttpStatus.OK);
 		} else {
-			System.out.println("login unsuccessful!!!");
+			//System.out.println("login unsuccessful!!!");
 			return new ResponseEntity<Response>(HttpStatus.CONFLICT);
 		}
 	}
@@ -155,12 +147,15 @@ public class UserController {
 
 	@RequestMapping(value = "/forgotpassword", method = RequestMethod.POST)
 	public Response forgotPassword(@RequestBody UserDetails user, HttpServletRequest request, HttpSession session) {
-		System.out.println(user.getEmail());
+		//System.out.println(user.getEmail());
 		UserDetails userDetails = userservice.getUserByEmail(user.getEmail());
 		CustomResponse customResponse = new CustomResponse();
+		String activeToken = GenerateToken.generateToken(userDetails.getId());
+		session.setAttribute("resetToken", activeToken);
+		int id = VerifyToken.verifyAccessToken(activeToken);
 		String url = request.getRequestURL().toString();
 		int lastIndex = url.lastIndexOf("/");
-		String urlofForgotPassword = url.substring(0, lastIndex) + "/otp";
+		String urlofForgotPassword = url.substring(0, lastIndex) + "/#!/resetpassword ";
 		user = userservice.emailValidation(user.getEmail());
 		if (user == null) {
 			customResponse.setMessage("Please enter valid emailID");
@@ -168,15 +163,8 @@ public class UserController {
 			return customResponse;
 		}
 		try {
-			// String generateOTP = GenerateOTP.generateToken(user.getId());
-			String generateOTP = GenerateOTP.generateOTP();
-			// OTPDetails otpDetails=new OTPDetails();
-			// otpDetails.setOtp(generateOTP);
-			// otpDetails.setUser_id(userDetails.getId());
-			// userservice.saveOTP(otpDetails);
-			session.setAttribute("OTP", generateOTP);
-			sendmail.sendMail("om4java@gmail.com", user.getEmail(), "",
-					urlofForgotPassword + "  Your OTP is : " + generateOTP);
+			sendmail.sendMail("om4java@gmail.com", user.getEmail(), "Fundoo Keep Forgot Password Link",
+					"Please click here to set reset password . "+urlofForgotPassword);
 		} catch (Exception e) {
 			e.printStackTrace();
 			customResponse.setStatus(400);
@@ -186,45 +174,23 @@ public class UserController {
 		customResponse.setStatus(200);
 		return customResponse;
 	}
-
-	@RequestMapping(value = "/otp", method = RequestMethod.POST)
-	public Response getOTP(@RequestBody String otp, HttpServletRequest request, HttpSession session) {
-		System.out.println("otp is : " + otp);
-		String sessionOTP = (String) session.getAttribute("OTP");
-		CustomResponse customResponse = new CustomResponse();
-		if (sessionOTP == otp) {
-			customResponse.setMessage("otp matched");
-			System.out.println("login successful!!!");
-			return customResponse;
-		}
-		customResponse.setMessage("otp failed");
-		customResponse.setStatus(200);
-		return customResponse;
-	}
-
+	
 	@RequestMapping(value = "/resetpassword", method = RequestMethod.PUT)
-	public Response resetPassword(@RequestBody UserDetails user, HttpSession session) {
+	public Response resetPassword(@RequestBody UserDetails user,HttpSession session) {
+		
 		CustomResponse customResponse = new CustomResponse();
+		String token=(String) session.getAttribute("resetToken");
+		int userId = VerifyToken.verifyAccessToken(token);
 		if (user == null) {
 			customResponse.setMessage("User not found :");
 			customResponse.setStatus(500);
 			return customResponse;
 		}
-		System.out.println("password :" + user.getPassword());
-
-		// String email = user.getEmail();
-		// UserDetails userDetails=session.getAttribute("OTP");
-		String password = user.getPassword();
-
-		// check validation for password
-		String isValidate = validator.validateSaveUser(user);
-		System.out.println("check valid" + isValidate);
-
-		// email validation
-		// user = userservice.emailValidation(email);
-
-		user.setPassword(PasswordEncryption.encryptedPassword(password));
-		if (userservice.updateUser(user) && isValidate.equals("")) {
+		UserDetails userDetails=new UserDetails();
+		userDetails.setId(userId);
+		userDetails.setPassword(PasswordEncryption.encryptedPassword(user.getPassword()));
+		boolean ret=userservice.updateUserPassword(userDetails);
+		if (ret!=false) {
 			customResponse.setMessage("Reset password is success :");
 			customResponse.setStatus(200);
 			return customResponse;
@@ -239,7 +205,7 @@ public class UserController {
 	public UserDetails currrentUser(HttpServletRequest request) {
 		CustomResponse customResponse = new CustomResponse();
 		int id = (int) request.getAttribute("userId");
-		System.out.println("*********** " + id);
+		//System.out.println("*********** " + id);
 		UserDetails user = userservice.getUserById(id);
 		if (user != null) {
 			customResponse.setMessage("User found :");
@@ -251,7 +217,7 @@ public class UserController {
 	@RequestMapping(value = "/user/profileChange", method = RequestMethod.POST)
 	public ResponseEntity<String> changeProfile(@RequestBody UserDetails user, HttpServletRequest request)
 			throws IOException {
-		System.out.println("inside profilechange....");
+		//System.out.println("inside profilechange....");
 		int userid = (int) request.getAttribute("userId");
 		if (userid == 0) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("");

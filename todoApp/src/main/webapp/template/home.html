@@ -50,7 +50,7 @@
 
 						<div class="card col-md-4 a"
 							ng-repeat="note in notes | filter : {pin : true ,archived: false,trash: false} as pinNotes"
-							class="container" style="background-color: {{note.color">
+							class="container" style="background-color: {{note.color}}">
 
 							<!-- SHOW IMAGE WITH BLUEPIN -->
 							<div style="float: right">
@@ -69,7 +69,8 @@
 								<!-- SHOW NOTE TITLE AND DESCRIPTION -->
 								<div contenteditable="true" ng-bind-html="note.title"></div>
 								<br>
-								<div contenteditable="true" ng-bind-html="note.description | parseUrlFilter"></div>
+								<div contenteditable="true"
+									ng-bind-html="note.description | parseUrlFilter"></div>
 							</div>
 
 							<!-- SHOW REMINDER -->
@@ -122,7 +123,7 @@
 												style="background-color: #f9fbff">
 												<a ng-repeat="color in colors" role="menuitem"> <img
 													ng-src="{{color.path}}" height="25px"
-													ng-click="note.color =color.color; updateNote(note)">
+									note.noteUrls				ng-click="note.color =color.color; updateNote(note)">
 												</a>
 											</ul>
 										</div>
@@ -179,33 +180,36 @@
 												<!-- SOCIAL SHARE -->
 												<li><a ng-click="fbAsyncInit(note)">share</a></li>
 											</ul>
-											
+
 										</div>
 									</div>
 								</div>
 
 							</div>
-							
-							<div ng-if="true" ng-repeat="url in note.noteUrls">
-											{{url.urlTitle}}
-											<div ng-if="url.urlTitle">
 
-												<a ng-href="{{url.url}}" target="_blank">Hello
-													<!-- <div class="row"
+							<div>
+								<ul>
+									{{note.noteUrls}} Nayak
+									<li  ng-repeat="url in note.noteUrls">Pooja
+										{{url.urlTitle}}
+										<div ng-if="url.urlTitle">
+
+											<a ng-href="{{url.url}}" target="_blank">Hello <div class="row"
 														style="background-color: #E5E5E5; margin-right: 0px; margin-left: 0px; border: 1px solid grey">
 														<div style="padding: 0px">
 															<img ng-src="{{url.urlImage}}" height="70" width="80">
 														</div>
 														<div class="col-sm-8">
 															<div ng-bind="url.urlTitle"></div>
-															<div ng-bind="url.domainName"
+														<div ng-bind="url.domainName"
 																style="font-size: 10px; color: black;"></div>
 														</div>
-													</div> -->
-												</a>
-											</div>
-											</div>
-							
+													</div>
+											</a>
+										</div>
+									</li>
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -214,7 +218,7 @@
 					<h4>Others</h4>
 					<div class="card col-md-4 a"
 						ng-repeat="note in notes | filter : {pin : false ,archived:false,trash:false} as otherNotes"
-						class="container" style="background-color: {{note.color">
+						class="container" style="background-color: {{note.color}}">
 
 						<!-- SHOW IMAGE WITH BLUEPIN -->
 						<div style="float: right">

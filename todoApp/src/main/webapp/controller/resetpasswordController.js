@@ -1,18 +1,26 @@
 var todoApp = angular.module('todoApp');
 
-todoApp.controller('resetpasswordController', function($scope, resetpasswordService,
+todoApp.controller('resetpasswordController', function($scope, resetpasswordService,$stateParams,
 		$location) {
-	$scope.resetPassword = function() {
-
-		var httpReset = resetpasswordService.resetpasswordController($scope.user);
-
+	
+	console.log("inside resetpasswordcontroller")
+	//var path = $location.path();
+	//var lastIndex = path.substr(path.lastIndexOf("/") + 1);
+	var token = $stateParams.token;
+	console.log("last path "+token);
+	
+	$scope.resetPassword = function(user) {
+		
+		//alert(user.password);
+		var httpReset = resetpasswordService.resetPassword(user);
+		
 		httpReset.then(function(response) {
 
-			if (response.data.status == 5) {
-				$scope.response = 'Invalid OTP or email address';
-			} else if (response.data.status == 5) {
+			if (response.data.status == 500) {
+				$scope.response = 'Invalid password or email address';
+			} else if (response.data.status == -200) {
 				$scope.response = 'Password could not be updated';
-			} else if (response.data.status == 2) {
+			} else if (response.data.status == 200) {
 				$location.path('login');
 			}
 		});
