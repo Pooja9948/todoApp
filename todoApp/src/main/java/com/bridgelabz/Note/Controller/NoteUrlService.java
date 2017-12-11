@@ -15,12 +15,22 @@ import com.bridgelabz.Note.DAO.NoteDAO;
 import com.bridgelabz.Note.model.NoteDetails;
 import com.bridgelabz.Note.model.NoteUrl;
 
+/**
+ * @author Pooja todoApp
+ *
+ */
 public class NoteUrlService {
 	@Autowired
 	NoteDAO noteDao;
 	static String pattern = "(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
 	String var;
 
+	/**
+	 * @param description
+	 * @return
+	 * @throws Exception
+	 * Checking the url from description
+	 */
 	public static Set<String> checkUrl(String description) throws Exception {
 
 		System.out.println("Inside url checker");
@@ -39,6 +49,12 @@ public class NoteUrlService {
 		return noteUrlList;
 	}
 
+	/**
+	 * @param description
+	 * @return
+	 * @throws Exception
+	 * to get urls set in NoteUrls
+	 */
 	public static Set<NoteUrl> getUrls(String description) throws Exception {
 
 		Set<NoteUrl> noteUrl = null;
@@ -96,6 +112,12 @@ public class NoteUrlService {
 		return null;
 	}
 
+	/**
+	 * @param noteDetails
+	 * @return
+	 * @throws Exception
+	 * creating urls, saving it and return object of NoteUrls
+	 */
 	public Set<NoteUrl> createNoteUrls(NoteDetails noteDetails) throws Exception {
 
 		Set<NoteUrl> noteUrls = NoteUrlService.getUrls(noteDetails.getDescription());

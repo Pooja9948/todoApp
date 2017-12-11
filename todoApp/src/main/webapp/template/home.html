@@ -7,10 +7,10 @@
 
 			<div class="container" id="content-wrapper-inside">
 				<div id="note-input" class="form-group">
-					<input type="text" placeholder="Take a note" id="note-input"
+					<input class="takeNote" type="text" placeholder="Take a note" id="note-input"
 						ng-focus="showInput = true" class="" ng-hide="showInput">
 				</div>
-				<div id="actual-input-div" ng-show="showInput"
+				<div id="actual-input-div toggleNote" ng-show="showInput"
 					ng-init="newNoteColor='white'"
 					ng-style="{'background-color' : newNoteColor}">
 					<div class="test" type="text" id="note-title-input"
@@ -51,7 +51,6 @@
 						<div class="card col-md-4 a"
 							ng-repeat="note in notes | filter : {pin : true ,archived: false,trash: false} as pinNotes"
 							class="container" style="background-color: {{note.color}}">
-
 							<!-- SHOW IMAGE WITH BLUEPIN -->
 							<div style="float: right">
 								<span style="cursor: pointer"
@@ -187,11 +186,10 @@
 
 							</div>
 
-							<div>
+							<!-- <div>
 								<ul>
-									{{note.noteUrls}} Nayak
-									<li  ng-repeat="url in note.noteUrls">Pooja
-										{{url.urlTitle}}
+									<li  ng-repeat="url in note.noteUrls">
+									
 										<div ng-if="url.urlTitle">
 
 											<a ng-href="{{url.url}}" target="_blank">Hello <div class="row"
@@ -209,6 +207,13 @@
 										</div>
 									</li>
 								</ul>
+							</div> -->
+							<div>
+							<ul ng-repeat="u in urlList">
+							
+							<li>{{u[3].domainName}}</li>
+							</ul>
+							{{note.noteUrls}}
 							</div>
 						</div>
 					</div>

@@ -24,6 +24,10 @@ import com.bridgelabz.Note.model.NoteUrl;
 import com.bridgelabz.User.Controller.UserController;
 import com.bridgelabz.User.model.UserDetails;
 
+/**
+ * @author Pooja todoApp
+ *
+ */
 public class NoteDAOImpl implements NoteDAO {
 
 	public static Logger logger = Logger.getLogger(NoteDAOImpl.class);
@@ -31,6 +35,9 @@ public class NoteDAOImpl implements NoteDAO {
 	SessionFactory sessionfactory;
 	Transaction transaction = null;
 
+	/* (non-Javadoc)
+	 * @see com.bridgelabz.Note.DAO.NoteDAO#createNote(com.bridgelabz.Note.model.NoteDetails)
+	 */
 	public NoteDetails createNote(NoteDetails note) {
 		Session session = sessionfactory.openSession();
 
@@ -47,6 +54,9 @@ public class NoteDAOImpl implements NoteDAO {
 		return note;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.bridgelabz.Note.DAO.NoteDAO#updateNote(com.bridgelabz.Note.model.NoteDetails)
+	 */
 	public void updateNote(NoteDetails noteDetails) {
 		Session session = sessionfactory.openSession();
 
@@ -65,6 +75,9 @@ public class NoteDAOImpl implements NoteDAO {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.bridgelabz.Note.DAO.NoteDAO#deleteNote(int)
+	 */
 	public void deleteNote(int noteId) {
 		Session session = sessionfactory.openSession();
 
@@ -85,6 +98,9 @@ public class NoteDAOImpl implements NoteDAO {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.bridgelabz.Note.DAO.NoteDAO#getNoteById(int)
+	 */
 	public NoteDetails getNoteById(int noteId) {
 		Session session = sessionfactory.openSession();
 		NoteDetails note = session.get(NoteDetails.class, noteId);
@@ -120,6 +136,9 @@ public class NoteDAOImpl implements NoteDAO {
 		return notes;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.bridgelabz.Note.DAO.NoteDAO#deleteScheduleNote()
+	 */
 	public void deleteScheduleNote() {
 		Session session = sessionfactory.openSession();
 
@@ -146,6 +165,9 @@ public class NoteDAOImpl implements NoteDAO {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.bridgelabz.Note.DAO.NoteDAO#deleteAllNote()
+	 */
 	public void deleteAllNote() {
 		Session session = sessionfactory.openSession();
 
@@ -167,6 +189,9 @@ public class NoteDAOImpl implements NoteDAO {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.bridgelabz.Note.DAO.NoteDAO#saveCollborator(com.bridgelabz.Note.model.NoteCollaborate)
+	 */
 	public int saveCollborator(NoteCollaborate collborate) {
 		int collboratorId = 0;
 		Session session = sessionfactory.openSession();
@@ -183,6 +208,9 @@ public class NoteDAOImpl implements NoteDAO {
 		return collboratorId;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.bridgelabz.Note.DAO.NoteDAO#getListOfUser(int)
+	 */
 	public List<UserDetails> getListOfUser(int noteId) {
 
 		Session session = sessionfactory.openSession();
@@ -193,6 +221,9 @@ public class NoteDAOImpl implements NoteDAO {
 		return listOfSharedCollaborators;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.bridgelabz.Note.DAO.NoteDAO#getCollboratedNotes(int)
+	 */
 	public List<NoteDetails> getCollboratedNotes(int userId) {
 		Session session = sessionfactory.openSession();
 		Query query = session.createQuery("select c.noteId from NoteCollaborate c where c.shareId= " + userId);
@@ -203,6 +234,9 @@ public class NoteDAOImpl implements NoteDAO {
 		return colllboratedNotes;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.bridgelabz.Note.DAO.NoteDAO#removeCollborator(int, int)
+	 */
 	public int removeCollborator(int shareWith, int noteId) {
 		Session session = sessionfactory.openSession();
 		Transaction transaction = session.beginTransaction();
@@ -214,6 +248,9 @@ public class NoteDAOImpl implements NoteDAO {
 		return status;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.bridgelabz.Note.DAO.NoteDAO#saveLabel(com.bridgelabz.Note.model.NoteLabel)
+	 */
 	@Override
 	public void saveLabel(NoteLabel label) {
 		Session session = sessionfactory.openSession();
@@ -228,6 +265,9 @@ public class NoteDAOImpl implements NoteDAO {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.bridgelabz.Note.DAO.NoteDAO#deleteById(int)
+	 */
 	@Override
 	public void deleteById(int id) {
 		Session session = sessionfactory.openSession();
@@ -246,6 +286,9 @@ public class NoteDAOImpl implements NoteDAO {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.bridgelabz.Note.DAO.NoteDAO#getLabels(com.bridgelabz.User.model.UserDetails)
+	 */
 	@Override
 	public List<NoteLabel> getLabels(UserDetails user) {
 		Session session = sessionfactory.openSession();
@@ -256,6 +299,9 @@ public class NoteDAOImpl implements NoteDAO {
 		return labels;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.bridgelabz.Note.DAO.NoteDAO#getLabelById(int)
+	 */
 	@Override
 	public NoteLabel getLabelById(final int labelId) {
 		NoteLabel objLabel = null;
@@ -278,6 +324,9 @@ public class NoteDAOImpl implements NoteDAO {
 		return objLabel;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.bridgelabz.Note.DAO.NoteDAO#editLabel(com.bridgelabz.Note.model.NoteLabel)
+	 */
 	@Override
 	public boolean editLabel(NoteLabel label) {
 		Session session = sessionfactory.openSession();
@@ -296,6 +345,9 @@ public class NoteDAOImpl implements NoteDAO {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.bridgelabz.Note.DAO.NoteDAO#getLabelByName(java.lang.String)
+	 */
 	@Override
 	public NoteLabel getLabelByName(String labelName) {
 		NoteLabel objLabel = null;
@@ -307,6 +359,9 @@ public class NoteDAOImpl implements NoteDAO {
 		return objLabel;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.bridgelabz.Note.DAO.NoteDAO#removeNoteId(int)
+	 */
 	@Override
 	public boolean removeNoteId(int id) {
 		Session session = sessionfactory.openSession();
@@ -325,6 +380,9 @@ public class NoteDAOImpl implements NoteDAO {
 	}
 
 	/*SAVE URLS*/
+	/* (non-Javadoc)
+	 * @see com.bridgelabz.Note.DAO.NoteDAO#saveNoteUrls(java.util.Set, com.bridgelabz.Note.model.NoteDetails)
+	 */
 	@Override
 	public void saveNoteUrls(Set<NoteUrl> noteUrls, NoteDetails noteDetails) {
 		Session session = sessionfactory.openSession();

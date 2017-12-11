@@ -19,6 +19,10 @@ import com.bridgelabz.Util.response.Response;
 import com.bridgelabz.Util.token.GenerateToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * @author Pooja todoApp
+ *
+ */
 @RestController
 public class FacebookProfileData {
 	//private Logger LOG = (Logger) LogManager.getLogger(FBLogin.class);
@@ -26,9 +30,12 @@ public class FacebookProfileData {
 	@Autowired
 	UserService userService;
 
-	/*@Autowired
-	ErrorMessage message;*/
 
+	/**
+	 * @param request
+	 * @param response
+	 * facebook login
+	 */
 	@RequestMapping(value="/fbLogin" ,method = RequestMethod.GET)
 	public void fbLogin(HttpServletRequest request,HttpServletResponse response) {
 		String fbUrl = FacebookLogin.generateFbUrl();
@@ -40,6 +47,13 @@ public class FacebookProfileData {
 		}
 	}
 
+	/**
+	 * @param request
+	 * @param response
+	 * @param session
+	 * @return
+	 * get the token from he request
+	 */
 	@RequestMapping(value="/successFbLogin", method = RequestMethod.GET)
 	public ResponseEntity<Response> getFbAccessToken(HttpServletRequest request,HttpServletResponse response,HttpSession session){
 		//LOG.info("After success");

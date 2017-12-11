@@ -6,6 +6,10 @@ import javax.persistence.Column;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * @author Pooja todoApp
+ *
+ */
 @Component
 public class Token implements Serializable{
 	
@@ -18,18 +22,30 @@ public class Token implements Serializable{
 	
 	
 	
+	/**
+	 * @return generateToken
+	 */
 	public String getGenerateToken() {
 		return generateToken;
 	}
 
+	/**
+	 * @param generateToken
+	 */
 	public void setGenerateToken(String generateToken) {
 		this.generateToken = generateToken;
 	}
 
+	/**
+	 * @return refreshToken
+	 */
 	public String getRefreshToken() {
 		return refreshToken;
 	}
 
+	/**
+	 * @param refreshToken
+	 */
 	public void setRefreshToken(String refreshToken) {
 		this.refreshToken = refreshToken;
 	}

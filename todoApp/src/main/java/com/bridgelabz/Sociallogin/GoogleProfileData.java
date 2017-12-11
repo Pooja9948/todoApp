@@ -18,6 +18,10 @@ import com.bridgelabz.Util.response.Response;
 import com.bridgelabz.Util.token.GenerateToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * @author Pooja todoApp
+ *
+ */
 @RestController
 public class GoogleProfileData {
 	@Autowired
@@ -26,6 +30,11 @@ public class GoogleProfileData {
 	/*@Autowired
 	ErrorMessage message;*/
 	
+	/**
+	 * @param request
+	 * @param response
+	 * google login
+	 */
 	@RequestMapping(value="/googleLogin")
 	public void googleLogin(HttpServletRequest request, HttpServletResponse response) {
 		
@@ -37,6 +46,12 @@ public class GoogleProfileData {
 		}
 		System.out.println("testing i'm right");
 	}
+	/**
+	 * @param request
+	 * @param response
+	 * @param session
+	 * @return get the token from request and save all the data about the user in the database
+	 */
 	@SuppressWarnings("unused")
 	@RequestMapping(value="/successGoogleLogin")
 	public ResponseEntity<Response> successGoogleLogin(HttpServletRequest request, HttpServletResponse response,HttpSession session) {

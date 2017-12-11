@@ -11,12 +11,20 @@ import java.net.URLEncoder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * @author Pooja todoApp
+ *
+ */
 public class GoogleLogin {
 	
 	private static final String clientId="182373184589-rcffghumgo0i19eedil3re370jfvaqms.apps.googleusercontent.com";
 	private static final String secreateKey="e8U3inOWsI7Sy4vLfGOygSnc";
 	private static final String redirectUrl="http://localhost:8080/todoApp/successGoogleLogin";
 	
+	/**
+	 * @return 
+	 * generate url and return it
+	 */
 	public static String generateGoogleUrl() {
 		String googleLoginUrl="";
 		try {
@@ -28,6 +36,11 @@ public class GoogleLogin {
 		return googleLoginUrl;
 	}
 	
+	/**
+	 * @param code
+	 * @return
+	 * get the access token
+	 */
 	public static String getAccessToken(String code) {
 		 String urlParameters = "code=" + code + 
 			       "&client_id=" + clientId +
@@ -62,6 +75,11 @@ public class GoogleLogin {
 			}
 			 return null;
 	}
+	/**
+	 * @param accessToken
+	 * @return
+	 * get the profile information by the access token
+	 */
 	public static String getProfileData(String accessToken) {
 		try {
 			URL urlforGoogleProfile = new URL("https://www.googleapis.com/oauth2/v1/userinfo?access_token="+accessToken);

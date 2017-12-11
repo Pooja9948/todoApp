@@ -8,6 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bridgelabz.User.Service.UserService;
 import com.bridgelabz.User.model.UserDetails;
 
+/**
+ * @author Pooja todoApp
+ *
+ */
 public class Validator {
 	@Autowired
 	UserService userService;
@@ -17,6 +21,11 @@ public class Validator {
 	public static final Pattern MOBILE = Pattern.compile("[0-9]{10}");
 	public static final Pattern PASSWORD = Pattern.compile("^[a-zA-Z0-9]{8,}$");
 	
+	/**
+	 * @param userDetails
+	 * @return
+	 * check the informations are valid or not
+	 */
 	public String validateSaveUser(UserDetails userDetails) {
 		
 		String error = null;

@@ -32,7 +32,7 @@ import com.bridgelabz.Util.token.VerifyToken;
 import com.bridgelabz.Util.validation.Validator;
 
 /**
- * @author Pooja
+ * @author Pooja todoApp
  *
  */
 @RestController
@@ -51,6 +51,12 @@ public class UserController {
 	@Autowired
 	PasswordEncryption encryption;
 
+	/**
+	 * @param user
+	 * @param request
+	 * @return
+	 * get all the data from the request of the registration form and and save it
+	 */
 	@RequestMapping(value = "/registrationForm", method = RequestMethod.POST)
 	public ResponseEntity<Response> registrationUser(@RequestBody UserDetails user, HttpServletRequest request) {
 		CustomResponse customResponse = new CustomResponse();
@@ -86,6 +92,13 @@ public class UserController {
 
 	}
 
+	/**
+	 * @param activeToken
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 * after registration , one mail will go to the user's mailid to activate the account
+	 */
 	@RequestMapping(value = "/verifyMail/{activeToken:.+}", method = RequestMethod.GET)
 	public ResponseEntity<Response> verifyMail(@PathVariable("activeToken") String activeToken,
 			HttpServletResponse response) throws IOException {
@@ -113,6 +126,12 @@ public class UserController {
 		return new ResponseEntity<Response>(customResponse, HttpStatus.OK);
 	}
 
+	/**
+	 * @param user
+	 * @param session
+	 * @return
+	 * get the username, password , check that those are valid or not. If it is valid then user should go the home page otherwise stay in the login page
+	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Response> loginUser(@RequestBody UserDetails user, HttpSession session) {
 		CustomResponse customResponse = new CustomResponse();
@@ -136,6 +155,11 @@ public class UserController {
 		}
 	}
 
+	/**
+	 * @param session
+	 * @return
+	 * logout the user and clear the session
+	 */
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
 	public ResponseEntity<Response> logout(HttpSession session) {
 		CustomResponse customResponse = new CustomResponse();
@@ -145,6 +169,13 @@ public class UserController {
 		return new ResponseEntity<Response>(customResponse, HttpStatus.OK);
 	}
 
+	/**
+	 * @param user
+	 * @param request
+	 * @param session
+	 * @return
+	 * for forgot password , enter mailid to send the reset page link with token
+	 */
 	@RequestMapping(value = "/forgotpassword", method = RequestMethod.POST)
 	public Response forgotPassword(@RequestBody UserDetails user, HttpServletRequest request, HttpSession session) {
 		//System.out.println(user.getEmail());
@@ -175,6 +206,12 @@ public class UserController {
 		return customResponse;
 	}
 	
+	/**
+	 * @param user
+	 * @param session
+	 * @return
+	 * reset password of the user by the userId
+	 */
 	@RequestMapping(value = "/resetpassword", method = RequestMethod.PUT)
 	public Response resetPassword(@RequestBody UserDetails user,HttpSession session) {
 		
@@ -201,6 +238,11 @@ public class UserController {
 		}
 	}
 
+	/**
+	 * @param request
+	 * @return
+	 * get the information about the current user
+	 */
 	@RequestMapping(value = "/user/currentUser", method = RequestMethod.GET)
 	public UserDetails currrentUser(HttpServletRequest request) {
 		CustomResponse customResponse = new CustomResponse();
@@ -214,6 +256,13 @@ public class UserController {
 		return user;
 	}
 
+	/**
+	 * @param user
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 * change the profile of the current user
+	 */
 	@RequestMapping(value = "/user/profileChange", method = RequestMethod.POST)
 	public ResponseEntity<String> changeProfile(@RequestBody UserDetails user, HttpServletRequest request)
 			throws IOException {
@@ -226,6 +275,11 @@ public class UserController {
 		return ResponseEntity.ok("");
 	}
 	
+	/**
+	 * @param session
+	 * @return
+	 * get the access token by the time of login
+	 */
 	@RequestMapping(value="/social")
 	public ResponseEntity<Response> getAccessTokenByglogin(HttpSession session){
 		String acessToken = (String) session.getAttribute("myAccessToken");

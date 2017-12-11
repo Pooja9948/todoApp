@@ -3,8 +3,17 @@ package com.bridgelabz.Util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * @author Pooja todoApp
+ *
+ */
 public class PasswordEncryption {
 	
+	/**
+	 * @param password
+	 * @return
+	 * encrypting thepassword 
+	 */
 	public static String encryptedPassword(String password){
 		String generatedPassword = null;
 		try {

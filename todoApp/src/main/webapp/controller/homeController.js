@@ -1,3 +1,4 @@
+
 var todoApp = angular.module('todoApp');
 
 todoApp
@@ -5,7 +6,7 @@ todoApp
 				'homeController',
 				function($scope, homeService, $location, $state, $uibModal,fileReader,
 						$filter, $interval, toastr) {
-
+				$scope.urlList=[];
 					var addNote = {};
 					$scope.note = {};
 					$scope.note.description = '';
@@ -206,21 +207,32 @@ todoApp
 							$location.path('/login')
 						} else {
 							$scope.notes = response.data;
+							console.log($scope.notes[3].noteUrls[0].domainName);
+							for(var j=0; j < $scope.notes.length; j++){
+								
+									$scope.urlList.push($scope.notes[j].noteUrls);
+									//alert('yhyj');
+								
+							}
+							console.log($scope.urlList);
 							if($state.current.name == "labels"){
 								
 								//alert(labelName);
 								$scope.topBarColor = "#3e50b4";
 								$scope.navBarHeading = labelName;
 								var tempNotes=[];
+								
 								for(var i=0; i < $scope.notes.length; i++){
 									var labels = $scope.notes[i].labels;
 									for(var j=0; j < labels.length; j++){
 										if(labels[j].labelName==labelName){
 											tempNotes.push($scope.notes[i]);
+											urlList.push($scope.notes[i].noteUrls);
 											//alert('yhyj');
 										}
 									}
 								}
+								console.log(urlList);
 								console.log(tempNotes);
 								$scope.notes=tempNotes;
 							}

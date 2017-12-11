@@ -1,10 +1,8 @@
 package com.bridgelabz.Note.Controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,13 +20,16 @@ import com.bridgelabz.Note.Service.NoteService;
 import com.bridgelabz.Note.model.NoteCollaborate;
 import com.bridgelabz.Note.model.NoteDetails;
 import com.bridgelabz.Note.model.NoteLabel;
-import com.bridgelabz.Note.model.NoteUrl;
 import com.bridgelabz.User.Service.UserService;
 import com.bridgelabz.User.model.UserDetails;
 import com.bridgelabz.Util.response.CustomResponse;
 import com.bridgelabz.Util.response.Response;
 import com.bridgelabz.Util.token.VerifyToken;
 
+/**
+ * @author Pooja todoApp
+ *
+ */
 @RestController
 @RequestMapping(value = "/user")
 public class NoteController {
@@ -38,27 +39,35 @@ public class NoteController {
 
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	NoteUrlService nUrl;
 
+	/**
+	 * @param noteDetails
+	 * @param session
+	 * @param request
+	 * @return customResponse
+	 * @throws Exception
+	 *             creating notes
+	 */
 	@RequestMapping(value = "/createNote", method = RequestMethod.POST)
 	public ResponseEntity<Response> createNote(@RequestBody NoteDetails noteDetails, HttpSession session,
 			HttpServletRequest request) throws Exception {
 		// UserDetails user = (UserDetails) session.getAttribute("user");
-		//NoteUrl noteUrl=(NoteUrl)nUrl.checkUrl(noteDetails);
+		// NoteUrl noteUrl=(NoteUrl)nUrl.checkUrl(noteDetails);
 		int userId = (int) request.getAttribute("userId");
 
 		UserDetails user = userService.getUserById(userId);
-		
+
 		noteDetails.setUser(user);
 		if (user != null) {
 			Date date = new Date();
 			noteDetails.setCreateddate(date);
 			noteDetails.setModifiedDate(date);
-			//noteDetails.setNoteUrls(nUrl);
-			NoteDetails note=noteService.createNote(noteDetails);
-			
+			// noteDetails.setNoteUrls(nUrl);
+			NoteDetails note = noteService.createNote(noteDetails);
+
 			nUrl.createNoteUrls(note);
 			System.out.println("Note created!!");
 			CustomResponse customResponse = new CustomResponse();
@@ -70,6 +79,10 @@ public class NoteController {
 		return new ResponseEntity<Response>(response, HttpStatus.CONFLICT);
 	}
 
+	/**
+	 * @param noteDetails
+	 * @return update the notes
+	 */
 	@RequestMapping(value = "/updateNote", method = RequestMethod.PUT)
 	public ResponseEntity<Response> updateNote(@RequestBody NoteDetails noteDetails) {
 
@@ -95,6 +108,10 @@ public class NoteController {
 
 	}
 
+	/**
+	 * @param noteId
+	 * @return delete the notes with id
+	 */
 	@RequestMapping(value = "/deleteNote/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Response> deleteNote(@PathVariable("id") int noteId) {
 		NoteDetails note = new NoteDetails();
@@ -107,6 +124,9 @@ public class NoteController {
 		return ResponseEntity.ok(customResponse);
 	}
 
+	/**
+	 * @return delete all notes
+	 */
 	@RequestMapping(value = "/delAllNotes", method = RequestMethod.DELETE)
 	public ResponseEntity<Response> deleteAllNote() {
 		NoteDetails note = new NoteDetails();
@@ -117,9 +137,13 @@ public class NoteController {
 		return ResponseEntity.ok(customResponse);
 	}
 
+	/**
+	 * @param request
+	 * @return get all notes
+	 */
 	@RequestMapping(value = "/getAllNotes", method = RequestMethod.GET)
 	public List<NoteDetails> getAllNotes(HttpServletRequest request) {
-System.out.println("Getting alll notes");
+		System.out.println("Getting alll notes");
 		int id = (int) request.getAttribute("userId");
 
 		UserDetails user = userService.getUserById(id);
@@ -142,6 +166,11 @@ System.out.println("Getting alll notes");
 		return noteList;
 	}
 
+	/**
+	 * @param collborator
+	 * @param request
+	 * @return adding the owner as well as sharer of the notes
+	 */
 	@RequestMapping(value = "/collaborate", method = RequestMethod.POST)
 	public ResponseEntity<List<UserDetails>> getNotes(@RequestBody NoteCollaborate collborator,
 			HttpServletRequest request) {
@@ -185,6 +214,11 @@ System.out.println("Getting alll notes");
 		return ResponseEntity.ok(userList);
 	}
 
+	/**
+	 * @param note
+	 * @param request
+	 * @return get owner of the note in collaborator
+	 */
 	@RequestMapping(value = "/getOwner", method = RequestMethod.POST)
 	public ResponseEntity<UserDetails> getOwner(@RequestBody NoteDetails note, HttpServletRequest request) {
 
@@ -200,6 +234,11 @@ System.out.println("Getting alll notes");
 		}
 	}
 
+	/**
+	 * @param collborator
+	 * @param request
+	 * @return remove sharer of the note in collaborator
+	 */
 	@RequestMapping(value = "/removeCollborator", method = RequestMethod.POST)
 	public ResponseEntity<CustomResponse> removeCollborator(@RequestBody NoteCollaborate collborator,
 			HttpServletRequest request) {
@@ -237,8 +276,14 @@ System.out.println("Getting alll notes");
 		}
 	}
 
-	 /*LABEL NOTES*/ 
+	/* LABEL NOTES */
 
+	/**
+	 * @param labels
+	 * @param session
+	 * @param request
+	 * @return create and save the label
+	 */
 	@RequestMapping(value = "/saveLabel", method = RequestMethod.POST)
 	public ResponseEntity<CustomResponse> saveLabel(@RequestBody NoteLabel labels, HttpSession session,
 			HttpServletRequest request) {
@@ -268,16 +313,25 @@ System.out.println("Getting alll notes");
 		}
 	}
 
+	/**
+	 * @param label
+	 * @param request
+	 * @return get the label notes using label names
+	 */
 	@RequestMapping(value = "getLabelNotes/{label}", method = RequestMethod.GET)
 	public List<NoteLabel> getLabels(@PathVariable String label, HttpServletRequest request) {
 		int id = (int) request.getAttribute("userId");
-		
+
 		UserDetails user = userService.getUserById(id);
 		List<NoteLabel> alNotes = noteService.getLabels(user);
-		//System.out.println("list of note label "+alNotes);
+		// System.out.println("list of note label "+alNotes);
 		return alNotes;
 	}
 
+	/**
+	 * @param id
+	 * @return delete the label using id
+	 */
 	@RequestMapping(value = "/deleteLabels/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<CustomResponse> deleteLabel(@PathVariable int id) {
 		CustomResponse response = new CustomResponse();
@@ -292,14 +346,19 @@ System.out.println("Getting alll notes");
 
 	}
 
+	/**
+	 * @param label
+	 * @param request
+	 * @return edit the label uding userId
+	 */
 	@RequestMapping(value = "/editLabel", method = RequestMethod.POST)
 	public ResponseEntity<CustomResponse> editNotes(@RequestBody NoteLabel label, HttpServletRequest request) {
 
 		CustomResponse response = new CustomResponse();
 		int id = (int) request.getAttribute("userId");
-		UserDetails user=userService.getUserById(id);
+		UserDetails user = userService.getUserById(id);
 		label.setUser(user);
-		System.out.println("edited label name "+label.getLabelName());
+		System.out.println("edited label name " + label.getLabelName());
 		boolean isEdited;
 		Date resetDate = new Date();
 		isEdited = noteService.editLabel(label);
@@ -311,7 +370,5 @@ System.out.println("Getting alll notes");
 			return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(response);
 		}
 	}
-	
-	
 
 }

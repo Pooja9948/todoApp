@@ -19,6 +19,10 @@ import org.hibernate.annotations.GenericGenerator;
 import com.bridgelabz.User.model.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * @author Pooja todoApp
+ *
+ */
 @Entity
 @Table
 public class NoteLabel {
@@ -41,36 +45,60 @@ public class NoteLabel {
 	@JsonIgnore
 	private Set<NoteDetails> alNote = new HashSet<>();
 
+	/**
+	 * @return labelId
+	 */
 	public int getLabelId() {
 		return labelId;
 	}
 
+	/**
+	 * @param labelId
+	 */
 	public void setLabelId(int labelId) {
 		this.labelId = labelId;
 	}
 
+	/**
+	 * @return labelName
+	 */
 	public String getLabelName() {
 		return labelName;
 	}
 
+	/**
+	 * @param labelName
+	 */
 	public void setLabelName(String labelName) {
 		this.labelName = labelName;
 	}
 
+	/**
+	 * @return user
+	 */
 	@JsonIgnore
 	public UserDetails getUser() {
 		return user;
 	}
 
+	/**
+	 * @param user
+	 */
 	public void setUser(UserDetails user) {
 		this.user = user;
 	}
 
+	/**
+	 * @return alNote
+	 */
 	@JsonIgnore
 	public Set<NoteDetails> getAlNote() {
 		return alNote;
 	}
 
+	/**
+	 * @param alNote
+	 */
 	public void setAlNote(Set<NoteDetails> alNote) {
 		this.alNote = alNote;
 	}

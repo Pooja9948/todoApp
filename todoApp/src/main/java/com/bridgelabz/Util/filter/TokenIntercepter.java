@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bridgelabz.Util.token.VerifyToken;
 
 /**
- * @author bridgeit
+ * @author Pooja todoApp
  *
  */
 public class TokenIntercepter implements HandlerInterceptor {
@@ -26,6 +26,10 @@ public class TokenIntercepter implements HandlerInterceptor {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.springframework.web.servlet.HandlerInterceptor#preHandle(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object)
+	 * verifying the token , get the user from the token and save it in the request
+	 */
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object arg2) throws Exception {
 

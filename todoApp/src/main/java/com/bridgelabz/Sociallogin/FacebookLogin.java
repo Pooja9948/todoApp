@@ -10,6 +10,10 @@ import java.net.URLEncoder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * @author Pooja todoApp
+ *
+ */
 public class FacebookLogin {
 	
 	public static final String FB_APP_ID = "1490675564380779";
@@ -19,6 +23,9 @@ public class FacebookLogin {
 	private static final String BINDING = "&fields=id,name,email,first_name,last_name,picture";
 	
 	
+	/**
+	 * @return get facebook url and return it
+	 */
 	public static String generateFbUrl() {
 		String url="";
 		try {
@@ -36,6 +43,11 @@ public class FacebookLogin {
 		return url;
 		
 	}
+	/**
+	 * @param code
+	 * @return
+	 * get facebook access token
+	 */
 	public static String getFbAccessToken(String code) {
 		String urlParametersForFb = "&redirect_uri=" + URLEncoder.encode(REDIRECT_URI)
 		+ "&client_id=" + FB_APP_ID 
@@ -70,6 +82,11 @@ public class FacebookLogin {
 		}
 		return null;
 	}
+	/**
+	 * @param accessTokenForFb
+	 * @return
+	 * get the information about user by the token
+	 */
 	public static String getProfileInfoFromFb(String accessTokenForFb) {
 		
 		try {
