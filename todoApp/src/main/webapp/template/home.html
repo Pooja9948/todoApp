@@ -209,9 +209,9 @@
 								</ul>
 							</div> -->
 							<div>
-							<ul ng-repeat="u in urlList">
+							<ul >
 							
-							<li>{{u[3].domainName}}</li>
+							<li ng-repeat="u in urlList">{{u.domainName}}</li>
 							</ul>
 							{{note.noteUrls}}
 							</div>

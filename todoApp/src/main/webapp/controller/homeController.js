@@ -207,11 +207,12 @@ todoApp
 							$location.path('/login')
 						} else {
 							$scope.notes = response.data;
-							console.log($scope.notes[3].noteUrls[0].domainName);
+							//console.log($scope.notes[3].noteUrls[0].domainName);
 							for(var j=0; j < $scope.notes.length; j++){
 								
 									$scope.urlList.push($scope.notes[j].noteUrls);
 									//alert('yhyj');
+									$scope.urlList=$scope.notes[4].noteUrls;
 								
 							}
 							console.log($scope.urlList);
@@ -227,7 +228,7 @@ todoApp
 									for(var j=0; j < labels.length; j++){
 										if(labels[j].labelName==labelName){
 											tempNotes.push($scope.notes[i]);
-											urlList.push($scope.notes[i].noteUrls);
+											//urlList.push($scope.notes[i].noteUrls);
 											//alert('yhyj');
 										}
 									}

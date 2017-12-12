@@ -45,12 +45,10 @@
 <script type="text/javascript" src="controller/loginController.js"></script>
 <script type="text/javascript" src="service/loginService.js"></script>
 
-<script type="text/javascript"
-	src="controller/forgotpasswordController.js"></script>
+<script type="text/javascript" src="controller/forgotpasswordController.js"></script>
 <script type="text/javascript" src="service/forgotpasswordService.js"></script>
 
-<script type="text/javascript"
-	src="controller/resetpasswordController.js"></script>
+<script type="text/javascript" src="controller/resetpasswordController.js"></script>
 <script type="text/javascript" src="service/resetpasswordService.js"></script>
 
 <script type="text/javascript" src="controller/otpController.js"></script>
