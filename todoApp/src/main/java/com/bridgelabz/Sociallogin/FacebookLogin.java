@@ -31,14 +31,11 @@ public class FacebookLogin {
 		try {
 			 url = "https://www.facebook.com/v2.10/dialog/oauth?" + "client_id=" + FB_APP_ID + "&redirect_uri="
 					+ URLEncoder.encode(REDIRECT_URI) + "&state=todoappstate" + "&scope=public_profile,email";
-			 System.out.println("hello");
 			 /*url = "https://www.facebook.com/oauth/access_token?"
 						+ "client_id=" + FB_APP_ID + "&redirect_uri="
 						+ URLEncoder.encode(REDIRECT_URI, "UTF-8")
 						+ "&client_secret=" + FB_APP_SECRET ;*/
-			 //LOG.info("url for fb"+url);
 		} catch (Exception e) {
-			//LOG.catching(e);
 		}
 		return url;
 		
@@ -74,8 +71,6 @@ public class FacebookLogin {
 			ObjectMapper objectMapper = new ObjectMapper();
 			
 			String fbAccessToken = objectMapper.readTree(fbResponse).get("access_token").asText();
-			//LOG.info("fb access token:-"+fbAccessToken);
-			
 			return fbAccessToken;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -91,7 +86,6 @@ public class FacebookLogin {
 		
 		try {
 			URL urlForFb = new URL(USER_ACCESS_URL+accessTokenForFb+BINDING);
-			//LOG.info(urlForFb);
 			System.out.println("inside get profile");
 			URLConnection connection = urlForFb.openConnection();
 			System.out.println("connect"+connection);
@@ -104,8 +98,6 @@ public class FacebookLogin {
 			System.out.println("profile info"+fbProfileInfo);
 			return fbProfileInfo;
 		} catch (Exception e) {
-			//LOG.catching(e);
-			//LOG.info("exception occured while getting url for fb:-");
 		}
 		return null;
 	}

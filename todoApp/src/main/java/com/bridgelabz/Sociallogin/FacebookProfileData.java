@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.User.Service.UserService;
 import com.bridgelabz.User.model.UserDetails;
+import com.bridgelabz.Util.UrlUtil;
 import com.bridgelabz.Util.response.CustomResponse;
 import com.bridgelabz.Util.response.Response;
 import com.bridgelabz.Util.token.GenerateToken;
@@ -40,7 +41,6 @@ public class FacebookProfileData {
 	public void fbLogin(HttpServletRequest request,HttpServletResponse response) {
 		String fbUrl = FacebookLogin.generateFbUrl();
 		try {
-			//LOG.info("FB URL: " + fbUrl);
 			response.sendRedirect(fbUrl);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -56,13 +56,9 @@ public class FacebookProfileData {
 	 */
 	@RequestMapping(value="/successFbLogin", method = RequestMethod.GET)
 	public ResponseEntity<Response> getFbAccessToken(HttpServletRequest request,HttpServletResponse response,HttpSession session){
-		//LOG.info("After success");
 		String codeForFb = request.getParameter("code");
-		//LOG.info("codeForFb:-"+codeForFb);
 		String accessTokenForFb = FacebookLogin.getFbAccessToken(codeForFb);
-		//LOG.info("accessTokenForFb:-"+accessTokenForFb);
 		String profileInfoFromFB = FacebookLogin.getProfileInfoFromFb(accessTokenForFb);
-		//LOG.info(profileInfoFromFB);
 		ObjectMapper mapper = new ObjectMapper();
 		
 		try {
@@ -71,7 +67,6 @@ public class FacebookProfileData {
 			UserDetails userByEmail = userService.emailValidation(email);
 			
 			System.out.println("email : "+userByEmail);
-			//LOG.info("userByEmail:-"+userByEmail);
 			if(userByEmail==null) {
 				 userByEmail = new UserDetails();
 				 userByEmail.setEmail(mapper.readTree(profileInfoFromFB).get("email").asText());
@@ -80,19 +75,17 @@ public class FacebookProfileData {
 				 userByEmail.setProfileImage(mapper.readTree(profileInfoFromFB).get("picture").asText());
 				 userByEmail.setActivated(true);
 				userService.createUser(userByEmail);
-
-				response.sendRedirect("http://localhost:8080/todoApp/#!/dummy");
+				response.sendRedirect(UrlUtil.getUrl(request, "/#!/dummy"));
+				//response.sendRedirect("http://localhost:8080/todoApp/#!/dummy");
 			}else {
 				String myAccessToken = GenerateToken.generateToken(userByEmail.getId());
-				//LOG.info("token geneted by jwt"+myAccessToken);
 				session.setAttribute("myAccessToken", myAccessToken);
-				response.sendRedirect("http://localhost:8080/todoApp/#!/dummy");
+				response.sendRedirect(UrlUtil.getUrl(request, "/#!/dummy"));
+				//response.sendRedirect("http://localhost:8080/todoApp/#!/dummy");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
-			//LOG.info("exception occured during registering user from fb:");
-			//LOG.catching(e);
 			e.printStackTrace();
 		}
 		return null;
